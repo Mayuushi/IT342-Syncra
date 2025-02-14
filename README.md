@@ -58,18 +58,18 @@ Name: John Michael Pogoy Course & Year: BSIT-3
 
 I am what I eat
 
-https://github.com/Mira032203
+Github Link: https://github.com/Mira032203
 
 Name: Shane Adrian Opinion Course & Year: BSIT-3
 
 It is what it is
 
-https://github.com/ShaneAdrianOpinion
+Github Link: https://github.com/ShaneAdrianOpinion
 
 
 Name: Walter Canencia Course & Year: BSIT - 3
 
 Rumbling rumbling
 
-https://github.com/Mayuushi
+Github Link: https://github.com/Mayuushi
 
