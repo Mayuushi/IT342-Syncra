@@ -9,9 +9,13 @@
 
 ## List of Features
 > User Management
+> 
 > Portfolio Management
+> 
 > Networking and Communication
+> 
 > Job Search and Recruitment
+> 
 > Admin and Analytics
 
 ## Links
