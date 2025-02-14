@@ -23,11 +23,22 @@ Figma: https://www.figma.com/files/team/1472095179684250184/project/338969645/Pr
 
 Diagram (Online tools): https://online.visual-paradigm.com/drive/#proj=1&dashboard
 ## Developers Profiles
+
+Name: John Michael Pogoy Course & Year: BSIT-3
+
+I am what I eat
+
 https://github.com/Mira032203
 
+Name: Shane Adrian Opinion Course & Year: BSIT-3
+
+It is what it is
 
 https://github.com/ShaneAdrianOpinion
 
+Name: Walter Canencia Course & Year: BSIT - 3
+
+Rumbling rumbling
 
 https://github.com/Mayuushi
 
