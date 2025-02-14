@@ -1,4 +1,4 @@
-# Syncra
+# 🔹Syncra
 
 ## Product Description 
   Syncra is an independent, self-contained software product designed to serve as an online portfolio and professional networking platform,
