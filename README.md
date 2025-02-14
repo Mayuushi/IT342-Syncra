@@ -36,6 +36,7 @@ It is what it is
 
 https://github.com/ShaneAdrianOpinion
 
+👉🏾👌😍
 Name: Walter Canencia Course & Year: BSIT - 3
 
 Rumbling rumbling
