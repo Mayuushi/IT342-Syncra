@@ -1,6 +1,6 @@
 # Syncra
 
-## Prouct Description 
+## Product Description 
 
 
 
