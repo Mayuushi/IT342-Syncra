@@ -8,6 +8,7 @@ public class SyncraApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SyncraApplication.class, args);
+		System.out.println("GO TO LOCALHOST:8080");
 	}
 
 }
