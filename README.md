@@ -1,7 +1,7 @@
 # 🔹Syncra
 
 ## Product Description 
-  Syncra is an independent, self-contained software product designed to serve as an online portfolio and professional networking platform,
+  **Syncra** is an independent, self-contained software product designed to serve as an online portfolio and professional networking platform,
   similar to LinkedIn and JobStreet. It aims to provide individuals with a space to showcase their skills, experience, and accomplishments,
   while also allowing recruiters and employers to search for and connect with potential candidates. The platform will integrate seamlessly
   with third-party tools (such as job application portals and social media), but it is designed as a stand-alone product.
