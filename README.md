@@ -49,9 +49,9 @@
 - Transaction 5.3: System performance and health monitoring
 
 ## Links
-Figma: https://www.figma.com/files/team/1472095179684250184/project/338969645/Project-Syncra?fuid=1363488382646156022
+Figma Link: https://www.figma.com/files/team/1472095179684250184/project/338969645/Project-Syncra?fuid=1363488382646156022
 
-Diagram (Online tools): https://online.visual-paradigm.com/drive/#proj=1&dashboard
+Diagram (Online tools) Link: https://online.visual-paradigm.com/drive/#proj=1&dashboard
 ## Developers Profiles
 
 Name: John Michael Pogoy Course & Year: BSIT-3
