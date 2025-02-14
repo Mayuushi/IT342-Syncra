@@ -19,8 +19,9 @@
 > Admin and Analytics
 
 ## Links
+Figma: https://www.figma.com/files/team/1472095179684250184/project/338969645/Project-Syncra?fuid=1363488382646156022
 
-
+Diagram (Online tools): https://online.visual-paradigm.com/drive/#proj=1&dashboard
 ## Developers Profiles
 https://github.com/Mira032203
 
