@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "SyncraTest",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
