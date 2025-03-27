@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -17,44 +19,81 @@ public class UserController {
 
     // Get all users
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<Map<String, Object>> getAllUsers() {
+        System.out.println("Fetching all users");
+        List<User> users = userService.getAllUsers();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", users.isEmpty() ? "No users found" : "List of users");
+        response.put("users", users);
+
+        return ResponseEntity.ok(response);
     }
 
     // Get user by ID
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> getUserById(@PathVariable Long id) {
+        System.out.println("Fetching user with ID: " + id);
         User user = userService.getUserById(id);
-        return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
+
+        if (user == null) {
+            return ResponseEntity.status(404).body(Map.of("message", "User not found"));
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "User retrieved successfully");
+        response.put("user", user);
+
+        return ResponseEntity.ok(response);
     }
 
     // Create a new user
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.saveUser(user);
+    public ResponseEntity<Map<String, Object>> createUser(@RequestBody User user) {
+        System.out.println("Creating a new user");
+        User savedUser = userService.saveUser(user);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "User created successfully");
+        response.put("user", savedUser);
+
+        return ResponseEntity.status(201).body(response); // 201 Created
     }
 
     // Update an existing user
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
+    public ResponseEntity<Map<String, Object>> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
+        System.out.println("Updating user with ID: " + id);
         User existingUser = userService.getUserById(id);
+
         if (existingUser == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(404).body(Map.of("message", "User not found"));
         }
+
         existingUser.setName(userDetails.getName());
         existingUser.setEmail(userDetails.getEmail());
         existingUser.setPassword(userDetails.getPassword());
-        return ResponseEntity.ok(userService.saveUser(existingUser));
+        User updatedUser = userService.saveUser(existingUser);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "User updated successfully");
+        response.put("user", updatedUser);
+
+        return ResponseEntity.ok(response);
     }
 
     // Delete a user
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable Long id) {
+        System.out.println("Deleting user with ID: " + id);
         User existingUser = userService.getUserById(id);
+
         if (existingUser == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(404).body(Map.of("message", "User not found"));
         }
+
         userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+
+        return ResponseEntity.ok(Map.of("message", "User deleted successfully"));
     }
 }

@@ -1,0 +1,19 @@
+meta {
+  name: TestCreateUser
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:8080/api/users
+  body: json
+  auth: inherit
+}
+
+body:json {
+    {
+      "email": "pogoy@gmail.com  ",
+      "password": "newpassword",
+      "name": "John Created2"
+    }
+}
