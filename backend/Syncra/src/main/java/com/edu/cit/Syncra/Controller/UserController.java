@@ -73,6 +73,7 @@ public class UserController {
         existingUser.setName(userDetails.getName());
         existingUser.setEmail(userDetails.getEmail());
         existingUser.setPassword(userDetails.getPassword());
+        existingUser.setPost(userDetails.getPost());
         User updatedUser = userService.saveUser(existingUser);
 
         Map<String, Object> response = new HashMap<>();
