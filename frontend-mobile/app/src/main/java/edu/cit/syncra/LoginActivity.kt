@@ -2,24 +2,26 @@ package edu.cit.syncra
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
-import android.text.style.ForegroundColorSpan
 import android.util.Log
-import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import com.edu.cit.Syncra.network.RetrofitInstance
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
+
+    private lateinit var inputEmail: EditText
+    private lateinit var inputPassword: EditText
+    private lateinit var btnLogin: Button
 
     private lateinit var googleSignInClient: GoogleSignInClient
     private val RC_SIGN_IN = 1000
@@ -27,6 +29,11 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        // Initialize UI components
+        inputEmail = findViewById(R.id.inputEmail)
+        inputPassword = findViewById(R.id.inputPassword)
+        btnLogin = findViewById(R.id.btn_submitLogin)
 
         // Initialize Google Sign-In options
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -43,18 +50,23 @@ class LoginActivity : AppCompatActivity() {
             goToHomePage()
         }
 
-        val googleSignInButton: SignInButton = findViewById(R.id.btn_google_signin)
-        googleSignInButton.setSize(SignInButton.SIZE_WIDE)
+        // Handle login button click
+        btnLogin.setOnClickListener {
+            val email = inputEmail.text.toString().trim()
+            val password = inputPassword.text.toString().trim()
 
-        googleSignInButton.setOnClickListener {
-            val signInIntent = googleSignInClient.signInIntent
-            startActivityForResult(signInIntent, RC_SIGN_IN)
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Please enter both email and password", Toast.LENGTH_SHORT).show()
+            } else {
+                // Call login function
+                loginUser(email, password)
+            }
         }
 
         // Handle the Forgot Password TextView click
         val forgotPasswordText: TextView = findViewById(R.id.forgotPasswordText)
         forgotPasswordText.setOnClickListener {
-            // Redirect to HomePageActivity (or your desired page)
+            // Redirect to forgot password page (or your desired page)
             val intent = Intent(this, HomePageActivity::class.java)
             startActivity(intent)
             finish() // Close MainActivity if you don't want the user to return
@@ -62,14 +74,39 @@ class LoginActivity : AppCompatActivity() {
 
         val signUpText: TextView = findViewById(R.id.signUpText)
         signUpText.setOnClickListener {
-            // Redirect to HomePageActivity (or your desired page)
-            val intent = Intent(this, HomePageActivity::class.java)
+            // Redirect to RegisterActivity (Sign up)
+            val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
-            finish() // Close MainActivity if you don't want the user to return
+            finish()
         }
+    }
 
+    private fun loginUser(email: String, password: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // Send login request to the API
+                val response = RetrofitInstance.api.loginUser(email, password)
 
-
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    runOnUiThread {
+                        // Show success message and navigate to HomeActivity
+                        Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
+                        goToHomePage()
+                    }
+                } else {
+                    runOnUiThread {
+                        // Show error message for invalid login
+                        Toast.makeText(this@LoginActivity, "Invalid credentials, please try again", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    // Handle network error
+                    Toast.makeText(this@LoginActivity, "Network error occurred", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -95,6 +132,6 @@ class LoginActivity : AppCompatActivity() {
         // Start the homepage activity
         val intent = Intent(this, HomePageActivity::class.java)
         startActivity(intent)
-        finish() // Close the current activity (MainActivity)
+        finish() // Close the current activity (LoginActivity)
     }
 }
