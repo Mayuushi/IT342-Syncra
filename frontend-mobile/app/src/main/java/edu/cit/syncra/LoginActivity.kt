@@ -2,25 +2,31 @@ package edu.cit.syncra
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.util.Log
-import androidx.activity.enableEdgeToEdge
+import android.view.View
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 
-class MainActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     private lateinit var googleSignInClient: GoogleSignInClient
     private val RC_SIGN_IN = 1000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
 
         // Initialize Google Sign-In options
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -44,6 +50,26 @@ class MainActivity : AppCompatActivity() {
             val signInIntent = googleSignInClient.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
+
+        // Handle the Forgot Password TextView click
+        val forgotPasswordText: TextView = findViewById(R.id.forgotPasswordText)
+        forgotPasswordText.setOnClickListener {
+            // Redirect to HomePageActivity (or your desired page)
+            val intent = Intent(this, HomePageActivity::class.java)
+            startActivity(intent)
+            finish() // Close MainActivity if you don't want the user to return
+        }
+
+        val signUpText: TextView = findViewById(R.id.signUpText)
+        signUpText.setOnClickListener {
+            // Redirect to HomePageActivity (or your desired page)
+            val intent = Intent(this, HomePageActivity::class.java)
+            startActivity(intent)
+            finish() // Close MainActivity if you don't want the user to return
+        }
+
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -72,4 +98,3 @@ class MainActivity : AppCompatActivity() {
         finish() // Close the current activity (MainActivity)
     }
 }
-
