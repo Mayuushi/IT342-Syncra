@@ -69,7 +69,7 @@
         android:layout_marginTop="20dp">
 
         <Button
-            android:id="@+id/btn_submitLogin"
+            android:id="@+id/btn_submitRegister"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/linkedin_blue"
