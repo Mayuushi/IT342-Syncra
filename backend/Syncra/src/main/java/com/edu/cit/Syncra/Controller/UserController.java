@@ -47,6 +47,23 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    // Get user by Email
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Map<String, Object>> getUserByEmail(@PathVariable String email) {
+        System.out.println("Fetching user with email: " + email);
+        User user = userService.getUserByEmail(email);
+
+        if (user == null) {
+            return ResponseEntity.status(404).body(Map.of("message", "User not found"));
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "User retrieved successfully");
+        response.put("user", user);
+
+        return ResponseEntity.ok(response);
+    }
+
     // Create a new user
     @PostMapping
     public ResponseEntity<Map<String, Object>> createUser(@RequestBody User user) {
@@ -73,7 +90,6 @@ public class UserController {
         existingUser.setName(userDetails.getName());
         existingUser.setEmail(userDetails.getEmail());
         existingUser.setPassword(userDetails.getPassword());
-        existingUser.setPost(userDetails.getPost());
         User updatedUser = userService.saveUser(existingUser);
 
         Map<String, Object> response = new HashMap<>();
