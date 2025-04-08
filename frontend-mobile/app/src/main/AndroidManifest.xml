@@ -33,6 +33,12 @@
             <!-- Optional configuration -->
         </activity>
 
+        <activity android:name=".ProfileActivity">
+            <!-- Optional configuration -->
+        </activity>
+
+
+
     </application>
 
 </manifest>
