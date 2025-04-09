@@ -1,12 +1,12 @@
 package edu.cit.syncra
 
-import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.edu.cit.Syncra.network.RetrofitInstance
+import edu.cit.syncra.Adapter.UserPostAdapter
 import edu.cit.syncra.DataClass.UserPost
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,6 +17,8 @@ class UserPostsActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: UserPostAdapter
+    private var userName: String? = null
+    private var userId: Long = -1L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,12 +26,11 @@ class UserPostsActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recyclerUserPosts)
         recyclerView.layoutManager = LinearLayoutManager(this)
-
         adapter = UserPostAdapter(listOf())
         recyclerView.adapter = adapter
 
-        val sharedPref = getSharedPreferences("UserSession", Context.MODE_PRIVATE)
-        val userId = sharedPref.getLong("userId", -1)
+        userId = intent.getLongExtra("USER_ID", -1L)
+        userName = intent.getStringExtra("USER_NAME")
 
         if (userId != -1L) {
             fetchUserPosts(userId)
@@ -50,7 +51,7 @@ class UserPostsActivity : AppCompatActivity() {
                             val content = it["content"] as? String
                             val createdAt = it["createdAt"] as? String
                             if (id != null && content != null) {
-                                UserPost(id, content, createdAt)
+                                UserPost(id, content, createdAt, userName)
                             } else null
                         } ?: emptyList()
 

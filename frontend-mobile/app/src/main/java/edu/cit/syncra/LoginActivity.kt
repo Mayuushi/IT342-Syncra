@@ -8,7 +8,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.edu.cit.Syncra.network.RetrofitInstance
-import edu.cit.syncra.DataClass.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
 
         val forgotPasswordText: TextView = findViewById(R.id.forgotPasswordText)
         forgotPasswordText.setOnClickListener {
-            val intent = Intent(this, HomePageActivity::class.java)
+            val intent = Intent(this, LandingPageActivity::class.java)
             startActivity(intent)
             finish()
         }
@@ -111,7 +110,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     private fun goToHomePage() {
-        val intent = Intent(this, HomePageActivity::class.java)
+        val intent = Intent(this, LandingPageActivity::class.java)
         startActivity(intent)
         finish()
     }

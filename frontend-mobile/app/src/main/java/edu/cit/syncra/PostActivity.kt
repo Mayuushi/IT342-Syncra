@@ -1,6 +1,5 @@
 package edu.cit.syncra
 
-import android.content.Context
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -29,14 +28,16 @@ class PostActivity : AppCompatActivity() {
             val content = inputPost.text.toString().trim()
             if (content.isEmpty()) {
                 Toast.makeText(this, "Post cannot be empty", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val sharedPref = getSharedPreferences("UserSession", MODE_PRIVATE)
+            val userId = sharedPref.getLong("userId", -1L)
+
+            if (userId != -1L) {
+                submitPost(userId, content)
             } else {
-                val sharedPref = getSharedPreferences("UserSession", Context.MODE_PRIVATE)
-                val userId = sharedPref.getLong("userId", -1)
-                if (userId != -1L) {
-                    submitPost(userId, content)
-                } else {
-                    Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
-                }
+                Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -48,7 +49,7 @@ class PostActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         Toast.makeText(this@PostActivity, "Post created!", Toast.LENGTH_SHORT).show()
-                        finish() // Close the activity after posting
+                        finish()
                     } else {
                         Toast.makeText(this@PostActivity, "Failed to create post", Toast.LENGTH_SHORT).show()
                     }
