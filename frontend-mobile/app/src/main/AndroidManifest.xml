@@ -37,7 +37,7 @@
             <!-- Optional configuration -->
         </activity>
 
-        <activity android:name=".HomePageActivity">
+        <activity android:name=".LandingPageActivity">
 
         </activity>
 
@@ -46,6 +46,14 @@
         </activity>
 
         <activity android:name=".UserPostsActivity">
+
+        </activity>
+
+        <activity android:name=".FeedActivity">
+
+        </activity>
+
+        <activity android:name=".CreatePostActivity">
 
         </activity>
 

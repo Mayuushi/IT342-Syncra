@@ -5,13 +5,15 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
-class HomePageActivity : AppCompatActivity() {
+class LandingPageActivity : AppCompatActivity() {
 
     private lateinit var buttonGoToProfile: Button
     private lateinit var buttonGoToNetwork: Button
     private lateinit var buttonGoToPost: Button
     private lateinit var buttonGoToUserPosts: Button
     private lateinit var buttonGoToCreatePost: Button
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +37,16 @@ class HomePageActivity : AppCompatActivity() {
         }
 
         buttonGoToPost.setOnClickListener {
+            val sharedPref = getSharedPreferences("UserSession", MODE_PRIVATE)
+            val userId = sharedPref.getLong("userId", -1L)
+            val userName = sharedPref.getString("userName", "Unknown")
+
             val intent = Intent(this, UserPostsActivity::class.java)
+            intent.putExtra("USER_ID", userId)
+            intent.putExtra("USER_NAME", userName)
             startActivity(intent)
         }
+
 
         buttonGoToCreatePost.setOnClickListener {
             val intent = Intent(this, PostActivity::class.java)

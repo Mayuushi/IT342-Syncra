@@ -29,7 +29,11 @@ interface ApiService {
 
         @GET("/api/users/email/{email}")
         suspend fun getUserByEmail(@Path("email") email: String): Response<Map<String, Any>>
+
+    @GET("/posts")
+    suspend fun getAllPosts(): Response<Map<String, Any>>
     }
+
 
 
 
