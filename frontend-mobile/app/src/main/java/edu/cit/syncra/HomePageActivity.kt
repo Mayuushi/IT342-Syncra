@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 class HomePageActivity : AppCompatActivity() {
 
     private lateinit var buttonGoToProfile: Button
+    private lateinit var buttonGoToNetwork: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,5 +22,12 @@ class HomePageActivity : AppCompatActivity() {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
+        buttonGoToNetwork = findViewById(R.id.buttonGoToNetwork)
+
+        buttonGoToNetwork.setOnClickListener {
+            val intent = Intent(this, NetworkActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 }
