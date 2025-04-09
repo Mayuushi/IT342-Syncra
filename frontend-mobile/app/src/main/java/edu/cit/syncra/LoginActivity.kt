@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.edu.cit.Syncra.network.RetrofitInstance
+import edu.cit.syncra.utils.SessionManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -56,7 +57,6 @@ class LoginActivity : AppCompatActivity() {
     private fun loginUser(email: String, password: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                // Make the request to get the user by email
                 val response = RetrofitInstance.api.getUserByEmail(email)
 
                 if (response.isSuccessful) {
@@ -69,17 +69,10 @@ class LoginActivity : AppCompatActivity() {
                         val userName = user["name"] as? String
                         val userId = (user["id"] as? Number)?.toLong()
 
-                        // Check if the retrieved user matches the input password
                         if (userEmail == email && userPassword == password) {
-                            // Save the user data to SharedPreferences
                             withContext(Dispatchers.Main) {
-                                val sharedPref = getSharedPreferences("UserSession", MODE_PRIVATE)
-                                with(sharedPref.edit()) {
-                                    putLong("userId", userId ?: -1)
-                                    putString("name", userName)
-                                    putString("email", userEmail)
-                                    apply()
-                                }
+                                val sessionManager = SessionManager(this@LoginActivity)
+                                sessionManager.saveUserSession(userId ?: -1, userName, userEmail)
 
                                 Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
                                 goToHomePage()
@@ -106,8 +99,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-
-
 
     private fun goToHomePage() {
         val intent = Intent(this, LandingPageActivity::class.java)
