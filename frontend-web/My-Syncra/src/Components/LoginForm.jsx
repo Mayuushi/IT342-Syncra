@@ -30,6 +30,10 @@ const LoginForm = () => {
   }
   };
   
+  const handleGoogleLogin = () => {
+    // Redirect to the backend Google OAuth endpoint
+    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 w-[320px] mx-auto bg-white p-4 rounded shadow">
@@ -46,7 +50,6 @@ const LoginForm = () => {
           required
         />
       </div>
-
       <div className="relative">
         <input
           type={showPassword ? "text" : "password"}
@@ -87,13 +90,17 @@ const LoginForm = () => {
       </div>
 
       <div className="flex justify-center space-x-6">
-        <button type="button" className="p-2">
+        <button 
+          type="button" 
+          className="p-2 flex items-center justify-center border rounded-full w-10 h-10 hover:bg-gray-100"
+          onClick={handleGoogleLogin}
+        >
           <FcGoogle size={20} />
         </button>
-        <button type="button" className="p-2">
+        <button type="button" className="p-2 flex items-center justify-center border rounded-full w-10 h-10 hover:bg-gray-100">
           <BsMicrosoft size={20} />
         </button>
-        <button type="button" className="p-2">
+        <button type="button" className="p-2 flex items-center justify-center border rounded-full w-10 h-10 hover:bg-gray-100">
           <BsApple size={20} />
         </button>
       </div>
