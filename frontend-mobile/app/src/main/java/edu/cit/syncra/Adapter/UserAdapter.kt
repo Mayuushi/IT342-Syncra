@@ -1,4 +1,4 @@
-package edu.cit.syncra
+package edu.cit.syncra.Adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,16 +6,19 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import edu.cit.syncra.DataClass.User
+import edu.cit.syncra.R
 
-class UserAdapter(private val userList: List<User>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class UserAdapter(private var userList: List<User>) :
+    RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
-    class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val userName: TextView = itemView.findViewById(R.id.textUserName)
-        val userEmail: TextView = itemView.findViewById(R.id.textUserEmail)
+    class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val userName: TextView = view.findViewById(R.id.textViewUserName)
+        val userEmail: TextView = view.findViewById(R.id.textViewUserEmail)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_user, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_user, parent, false)
         return UserViewHolder(view)
     }
 
@@ -26,4 +29,10 @@ class UserAdapter(private val userList: List<User>) : RecyclerView.Adapter<UserA
     }
 
     override fun getItemCount(): Int = userList.size
+
+    // ✅ Add this function so fragments can update the list
+    fun updateData(newList: List<User>) {
+        userList = newList
+        notifyDataSetChanged()
+    }
 }

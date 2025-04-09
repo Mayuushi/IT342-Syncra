@@ -1,49 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-    <!-- activity_homepage.xml -->
-
-    <Button
-        android:id="@+id/btnCreatePost"
-        android:layout_width="wrap_content"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="56dp"
-        android:text="CreatePost"
-        app:layout_constraintTop_toBottomOf="@+id/btnGoToNetwork"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <Button
-        android:id="@+id/btnViewPost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="24dp"
-        android:text="View My Post"
-        app:layout_constraintTop_toBottomOf="@+id/btnCreatePost"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <Button
-        android:id="@+id/btnGoToProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Go to Profile"
-        app:layout_constraintTop_toBottomOf="@+id/btnViewPost"
-        tools:layout_editor_absoluteX="16dp" />
-
-    <Button
-        android:id="@+id/btnGoToNetwork"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="People"
-        tools:layout_editor_absoluteX="35dp"
-        tools:layout_editor_absoluteY="132dp" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:menu="@menu/bottom_nav_menu"
+        android:background="?android:attr/windowBackground" />
+</LinearLayout>
