@@ -1,4 +1,4 @@
-package edu.cit.syncra.Activity
+package edu.cit.syncra
 
 import android.os.Bundle
 import android.widget.Button
@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.edu.cit.Syncra.network.RetrofitInstance
 import edu.cit.syncra.DataClass.NewsPost
-import edu.cit.syncra.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

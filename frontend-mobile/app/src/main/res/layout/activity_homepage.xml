@@ -9,20 +9,41 @@
     <!-- activity_homepage.xml -->
 
     <Button
-        android:id="@+id/buttonGoToProfile"
+        android:id="@+id/btnCreatePost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="56dp"
+        android:text="CreatePost"
+        app:layout_constraintTop_toBottomOf="@+id/btnGoToNetwork"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/btnViewPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="24dp"
+        android:text="View My Post"
+        app:layout_constraintTop_toBottomOf="@+id/btnCreatePost"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/btnGoToProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="Go to Profile"
-        app:layout_constraintTop_toBottomOf="@+id/buttonGoToNetwork"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintTop_toBottomOf="@+id/btnViewPost"
+        tools:layout_editor_absoluteX="16dp" />
 
     <Button
-        android:id="@+id/buttonGoToNetwork"
+        android:id="@+id/btnGoToNetwork"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go to Network"
         android:layout_centerInParent="true"
-        android:layout_marginTop="20dp" />
+        android:text="People"
+        tools:layout_editor_absoluteX="35dp"
+        tools:layout_editor_absoluteY="132dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

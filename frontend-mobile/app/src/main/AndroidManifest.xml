@@ -25,10 +25,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".HomePageActivity">
-            <!-- Optional configuration -->
-        </activity>
-
         <activity android:name=".RegisterActivity">
             <!-- Optional configuration -->
         </activity>
@@ -38,9 +34,20 @@
         </activity>
 
         <activity android:name=".NetworkActivity">
+            <!-- Optional configuration -->
+        </activity>
+
+        <activity android:name=".HomePageActivity">
 
         </activity>
 
+        <activity android:name=".PostActivity">
+
+        </activity>
+
+        <activity android:name=".UserPostsActivity">
+
+        </activity>
 
 
     </application>
