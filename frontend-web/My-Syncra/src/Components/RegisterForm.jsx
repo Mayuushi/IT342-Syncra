@@ -38,6 +38,11 @@ const RegisterForm = () => {
   }
   };
   
+  
+  const handleGoogleSignup = () => {
+    // Redirect to the backend Google OAuth endpoint
+    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -78,9 +83,9 @@ const RegisterForm = () => {
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-600 text-sm"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-600 text-sm font-medium"
         >
-          Show
+          {showPassword ? 'Hide' : 'Show'}
         </button>
       </div>
 
@@ -97,9 +102,9 @@ const RegisterForm = () => {
         <button
           type="button"
           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-600 text-sm"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-600 text-sm font-medium"
         >
-          Show
+          {showConfirmPassword ? 'Hide' : 'Show'}
         </button>
       </div>
 
@@ -137,13 +142,17 @@ const RegisterForm = () => {
       </div>
 
       <div className="flex justify-center space-x-6">
-        <button type="button" className="p-2">
+        <button 
+          type="button" 
+          className="p-2 flex items-center justify-center border rounded-full w-10 h-10 hover:bg-gray-100"
+          onClick={handleGoogleSignup}
+        >
           <FcGoogle size={20} />
         </button>
-        <button type="button" className="p-2">
+        <button type="button" className="p-2 flex items-center justify-center border rounded-full w-10 h-10 hover:bg-gray-100">
           <BsMicrosoft size={20} />
         </button>
-        <button type="button" className="p-2">
+        <button type="button" className="p-2 flex items-center justify-center border rounded-full w-10 h-10 hover:bg-gray-100">
           <BsApple size={20} />
         </button>
       </div>
