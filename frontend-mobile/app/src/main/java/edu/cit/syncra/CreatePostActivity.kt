@@ -67,7 +67,7 @@ class CreatePostActivity : AppCompatActivity() {
 
     // Create post with the content and optional image URL
     private fun createPost(userId: Long, content: String) {
-        val postBody = NewsPost(content = content, imageUrl = uploadedImageUrl)
+        val postBody = NewsPost(content = content)
 
         lifecycleScope.launch(Dispatchers.IO) {
             try {

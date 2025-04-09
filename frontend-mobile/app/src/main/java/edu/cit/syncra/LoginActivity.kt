@@ -72,7 +72,16 @@ class LoginActivity : AppCompatActivity() {
 
                         // Check if the retrieved user matches the input password
                         if (userEmail == email && userPassword == password) {
+                            // Save the user data to SharedPreferences
                             withContext(Dispatchers.Main) {
+                                val sharedPref = getSharedPreferences("UserSession", MODE_PRIVATE)
+                                with(sharedPref.edit()) {
+                                    putLong("userId", userId ?: -1)
+                                    putString("name", userName)
+                                    putString("email", userEmail)
+                                    apply()
+                                }
+
                                 Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
                                 goToHomePage()
                             }
@@ -98,6 +107,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
 
 
     private fun goToHomePage() {
