@@ -57,45 +57,38 @@ class LoginActivity : AppCompatActivity() {
     private fun loginUser(email: String, password: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = RetrofitInstance.api.getAllUsers()
+                // Make the request to get the user by email
+                val response = RetrofitInstance.api.getUserByEmail(email)
 
                 if (response.isSuccessful) {
                     val body = response.body()
-                    val users = (body?.get("users") as? List<Map<String, Any>>)?.mapNotNull {
-                        val userEmail = it["email"] as? String
-                        val userPassword = it["password"] as? String
-                        val userName = it["name"] as? String
-                        val userId = (it["id"] as? Number)?.toLong()
+                    val user = body?.get("user") as? Map<String, Any>
 
-                        if (userEmail != null && userPassword != null && userName != null && userId != null) {
-                            User(id = userId, name = userName, email = userEmail, password = userPassword)
-                        } else null
-                    }
+                    if (user != null) {
+                        val userEmail = user["email"] as? String
+                        val userPassword = user["password"] as? String
+                        val userName = user["name"] as? String
+                        val userId = (user["id"] as? Number)?.toLong()
 
-                    val matchedUser = users?.find { it.email == email && it.password == password }
-
-                    // After login success
-                    withContext(Dispatchers.Main) {
-                        if (matchedUser != null) {
-                            // Save user data to SharedPreferences
-                            val user = matchedUser
-                            val sharedPref = getSharedPreferences("UserSession", MODE_PRIVATE)
-                            with(sharedPref.edit()) {
-                                putLong("userId", user.id ?: -1) // Default to -1 if user.id is null
-                                putString("name", user.name)
-                                putString("email", user.email)
-                                apply()
+                        // Check if the retrieved user matches the input password
+                        if (userEmail == email && userPassword == password) {
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
+                                goToHomePage()
                             }
-
-                            Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
-                            goToHomePage()
                         } else {
-                            Toast.makeText(this@LoginActivity, "Invalid credentials", Toast.LENGTH_SHORT).show()
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(this@LoginActivity, "Invalid credentials", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@LoginActivity, "User not found", Toast.LENGTH_SHORT).show()
                         }
                     }
                 } else {
                     withContext(Dispatchers.Main) {
-                        Toast.makeText(this@LoginActivity, "Failed to retrieve users", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LoginActivity, "Failed to retrieve user", Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (e: Exception) {
@@ -105,6 +98,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun goToHomePage() {
         val intent = Intent(this, HomePageActivity::class.java)
