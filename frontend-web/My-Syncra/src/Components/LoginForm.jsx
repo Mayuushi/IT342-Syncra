@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { BsMicrosoft, BsApple } from 'react-icons/bs';
+import authService from '../Service/authService';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -16,10 +17,19 @@ const LoginForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login data:', formData);
+  try {
+    const user = await authService.login({
+      emailOrPhone: formData.emailOrPhone,
+      password: formData.password,
+    });
+    console.log('Login successful:', user);
+  } catch (error) {
+    console.error(error.message);
+  }
   };
+  
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 w-[320px] mx-auto bg-white p-4 rounded shadow">
