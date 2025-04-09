@@ -37,6 +37,10 @@
             <!-- Optional configuration -->
         </activity>
 
+        <activity android:name=".NetworkActivity">
+
+        </activity>
+
 
 
     </application>
