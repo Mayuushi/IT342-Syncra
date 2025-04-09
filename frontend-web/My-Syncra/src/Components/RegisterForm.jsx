@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { BsMicrosoft, BsApple } from 'react-icons/bs';
+import authService from '../Service/authService';
+
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -21,10 +23,21 @@ const RegisterForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Registration data:', formData);
+  try {
+    const user = await authService.register({
+      fullName: formData.fullName,
+      emailOrPhone: formData.emailOrPhone,
+      password: formData.password,
+    });
+    console.log('Registration successful:', user);
+    navigate('/login'); // ✅ redirect after success
+  } catch (error) {
+    console.error(error.message);
+  }
   };
+  
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
