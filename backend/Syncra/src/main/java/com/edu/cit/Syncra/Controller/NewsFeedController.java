@@ -1,5 +1,6 @@
 package com.edu.cit.Syncra.Controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,14 @@ public class NewsFeedController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getPostsByUser(@PathVariable Long id) {
         return ResponseEntity.ok(Map.of("message", "User posts", "posts", newsFeedService.getPostsByUserId(id)));
+    }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<Map<String, Object>> getPostsByUserId(@PathVariable Long userId) {
+        List<NewsFeed> posts = newsFeedService.getPostsByUserId(userId);
+        return ResponseEntity.ok(Map.of(
+                "message", "Posts by user ID: " + userId,
+                "posts", posts
+        ));
     }
 
     @DeleteMapping("/{id}")
