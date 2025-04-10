@@ -6,31 +6,46 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Login from './Components/Sections/Login'
 import Register from './Components/Sections/Register'
 import { NavBar } from './Components/NavBar'
-import Feed from './Components/Sections/Feed'; 
-
-
+import Feed from './Components/Sections/Feed'
+import PrivateRoute from './Components/PrivateRoute' // ✅ import the guard
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false)
-  
+
   return (
     <Router>
       {!isLoaded ? (
-        <LoadingScreen onComplete={() => setIsLoaded(true)}/>
+        <LoadingScreen onComplete={() => setIsLoaded(true)} />
       ) : (
         <div className={`min-h-screen transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}>
           <Routes>
+            {/* Public routes */}
+            <Route path="/" element={<Login />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/" element={<Login />} /> {/* Redirect to login by default */}
-            <Route path="/dashboard" element={<NavBar />} />
-            <Route path="/feed" element={<Feed />} />
-      
+
+            {/* Protected routes */}
+            <Route
+              path="/feed"
+              element={
+                <PrivateRoute>
+                  <Feed />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/dashboard"
+              element={
+                <PrivateRoute>
+                  <NavBar />
+                </PrivateRoute>
+              }
+            />
           </Routes>
         </div>
       )}
     </Router>
-  );
+  )
 }
 
 export default App
