@@ -1,6 +1,7 @@
 package com.edu.cit.Syncra.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,9 +25,10 @@ public class NewsFeed {
     private LocalDateTime createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonIgnore  // Avoid infinite recursion
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({"newsFeeds", "password"})
     private User user;
+
 
     @PrePersist
     public void onCreate() {
