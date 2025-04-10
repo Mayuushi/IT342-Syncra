@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { NavBar } from '../NavBar';
 import {
   FiHeart,
@@ -9,6 +10,15 @@ import {
 } from 'react-icons/fi';
 
 function Feed() {
+  const navigate = useNavigate();
+
+ useEffect(() => {
+  const user = localStorage.getItem("user");
+  if (!user) {
+    navigate("/login");
+  }
+}, [navigate]);
+
   const [posts, setPosts] = useState([
     {
       id: 1,
