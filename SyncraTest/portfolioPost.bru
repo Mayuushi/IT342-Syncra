@@ -1,0 +1,20 @@
+meta {
+  name: portfolioPost
+  type: http
+  seq: 11
+}
+
+post {
+  url: http://localhost:8080/api/portfolio/user/1
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "projectTitle": "AI Mental Wellness App",
+    "description": "A project that helps users monitor and manage their emotional well-being using AI.",
+    "imageUrl": "http://example.com/images/project.png"
+  }
+  
+}
