@@ -6,6 +6,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Login from './Components/Sections/Login'
 import Register from './Components/Sections/Register'
 import { NavBar } from './Components/NavBar'
+import Feed from './Components/Sections/Feed'; 
+
+
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -21,6 +24,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<Login />} /> {/* Redirect to login by default */}
             <Route path="/dashboard" element={<NavBar />} />
+            <Route path="/feed" element={<Feed />} />
+      
           </Routes>
         </div>
       )}
