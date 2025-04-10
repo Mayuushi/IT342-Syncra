@@ -1,4 +1,4 @@
-package edu.cit.syncra.Adapter
+package edu.cit.syncra.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.edu.cit.Syncra.network.RetrofitInstance
-import edu.cit.syncra.Adapter.UserPostAdapter
+import edu.cit.syncra.adapter.UserPostAdapter
 import edu.cit.syncra.DataClass.UserPost
 import edu.cit.syncra.LoginActivity
 import edu.cit.syncra.R
@@ -30,6 +30,7 @@ class ProfileAndPostsFragment : Fragment() {
     private lateinit var emailTextView: TextView
     private lateinit var logoutButton: Button
     private lateinit var btnPortfolio: Button
+    private lateinit var btnViewPortfolio: Button
 
     private var userName: String? = null
     private var userEmail: String? = null
@@ -54,6 +55,7 @@ class ProfileAndPostsFragment : Fragment() {
         logoutButton = view.findViewById(R.id.btnLogout)
         recyclerView = view.findViewById(R.id.recyclerUserPosts)
         btnPortfolio = view.findViewById(R.id.btnPortfolio)
+        btnViewPortfolio = view.findViewById(R.id.btnViewPortfolio)
 
         nameTextView.text = "Name: $userName"
         emailTextView.text = "Email: $userEmail"
@@ -62,6 +64,14 @@ class ProfileAndPostsFragment : Fragment() {
             val portfolioFragment = PortfolioPostFragment()
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, portfolioFragment)  // ✅ Make sure this ID matches your activity layout
+                .addToBackStack(null)
+                .commit()
+        }
+
+        btnViewPortfolio.setOnClickListener {
+            val portfolioListFragment = PortfolioListFragment()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, portfolioListFragment)  // ✅ Make sure this ID matches your activity layout
                 .addToBackStack(null)
                 .commit()
         }

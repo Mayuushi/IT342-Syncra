@@ -40,6 +40,11 @@ interface ApiService {
         @Body portfolio: Portfolio
     ): Response<Map<String, Any>>
 
+    @GET("/api/portfolio/user/{userId}")
+    suspend fun getPortfoliosByUser(@Path("userId") userId: Long): Response<List<Portfolio>>
+
+
+
 
 
 }
