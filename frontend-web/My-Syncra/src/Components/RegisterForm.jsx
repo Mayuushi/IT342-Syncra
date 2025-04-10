@@ -3,9 +3,11 @@ import { Link, Navigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { BsMicrosoft, BsApple } from 'react-icons/bs';
 import authService from '../Service/authService';
+import { useNavigate } from 'react-router-dom';
 
 
 const RegisterForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
     emailOrPhone: '',
@@ -25,24 +27,20 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  try {
-    const user = await authService.register({
-      fullName: formData.fullName,
-      emailOrPhone: formData.emailOrPhone,
-      password: formData.password,
-    });
-    console.log('Registration successful:', user);
-    navigate('/login'); // ✅ redirect after success
-  } catch (error) {
-    console.error(error.message);
-  }
-  };
+    try {
+      const user = await authService.register({
+        fullName: formData.fullName,
+        emailOrPhone: formData.emailOrPhone,
+        password: formData.password,
+      });
+      console.log('Registration successful:', user);
+      navigate('/login'); // ✅ Redirect after successful registration
+    } catch (error) {
+      console.error(error.message);
+    }
+  };  
   
   
-  const handleGoogleSignup = () => {
-    // Redirect to the backend Google OAuth endpoint
-    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
-  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -83,9 +81,9 @@ const RegisterForm = () => {
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-600 text-sm font-medium"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-600 text-sm"
         >
-          {showPassword ? 'Hide' : 'Show'}
+          Show
         </button>
       </div>
 
@@ -102,9 +100,9 @@ const RegisterForm = () => {
         <button
           type="button"
           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-600 text-sm font-medium"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-600 text-sm"
         >
-          {showConfirmPassword ? 'Hide' : 'Show'}
+          Show
         </button>
       </div>
 
@@ -142,17 +140,13 @@ const RegisterForm = () => {
       </div>
 
       <div className="flex justify-center space-x-6">
-        <button 
-          type="button" 
-          className="p-2 flex items-center justify-center border rounded-full w-10 h-10 hover:bg-gray-100"
-          onClick={handleGoogleSignup}
-        >
+        <button type="button" className="p-2">
           <FcGoogle size={20} />
         </button>
-        <button type="button" className="p-2 flex items-center justify-center border rounded-full w-10 h-10 hover:bg-gray-100">
+        <button type="button" className="p-2">
           <BsMicrosoft size={20} />
         </button>
-        <button type="button" className="p-2 flex items-center justify-center border rounded-full w-10 h-10 hover:bg-gray-100">
+        <button type="button" className="p-2">
           <BsApple size={20} />
         </button>
       </div>
