@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/inputProjectTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Project Title"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/inputProjectDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description"
+            android:minLines="4"
+            android:gravity="top"
+            android:inputType="textMultiLine" />
+
+        <ImageView
+            android:id="@+id/imagePreviewPortfolio"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="12dp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnSelectPortfolioImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Image" />
+
+        <Button
+            android:id="@+id/btnSubmitPortfolio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit Portfolio"
+            android:layout_marginTop="12dp" />
+
+        <ProgressBar
+            android:id="@+id/progressLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
+</ScrollView>

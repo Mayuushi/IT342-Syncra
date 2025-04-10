@@ -1,6 +1,7 @@
 package edu.cit.syncra.Controller
 
 import edu.cit.syncra.DataClass.NewsPost
+import edu.cit.syncra.DataClass.Portfolio
 import edu.cit.syncra.DataClass.User
 import retrofit2.Response
 import retrofit2.http.GET
@@ -32,7 +33,16 @@ interface ApiService {
 
     @GET("/posts")
     suspend fun getAllPosts(): Response<Map<String, Any>>
-    }
+
+    @POST("/api/portfolio/user/{userId}")
+    suspend fun createPortfolio(
+        @Path("userId") userId: Long,
+        @Body portfolio: Portfolio
+    ): Response<Map<String, Any>>
+
+
+
+}
 
 
 

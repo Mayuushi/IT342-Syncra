@@ -29,6 +29,7 @@ class ProfileAndPostsFragment : Fragment() {
     private lateinit var nameTextView: TextView
     private lateinit var emailTextView: TextView
     private lateinit var logoutButton: Button
+    private lateinit var btnPortfolio: Button
 
     private var userName: String? = null
     private var userEmail: String? = null
@@ -52,9 +53,19 @@ class ProfileAndPostsFragment : Fragment() {
         emailTextView = view.findViewById(R.id.textViewEmail)
         logoutButton = view.findViewById(R.id.btnLogout)
         recyclerView = view.findViewById(R.id.recyclerUserPosts)
+        btnPortfolio = view.findViewById(R.id.btnPortfolio)
 
         nameTextView.text = "Name: $userName"
         emailTextView.text = "Email: $userEmail"
+
+        btnPortfolio.setOnClickListener {
+            val portfolioFragment = PortfolioPostFragment()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, portfolioFragment)  // ✅ Make sure this ID matches your activity layout
+                .addToBackStack(null)
+                .commit()
+        }
+
 
         logoutButton.setOnClickListener {
             val sessionManager = SessionManager(requireContext())
