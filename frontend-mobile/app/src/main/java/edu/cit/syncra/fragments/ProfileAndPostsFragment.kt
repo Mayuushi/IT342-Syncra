@@ -66,7 +66,17 @@ class ProfileAndPostsFragment : Fragment() {
         }
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = UserPostAdapter(listOf())
+        adapter = UserPostAdapter(listOf()) { post ->
+            val detailFragment = PostDetailFragment.newInstance(
+                post.content,
+                post.imageUrl,
+                post.createdAt ?: ""
+            )
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, detailFragment) // Make sure this matches your activity layout's fragment container ID
+                .addToBackStack(null)
+                .commit()
+        }
         recyclerView.adapter = adapter
 
         if (userId != -1L) {
@@ -89,8 +99,9 @@ class ProfileAndPostsFragment : Fragment() {
                             val id = (it["id"] as? Double)?.toLong()
                             val content = it["content"] as? String
                             val createdAt = it["createdAt"] as? String
+                            val imageUrl = it["imageUrl"] as? String
                             if (id != null && content != null) {
-                                UserPost(id, content, createdAt, userName)
+                                UserPost(id, content, createdAt, userName, imageUrl)
                             } else null
                         } ?: emptyList()
 
@@ -106,4 +117,5 @@ class ProfileAndPostsFragment : Fragment() {
             }
         }
     }
+
 }
