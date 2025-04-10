@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { BsMicrosoft, BsApple } from 'react-icons/bs';
 import authService from '../Service/authService';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     emailOrPhone: '',
     password: '',
@@ -19,15 +21,24 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  try {
-    const user = await authService.login({
-      emailOrPhone: formData.emailOrPhone,
-      password: formData.password,
-    });
-    console.log('Login successful:', user);
-  } catch (error) {
-    console.error(error.message);
-  }
+    try {
+      const user = await authService.login({
+        emailOrPhone: formData.emailOrPhone,
+        password: formData.password,
+      });
+
+      // ✅ Save login state
+      localStorage.setItem("user", JSON.stringify(user));
+
+      console.log('Login successful:', user);
+
+      // ✅ Redirect to /feed
+      navigate("/feed");
+
+    } catch (error) {
+      console.error("Login failed:", error.message);
+      alert("Login failed. Please check your credentials.");
+    }
   };
   
   const handleGoogleLogin = () => {
@@ -77,7 +88,7 @@ const LoginForm = () => {
         type="submit"
         className="w-full bg-blue-600 text-white py-2 rounded-full hover:bg-blue-700"
       >
-        sign in
+        Sign in
       </button>
 
       <div className="relative my-4">
