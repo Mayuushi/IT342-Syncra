@@ -4,6 +4,12 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+ <!--   <edu.cit.syncra.Custom.SearchBarView
+        android:id="@+id/searchBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />-->
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -3,5 +3,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="linkedin_blue">#0077B5</color>
+    <color name="search_bar_bg">#F0F2F5</color> <!-- Light gray like Facebook -->
+    <color name="search_icon_tint">#606770</color> <!-- Slightly darker icon color -->
+    <color name="search_hint_text">#90949C</color> <!-- Soft placeholder text -->
+
 
 </resources>
