@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.edu.cit.Syncra.network.RetrofitInstance
-import edu.cit.syncra.Adapter.UserAdapter
+import edu.cit.syncra.adapter.UserAdapter
 import edu.cit.syncra.DataClass.User
 import edu.cit.syncra.R
 import kotlinx.coroutines.CoroutineScope
