@@ -7,7 +7,8 @@ import Login from './Components/Sections/Login'
 import Register from './Components/Sections/Register'
 import { NavBar } from './Components/NavBar'
 import Feed from './Components/Sections/Feed'
-import PrivateRoute from './Components/PrivateRoute' // ✅ import the guard
+import PrivateRoute from './Components/PrivateRoute'
+import Chat from './Components/Sections/Chat'
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -38,6 +39,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <NavBar />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/chat"
+              element={
+                <PrivateRoute>
+                  <Chat />
                 </PrivateRoute>
               }
             />

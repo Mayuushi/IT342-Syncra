@@ -12,12 +12,12 @@ import {
 function Feed() {
   const navigate = useNavigate();
 
- useEffect(() => {
-  const user = localStorage.getItem("user");
-  if (!user) {
-    navigate("/login");
-  }
-}, [navigate]);
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      navigate("/login");
+    }
+  }, [navigate]);
 
   const [posts, setPosts] = useState([
     {
@@ -28,8 +28,7 @@ function Feed() {
         profileImage: 'https://via.placeholder.com/50',
         isPromoted: true,
       },
-      content:
-        'Example',
+      content: 'Example',
       images: ['https://via.placeholder.com/600/92c952'],
       likes: 1025,
       comments: 753,
@@ -107,11 +106,21 @@ function Feed() {
   return (
     <>
       <NavBar />
-      {/* Main Content Area: 3-column flex container */}
-      <div className="flex mt-16 h-[calc(100vh-64px)]">
-        <div className="flex w-full">
+      <div
+        style={{
+          position: 'fixed',
+          top: 64,
+          left: 0,
+          width: '100vw',
+          height: 'calc(100vh - 64px)',
+          background: '#f3f4f6',
+          overflow: 'hidden',
+          zIndex: 0,
+        }}
+      >
+        <div className="flex w-full h-full">
           {/* LEFT SIDEBAR */}
-          <div className="w-1/4 h-full space-y-2">
+          <div className="w-1/4 h-full space-y-2 overflow-y-auto">
             {/* Profile Card */}
             <div className="bg-white rounded-lg shadow-sm overflow-hidden">
               <div className="bg-blue-500 h-16 relative">
@@ -239,7 +248,7 @@ function Feed() {
           {/* MAIN FEED */}
           <div className="w-1/2 h-full overflow-y-auto px-2">
             {/* Create Post */}
-            <div className="bg-white rounded-lg shadow-sm p-3 mb-2">
+            <div className="bg-white rounded-lg shadow-sm p-3 mb-2 mt-4">
               <div className="flex items-center mb-2">
                 <img
                   src="https://via.placeholder.com/36"
@@ -390,8 +399,7 @@ function Feed() {
           </div>
 
           {/* RIGHT SIDEBAR */}
-          <div className="w-1/4 h-full overflow-y-auto">
-            {/* Container for "Add to your feed" and "Advertisement" */}
+          <div className="w-1/4 h-full overflow-y-auto mt-4">
             <div className="bg-white rounded-lg shadow-sm">
               <div className="p-3 border-b border-gray-200">
                 <div className="flex justify-between items-center mb-2">
@@ -464,17 +472,17 @@ function Feed() {
               </p>
               <div className="flex flex-wrap text-xs text-gray-500 justify-center">
                 <span className="mx-1 my-0.5 text-[10px]">Special abilities</span>
-                <span className="mx-1 my-0.5 text-[10px]">Reference</span>
-                <span className="mx-1 my-0.5 text-[10px]">Terms</span>
-                <span className="mx-1 my-0.5 text-[10px]">Advertising Preferences</span>
                 <span className="mx-1 my-0.5 text-[10px]">Advertising</span>
-                <span className="mx-1 my-0.5 text-[10px]">Business Services</span>
-                <span className="mx-1 my-0.5 text-[10px]">Download LinkedIn App</span>
-                <span className="mx-1 my-0.5 text-[10px]">Yet</span>
+                <span className="mx-1 my-0.5 text-[10px]">Business</span>
+                <span className="mx-1 my-0.5 text-[10px]">Marketing</span>
+                <span className="mx-1 my-0.5 text-[10px]">Web</span>
+                <span className="mx-1 my-0.5 text-[10px]">Development</span>
+                <span className="mx-1 my-0.5 text-[10px]">Design</span>
+                <span className="mx-1 my-0.5 text-[10px]">More</span>
               </div>
-              <p className="text-center text-[10px] text-gray-400 mt-1">
-                Syncra Corporation © 2023
-              </p>
+              <div className="text-center text-gray-400 text-[10px] mt-2">
+                © 2024 MySyncra
+              </div>
             </div>
           </div>
         </div>
