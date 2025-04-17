@@ -34,7 +34,7 @@ const RegisterForm = () => {
         password: formData.password,
       });
       console.log('Registration successful:', user);
-      navigate('/login'); // ✅ Redirect after successful registration
+      navigate('/login'); // Redirect after successful registration
     } catch (error) {
       console.error(error.message);
     }

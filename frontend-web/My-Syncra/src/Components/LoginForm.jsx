@@ -27,12 +27,12 @@ const LoginForm = () => {
         password: formData.password,
       });
 
-      // ✅ Save login state
+      // Save login state
       localStorage.setItem("user", JSON.stringify(user));
 
       console.log('Login successful:', user);
 
-      // ✅ Redirect to /feed
+      // mu redirect sa /feed
       navigate("/feed");
 
     } catch (error) {
@@ -42,7 +42,7 @@ const LoginForm = () => {
   };
   
   const handleGoogleLogin = () => {
-    // Redirect to the backend Google OAuth endpoint
+    // mu Redirect sa backend Google OAuth endpoint pero di pako kahibaw mu implement
     window.location.href = 'http://localhost:8080/oauth2/authorization/google';
   };
 
