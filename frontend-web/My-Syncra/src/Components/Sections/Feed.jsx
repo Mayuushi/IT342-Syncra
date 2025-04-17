@@ -19,37 +19,7 @@ function Feed() {
     }
   }, [navigate]);
 
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      user: {
-        name: 'Your Brand',
-        followers: '25,548 followers',
-        profileImage: 'https://via.placeholder.com/50',
-        isPromoted: true,
-      },
-      content: 'Example',
-      images: ['https://via.placeholder.com/600/92c952'],
-      likes: 1025,
-      comments: 753,
-      shares: 234,
-      timestamp: '2h ago',
-    },
-    {
-      id: 2,
-      user: {
-        name: 'Jane Smith',
-        followers: '12,345 followers',
-        profileImage: 'https://via.placeholder.com/50',
-        isPromoted: false,
-      },
-      content: 'Example',
-      images: ['https://via.placeholder.com/600/771796'],
-      likes: 432,
-      comments: 89,
-      shares: 32,
-      timestamp: '5h ago',
-    },
+  const [posts, setPosts] = useState([    //gi delete nako ang posts ID diri
   ]);
 
   const [newPost, setNewPost] = useState('');
@@ -86,20 +56,20 @@ function Feed() {
     {
       id: 1,
       name: 'Marie Clark',
-      info: 'User information',
-      image: 'https://via.placeholder.com/40',
+      info: 'Graphics Designer',
+      image: 'https://randomuser.me/api/portraits/women/68.jpg',
     },
     {
       id: 2,
       name: 'Mark Tini',
-      info: 'Lorem ipsum dolor sit amet',
-      image: 'https://via.placeholder.com/40',
+      info: 'Software Engineer',
+      image: 'https://randomuser.me/api/portraits/men/32.jpg',
     },
     {
       id: 3,
       name: 'Zander Kutsko',
-      info: 'Lorem ipsum dolor sit amet',
-      image: 'https://via.placeholder.com/40',
+      info: 'Data Analyst',
+      image:  'https://randomuser.me/api/portraits/men/85.jpg',
     },
   ];
 
@@ -126,8 +96,8 @@ function Feed() {
               <div className="bg-blue-500 h-16 relative">
                 <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
                   <img
-                    src="https://via.placeholder.com/60"
-                    alt="Profile"
+                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    alt="User profile"
                     className="rounded-full border-2 border-white w-16 h-16"
                   />
                 </div>
@@ -251,7 +221,7 @@ function Feed() {
             <div className="bg-white rounded-lg shadow-sm p-3 mb-2 mt-4">
               <div className="flex items-center mb-2">
                 <img
-                  src="https://via.placeholder.com/36"
+                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                   alt="User"
                   className="rounded-full mr-2 w-9 h-9"
                 />
@@ -422,15 +392,19 @@ function Feed() {
                   </button>
                 </div>
                 {recommendedUsers.map((user) => (
-                  <div key={user.id} className="flex items-start mb-2">
-                    <img
-                      src={user.image}
-                      alt={user.name}
-                      className="w-8 h-8 rounded-full mr-2"
-                    />
-                    <div className="flex-1">
-                      <h4 className="font-medium text-xs">{user.name}</h4>
-                      <p className="text-xs text-gray-500">{user.info}</p>
+                  <div key={user.id} className="mb-2">
+                    <div className="flex items-center">
+                      <img
+                        src={user.image}
+                        alt={user.name}
+                        className="w-8 h-8 rounded-full mr-2"
+                      />
+                      <div className="flex flex-col">
+                        <span className="font-medium text-xs text-gray-900">{user.name}</span>
+                        <span className="text-xs text-gray-500">{user.info}</span>
+                      </div>
+                    </div>
+                    <div className="ml-10">
                       <button className="mt-1 border border-gray-300 rounded-full px-2 py-0.5 text-xs flex items-center">
                         <span className="mr-1">+</span> track
                       </button>
@@ -457,14 +431,24 @@ function Feed() {
               </div>
 
               <div className="overflow-hidden border-b border-gray-200">
-                <img
-                  src="https://via.placeholder.com/400x200"
-                  alt="Advertisement"
-                  className="w-full h-auto"
-                />
+                <a
+                  href="https://www.apple.com/macbook-air/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block hover:bg-gray-50 transition"
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80"
+                    alt="MacBook Air Advertisement"
+                    className="w-full h-auto"
+                  />
+                  <div className="p-2">
+                    <div className="font-bold text-sm text-gray-800">MacBook Air</div>
+                    <div className="text-xs text-gray-600">Light. Speed. Power. Discover the new MacBook Air at Apple.</div>
+                  </div>
+                </a>
               </div>
             </div>
-
             {/* General Information */}
             <div className="bg-white rounded-lg shadow-sm mt-2 p-3">
               <p className="text-center text-xs text-gray-500 mb-1">
