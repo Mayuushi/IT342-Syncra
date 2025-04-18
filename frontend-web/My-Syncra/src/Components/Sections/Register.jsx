@@ -5,7 +5,7 @@ import logo from '../../assets/logo.png';
 
 const Register = () => {
   return (
-    <div className="min-h-screen flex flex-col justify-start pt-20 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex flex-col items-center justify-center pt-20 sm:px-6 lg:px-8 ml-70">
       <div className="absolute top-8 left-8 flex items-center">
         <img src={logo} alt="Syncra Logo" className="h-12 w-12" />
         <span className="ml-2 text-3xl font-bold text-blue-600">Syncra.</span>
