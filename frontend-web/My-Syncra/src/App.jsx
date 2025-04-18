@@ -9,6 +9,7 @@ import { NavBar } from './Components/NavBar'
 import Feed from './Components/Sections/Feed'
 import PrivateRoute from './Components/PrivateRoute'
 import Chat from './Components/Sections/Chat'
+import Network from './Components/Sections/Network'
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -49,6 +50,15 @@ function App() {
                   <Chat />
                 </PrivateRoute>
               }
+            />
+            <Route
+              path='/network'
+              element={
+                <PrivateRoute>
+                  <Network />
+                </PrivateRoute>
+              }            
+            
             />
           </Routes>
         </div>
