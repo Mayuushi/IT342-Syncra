@@ -1,11 +1,11 @@
 package com.edu.cit.Syncra.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.*;
 
-@Table(name = "portfolio")
-@Entity
+@Document(collection = "portfolio")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,18 +14,14 @@ import lombok.*;
 public class Portfolio {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id; // MongoDB uses String IDs (ObjectId)
 
     private String projectTitle;
-
-    @Column(columnDefinition = "TEXT")
     private String description;
-
     private String imageUrl;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
+    @DBRef
     @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"password", "newsFeeds", "portfolios"})
     private User user;
+
 }
