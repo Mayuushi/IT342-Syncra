@@ -1,13 +1,14 @@
 package com.edu.cit.Syncra.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-@Table(name = "news_feed")
-@Entity
+
+@Document(collection = "news_feed")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,22 +17,18 @@ import java.time.LocalDateTime;
 public class NewsFeed {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;  // Mongo uses String _id by default
 
     private String content;
     private String imageUrl;
-
     private LocalDateTime createdAt;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @DBRef
     @JsonIgnoreProperties({"newsFeeds", "password"})
     private User user;
 
-
-    @PrePersist
     public void onCreate() {
-        createdAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
     }
+
 }
