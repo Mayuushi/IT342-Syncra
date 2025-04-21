@@ -1,4 +1,4 @@
-FROM maven:3.8.8-eclipse-temurin-21-alpine AS build
+FROM eclipse-temurin:21-jdk AS build
 WORKDIR /app
 COPY . /app
 WORKDIR /app/backend/Syncra
@@ -8,4 +8,4 @@ FROM openjdk:21-jdk-slim
 WORKDIR /app
 COPY --from=build /app/backend/Syncra/target/Syncra-0.0.1-SNAPSHOT.jar syncra.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "syncra.jar"]
+ENTRYPOINT ["java", "-Dhttps.protocols=TLSv1.2", "-jar", "syncra.jar"]
