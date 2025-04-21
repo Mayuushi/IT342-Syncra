@@ -79,17 +79,47 @@
 	</dependencies>
 	<build>
 		<plugins>
-			<!-- ... your other plugins ... -->
+			<!-- 1) Disable URLClassPath check in tests -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0</version> <!-- or your current version -->
+				<version>3.0.0</version>
 				<configuration>
 					<argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
 				</configuration>
 			</plugin>
+
+			<!-- 2) Ensure Main-Class is set in manifest -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.2.2</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>com.edu.cit.Syncra.SyncraApplication</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<!-- 3) Spring Boot plugin to build a fat/executable JAR -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>3.4.4</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
+
+
 
 
 </project>
