@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080/api/users';
+const API_BASE_URL = 'https://it342-syncra.onrender.com/api/users';
 
 // Register a new user and store in localStorage
 const register = async ({ fullName, emailOrPhone, password }) => {
