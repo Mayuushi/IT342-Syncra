@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+@CrossOrigin(origins = "https://it342-syncra-web.onrender.com")
 @RestController
 @RequestMapping("/api/portfolio")
 public class PortfolioController {
