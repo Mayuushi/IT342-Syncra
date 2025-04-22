@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.edu.cit.Syncra.Entity.NewsFeed;
 import com.edu.cit.Syncra.Service.NewsFeedService;
 
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "https://it342-syncra-web.onrender.com")
 @RestController
 @RequestMapping("/api/newsfeed")
 public class NewsFeedController {
