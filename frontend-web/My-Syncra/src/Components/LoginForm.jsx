@@ -118,7 +118,7 @@ const LoginForm = () => {
 
       <div className="text-center text-sm mt-4">
         <span className="text-gray-600">New to Syncra? </span>
-        <a href="/register" className="text-blue-600">Join Now</a>
+        <Link to="/register" className="text-blue-600">Join Now</Link>
       </div>
     </form>
   );

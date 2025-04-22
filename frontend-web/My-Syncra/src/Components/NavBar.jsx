@@ -18,7 +18,6 @@ export const NavBar = () => {
     console.log("Logging out...");
     localStorage.removeItem("user");
     navigate("/login", { replace: true });
-    window.location.reload();
   };
   
   return (
