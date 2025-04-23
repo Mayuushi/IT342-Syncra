@@ -17,6 +17,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
+        registry
+                .addEndpoint("/ws")
+                .setAllowedOriginPatterns("*") // For development. For production, use your domain.
+                .setAllowedOrigins("https://it342-syncra-web.onrender.com") // Recommended for production
+                .withSockJS();
     }
 }
