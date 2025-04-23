@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Setter
 @Getter
-@Document(collection = "chat_messages") // MongoDB collection name
+@Document(collection = "messages") // MongoDB collection name
 public class ChatMessage {
     // Getters and Setters
     @Id
