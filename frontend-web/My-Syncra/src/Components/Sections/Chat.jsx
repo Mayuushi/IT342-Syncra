@@ -20,7 +20,7 @@ function Chat() {
       setUsername(user.username);
     }
 
-    const socket = new SockJS('https://your-render-backend.onrender.com/ws');
+    const socket = new SockJS('https://it342-syncra.onrender.com/ws');
     stompClient.current = new Client({
       webSocketFactory: () => socket,
       onConnect: () => {
