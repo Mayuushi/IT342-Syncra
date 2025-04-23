@@ -51,15 +51,17 @@
       const fetchUsers = async () => {
         try {
           const loggedInUser = authService.getCurrentUser();
-          const allUsers = await authService.getUsers();
+          const allUsers = await authService.getUsers(); // already returns users[]
     
           if (Array.isArray(allUsers)) {
+            console.log('Response:', response);
+            console.log('Users:', response.data.users);
             const filteredUsers = allUsers.filter(
-              (u) => u.email.trim() !== loggedInUser.email.trim() // trim to avoid extra spaces
+              (u) => u.email.trim() !== loggedInUser.email.trim()
             );
             setUsers(filteredUsers);
           } else {
-            console.error('Expected users array in API response:', allUsers);
+            console.error('Expected array of users:', allUsers);
           }
         } catch (error) {
           console.error('Failed to fetch users:', error);
@@ -69,9 +71,6 @@
       fetchUsers();
     }, []);
     
-    
-    
-
     const handleSend = () => {
       if (message.trim() && currentRecipient && stompClient.current.connected) {
         const payload = {
