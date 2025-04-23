@@ -5,6 +5,9 @@ import com.edu.cit.Syncra.Repository.ChatMessageRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 import java.util.List;
 
 @Service
@@ -16,7 +19,7 @@ public class ChatService {
     }
 
     public ChatMessage save(ChatMessage message) {
-        message.setTimestamp(Instant.now());
+        message.setTimestamp(LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault()));
         return repository.save(message);
     }
 
