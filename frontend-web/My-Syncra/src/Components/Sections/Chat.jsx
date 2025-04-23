@@ -51,24 +51,23 @@ function Chat() {
     const fetchUsers = async () => {
       try {
         const loggedInUser = authService.getCurrentUser();
-        const response = await axios.get('https://it342-syncra.onrender.com/api/users'); // fetch all users
-        console.log('Full response:', response); // log full response
-
-        // Ensure the users array is available in the correct structure
-        if (Array.isArray(response.data.users)) {
-          console.log('Users:', response.data.users); // log the array
-          const filteredUsers = response.data.users.filter(
+        const response = await axios.get('https://it342-syncra.onrender.com/api/users');
+        console.log('Full response:', response);
+    
+        // Check if response.data is the array of users
+        if (Array.isArray(response.data)) {
+          console.log('Users:', response.data);
+          const filteredUsers = response.data.filter(
             (u) => u.email.trim() !== loggedInUser.email.trim()
           );
           setUsers(filteredUsers);
         } else {
-          console.error('Expected users array in response:', response.data.users);
+          console.error('Expected users array in response:', response.data);
         }
       } catch (error) {
         console.error('Failed to fetch users:', error);
       }
     };
-
     fetchUsers();
   }, []);
 
