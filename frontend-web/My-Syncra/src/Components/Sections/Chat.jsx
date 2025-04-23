@@ -54,15 +54,14 @@ function Chat() {
         const response = await axios.get('https://it342-syncra.onrender.com/api/users');
         console.log('Full response:', response);
     
-        // Check if response.data is the array of users
-        if (Array.isArray(response.data)) {
-          console.log('Users:', response.data);
-          const filteredUsers = response.data.filter(
+        // Access the nested "users" array
+        if (response.data && Array.isArray(response.data.users)) {
+          const filteredUsers = response.data.users.filter(
             (u) => u.email.trim() !== loggedInUser.email.trim()
           );
           setUsers(filteredUsers);
         } else {
-          console.error('Expected users array in response:', response.data);
+          console.error('Users array not found:', response.data);
         }
       } catch (error) {
         console.error('Failed to fetch users:', error);
@@ -85,10 +84,10 @@ function Chat() {
   };
 
   const handleUserClick = async (user) => {
-    setCurrentRecipient(user.username);
+    setCurrentRecipient(user.email); // Use email instead of username
     try {
       const response = await axios.get(
-        `https://it342-syncra.onrender.com/api/chat/history/${username}/${user.username}`
+        `https://it342-syncra.onrender.com/api/chat/history/${username}/${user.email}`
       );
       setMessages(response.data.map((msg) => ({
         from: msg.sender === username ? 'me' : 'them',
@@ -104,15 +103,16 @@ function Chat() {
       <aside className="sidebar">
         <div className="sidebar-header">Messages</div>
         <div className="conversation-list">
-          {users.map((user) => (
-            <div
-              key={user.id}
-              className={`conversation${user.username === currentRecipient ? ' selected' : ''}`}
-              onClick={() => handleUserClick(user)}
-            >
-              <div className="name">{user.name}</div>
-            </div>
-          ))}
+        {users.map((user) => (
+  <div
+    key={user.id}
+    className={`conversation${user.email === currentRecipient ? ' selected' : ''}`}
+    onClick={() => handleUserClick(user)}
+  >
+    <div className="name">{user.name}</div>
+    <div className="email">{user.email}</div>
+  </div>
+))}
         </div>
       </aside>
       <main className="chat-main">
