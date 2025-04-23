@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-gi
-@CrossOrigin(origins = "https://it342-syncra-web.onrender.com")
 
+@CrossOrigin(origins = "https://it342-syncra-web.onrender.com")
 @Controller
 public class ChatController {
 
