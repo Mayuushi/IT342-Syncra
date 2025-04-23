@@ -1,26 +1,32 @@
 package com.edu.cit.Syncra.Controller;
 
 import com.edu.cit.Syncra.Entity.ChatMessage;
+import com.edu.cit.Syncra.Repository.MessageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 
-@RestController
+@Controller
 public class ChatController {
 
-    private final SimpMessagingTemplate messagingTemplate;
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
-    public ChatController(SimpMessagingTemplate messagingTemplate) {
-        this.messagingTemplate = messagingTemplate;
-    }
+    @Autowired
+    private MessageRepository messageRepository;
 
     @MessageMapping("/chat")
-    public void sendMessage(ChatMessage message) {
+    public void sendPrivateMessage(@Payload ChatMessage message) {
         message.setTimestamp(LocalDateTime.now());
+        messageRepository.save(message);
+
         messagingTemplate.convertAndSendToUser(
-            message.getRecipient(), "/queue/messages", message
+                message.getReceiverId(), "/queue/messages", message
         );
     }
 }
