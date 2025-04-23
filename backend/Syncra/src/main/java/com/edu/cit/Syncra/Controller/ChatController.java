@@ -27,12 +27,22 @@ public class ChatController {
     @MessageMapping("/chat")
     public void sendPrivateMessage(@Payload ChatMessage message) {
         message.setTimestamp(LocalDateTime.now());
+
+        // Save message to DB
         messageRepository.save(message);
 
-        messagingTemplate.convertAndSendToUser(
-                message.getReceiverEmail(), "/queue/messages", message
-        );
+        // Prevent sending to null user
+        if (message.getReceiverEmail() != null) {
+            messagingTemplate.convertAndSendToUser(
+                    message.getReceiverEmail(), "/queue/messages", message
+            );
+            System.out.println("Incoming message: " + message);
+        } else {
+            // Optionally log or throw a more descriptive error
+            System.err.println("Receiver email is null. Message not sent.");
+        }
     }
+
 
     @GetMapping("/api/chat/history/{senderEmail}/{receiverEmail}")
     @ResponseBody
