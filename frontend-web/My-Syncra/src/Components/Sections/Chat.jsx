@@ -79,9 +79,19 @@ function Chat() {
     }
   };
 
-  const handleUserClick = (user) => {
+  const handleUserClick = async (user) => {
     setCurrentRecipient(user.username);
-    setMessages([]);
+    try {
+      const response = await axios.get(
+        `https://it342-syncra.onrender.com/api/chat/history/${username}/${user.username}`
+      );
+      setMessages(response.data.map((msg) => ({
+        from: msg.sender === username ? 'me' : 'them',
+        text: msg.content,
+      })));
+    } catch (error) {
+      console.error('Failed to fetch chat history:', error);
+    }
   };
 
   return (
