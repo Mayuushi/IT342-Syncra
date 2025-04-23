@@ -3,8 +3,8 @@ import '../Chat.css';
 import { NavBar } from '../NavBar';
 import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
-import authService from '../Service/authService';
 import axios from 'axios';
+import authService from '../Service/authService';
 
 function Chat() {
   const [message, setMessage] = useState('');
