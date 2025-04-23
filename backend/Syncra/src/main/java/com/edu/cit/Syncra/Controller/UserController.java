@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.edu.cit.Syncra.Entity.User;
 import com.edu.cit.Syncra.Service.UserService;
 
-@CrossOrigin(origins = "https://it342-syncra-web.onrender.com")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
