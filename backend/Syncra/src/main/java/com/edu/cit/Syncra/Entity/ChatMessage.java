@@ -18,8 +18,8 @@ public class ChatMessage {
     @Id
     private String id;
 
-    private String senderId;
-    private String receiverId;
+    private String senderEmail;
+    private String receiverEmail;
     private String content;
     private LocalDateTime timestamp;
 }
