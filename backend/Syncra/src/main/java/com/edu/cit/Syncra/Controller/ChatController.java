@@ -27,7 +27,7 @@ public class ChatController {
 
     @MessageMapping("/chat.send")
     public void sendMessage(ChatMessage message) {
-        message.setTimestamp(LocalDateTime.now());
+        message.setTimestamp(LocalDateTime.now());  
         messagingTemplate.convertAndSendToUser(
                 message.getReceiverId(), "/queue/messages", message
         );

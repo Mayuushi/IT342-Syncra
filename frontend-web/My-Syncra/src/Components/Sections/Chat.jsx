@@ -3,13 +3,15 @@ import '../Chat.css';
 import { NavBar } from '../NavBar';
 import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
+import authService from '../Service/authService';
+import axios from 'axios';
 
 function Chat() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [currentRecipient, setCurrentRecipient] = useState(null);
-  const [username, setUsername] = useState(''); // You should load this from auth context or localStorage
-  const [conversations, setConversations] = useState([]);
+  const [username, setUsername] = useState('');
+  const [users, setUsers] = useState([]);
   const stompClient = useRef(null);
 
   useEffect(() => {
@@ -24,13 +26,9 @@ function Chat() {
       onConnect: () => {
         stompClient.current.subscribe(`/user/${user.username}/queue/messages`, message => {
           const msg = JSON.parse(message.body);
-          setMessages(prev => [...prev, { from: 'them', text: msg.content }]);
-
-          setConversations(prev => {
-            const exists = prev.find(c => c.user === msg.sender);
-            if (exists) return prev;
-            return [...prev, { id: Date.now(), name: msg.sender, user: msg.sender, preview: '', date: new Date().toLocaleDateString() }];
-          });
+          if (msg.sender === currentRecipient) {
+            setMessages(prev => [...prev, { from: 'them', text: msg.content }]);
+          }
         });
       },
       onStompError: (frame) => {
@@ -39,7 +37,26 @@ function Chat() {
     });
 
     stompClient.current.activate();
-    return () => stompClient.current.deactivate();
+    return () => {
+      if (stompClient.current && stompClient.current.active) {
+        stompClient.current.deactivate();
+      }
+    };
+  }, [currentRecipient]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get('https://it342-syncra.onrender.com/api/users');
+        const loggedInUser = authService.getCurrentUser();
+        const filteredUsers = response.data.filter(u => u.username !== loggedInUser.username);
+        setUsers(filteredUsers);
+      } catch (error) {
+        console.error('Failed to fetch users:', error);
+      }
+    };
+
+    fetchUsers();
   }, []);
 
   const handleSend = () => {
@@ -55,8 +72,8 @@ function Chat() {
     }
   };
 
-  const handleConversationClick = (recipient) => {
-    setCurrentRecipient(recipient);
+  const handleUserClick = (user) => {
+    setCurrentRecipient(user.username);
     setMessages([]);
   };
 
@@ -68,18 +85,17 @@ function Chat() {
           <div className="sidebar-header"><span>Messages</span></div>
           <input className="search-input" placeholder="Search messages" />
           <div className="conversation-list">
-            {conversations.map(conv => (
+            {users.map(user => (
               <div
-                key={conv.id}
-                className={`conversation${conv.user === currentRecipient ? ' selected' : ''}`}
-                onClick={() => handleConversationClick(conv.user)}
+                key={user.id}
+                className={`conversation${user.username === currentRecipient ? ' selected' : ''}`}
+                onClick={() => handleUserClick(user)}
               >
                 <div className="avatar"></div>
                 <div>
-                  <div className="name">{conv.name}</div>
-                  <div className="preview">{conv.preview}</div>
+                  <div className="name">{user.name}</div>
+                  <div className="preview">Click to chat</div>
                 </div>
-                <div className="date">{conv.date}</div>
               </div>
             ))}
           </div>
