@@ -53,7 +53,10 @@ function Chat() {
         const response = await axios.get('https://it342-syncra.onrender.com/api/users');
         const loggedInUser = authService.getCurrentUser();
         if (Array.isArray(response.data)) {
-          const filteredUsers = response.data.filter((u) => u.username !== loggedInUser.username);
+          const filteredUsers = response.data.filter((u) => u.email !== loggedInUser.email);
+          setUsers(filteredUsers);
+        } else if (Array.isArray(response.data.users)) {
+          const filteredUsers = response.data.users.filter((u) => u.email !== loggedInUser.email);
           setUsers(filteredUsers);
         } else {
           console.error('Unexpected API response format:', response.data);
