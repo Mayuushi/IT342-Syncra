@@ -51,9 +51,12 @@ function Chat() {
     const fetchUsers = async () => {
       try {
         const response = await axios.get('https://it342-syncra.onrender.com/api/users');
+        console.log('API response:', response.data); // 👈 log this
+  
         const loggedInUser = authService.getCurrentUser();
+  
         if (Array.isArray(response.data)) {
-          const filteredUsers = response.data.filter((u) => u.email !== loggedInUser.email);
+          const filteredUsers = response.data.filter((u) => u.email !== loggedInUser.email); // use email instead of username
           setUsers(filteredUsers);
         } else if (Array.isArray(response.data.users)) {
           const filteredUsers = response.data.users.filter((u) => u.email !== loggedInUser.email);
@@ -65,9 +68,10 @@ function Chat() {
         console.error('Failed to fetch users:', error);
       }
     };
-
+  
     fetchUsers();
   }, []);
+  
 
   const handleSend = () => {
     if (message.trim() && currentRecipient && stompClient.current.connected) {
