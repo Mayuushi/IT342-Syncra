@@ -48,14 +48,19 @@ function Chat() {
     const fetchUsers = async () => {
       try {
         const response = await axios.get('https://it342-syncra.onrender.com/api/users');
+        console.log('API Response:', response.data); // Debugging line
         const loggedInUser = authService.getCurrentUser();
-        const filteredUsers = response.data.filter(u => u.username !== loggedInUser.username);
-        setUsers(filteredUsers);
+        if (Array.isArray(response.data)) {
+          const filteredUsers = response.data.filter(u => u.username !== loggedInUser.username);
+          setUsers(filteredUsers);
+        } else {
+          console.error('Unexpected API response format:', response.data);
+        }
       } catch (error) {
         console.error('Failed to fetch users:', error);
       }
     };
-
+  
     fetchUsers();
   }, []);
 
