@@ -9,26 +9,32 @@ function Chat() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [currentRecipient, setCurrentRecipient] = useState(null);
-  const [username, setUsername] = useState('');
+  const [currentUser, setCurrentUser] = useState(null);
   const [users, setUsers] = useState([]);
   const stompClient = useRef(null);
 
   useEffect(() => {
     const user = authService.getCurrentUser();
-    if (user && user.username) {
-      setUsername(user.username);
-
+    if (user?.email) {
+      setCurrentUser(user);
+      
       const socket = new SockJS('https://it342-syncra.onrender.com/ws');
       stompClient.current = new Client({
         webSocketFactory: () => socket,
         onConnect: () => {
           console.log('WebSocket connected');
-          stompClient.current.subscribe(`/user/${user.username}/queue/messages`, (message) => {
-            const msg = JSON.parse(message.body);
-            if (msg.sender === currentRecipient) {
-              setMessages((prev) => [...prev, { from: 'them', text: msg.content }]);
+          stompClient.current.subscribe(
+            `/user/${user.email}/queue/messages`, 
+            (message) => {
+              const msg = JSON.parse(message.body);
+              if (msg.sender === currentRecipient) {
+                setMessages(prev => [...prev, { 
+                  from: 'them', 
+                  text: msg.content 
+                }]);
+              }
             }
-          });
+          );
         },
         onStompError: (frame) => {
           console.error('STOMP error', frame);
@@ -37,64 +43,67 @@ function Chat() {
 
       stompClient.current.activate();
     } else {
-      console.error('User is not logged in or username is missing.');
+      console.error('User not authenticated');
     }
 
     return () => {
-      if (stompClient.current && stompClient.current.active) {
-        stompClient.current.deactivate();
-      }
+      stompClient.current?.deactivate();
     };
   }, [currentRecipient]);
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const loadUsers = async () => {
       try {
-        const loggedInUser = authService.getCurrentUser();
-        const response = await axios.get('https://it342-syncra.onrender.com/api/users');
-        console.log('Full response:', response);
-    
-        // Access the nested "users" array
-        if (response.data && Array.isArray(response.data.users)) {
-          const filteredUsers = response.data.users.filter(
-            (u) => u.email.trim() !== loggedInUser.email.trim()
-          );
-          setUsers(filteredUsers);
-        } else {
-          console.error('Users array not found:', response.data);
-        }
+        const users = await authService.getUsers();
+        const filtered = users.filter(u => 
+          u.email.trim() !== currentUser?.email.trim()
+        );
+        setUsers(filtered);
       } catch (error) {
-        console.error('Failed to fetch users:', error);
+        console.error('Error loading users:', error);
       }
     };
-    fetchUsers();
-  }, []);
+
+    if (currentUser?.email) {
+      loadUsers();
+    }
+  }, [currentUser]);
 
   const handleSend = () => {
-    if (message.trim() && currentRecipient && stompClient.current.connected) {
+    if (message.trim() && currentRecipient && stompClient.current?.connected) {
       const payload = {
-        sender: username,
+        sender: currentUser.email,
         recipient: currentRecipient,
-        content: message,
+        content: message
       };
-      stompClient.current.publish({ destination: '/app/chat', body: JSON.stringify(payload) });
-      setMessages((prev) => [...prev, { from: 'me', text: message }]);
+      
+      stompClient.current.publish({
+        destination: '/app/chat',
+        body: JSON.stringify(payload)
+      });
+      
+      setMessages(prev => [...prev, { 
+        from: 'me', 
+        text: message 
+      }]);
       setMessage('');
     }
   };
 
   const handleUserClick = async (user) => {
-    setCurrentRecipient(user.email); // Use email instead of username
+    setCurrentRecipient(user.email);
+    
     try {
-      const response = await axios.get(
-        `https://it342-syncra.onrender.com/api/chat/history/${username}/${user.email}`
+      const history = await axios.get(
+        `https://it342-syncra.onrender.com/api/chat/history/${currentUser.email}/${user.email}`
       );
-      setMessages(response.data.map((msg) => ({
-        from: msg.sender === username ? 'me' : 'them',
-        text: msg.content,
+      
+      setMessages(history.data.map(msg => ({
+        from: msg.sender === currentUser.email ? 'me' : 'them',
+        text: msg.content
       })));
     } catch (error) {
-      console.error('Failed to fetch chat history:', error);
+      console.error('Error loading history:', error);
     }
   };
 
@@ -103,29 +112,35 @@ function Chat() {
       <aside className="sidebar">
         <div className="sidebar-header">Messages</div>
         <div className="conversation-list">
-        {users.map((user) => (
-  <div
-    key={user.id}
-    className={`conversation${user.email === currentRecipient ? ' selected' : ''}`}
-    onClick={() => handleUserClick(user)}
-  >
-    <div className="name">{user.name}</div>
-    <div className="email">{user.email}</div>
-  </div>
-))}
+          {users.map(user => (
+            <div
+              key={user.id}
+              className={`conversation${user.email === currentRecipient ? ' selected' : ''}`}
+              onClick={() => handleUserClick(user)}
+            >
+              <div className="name">{user.name}</div>
+              <div className="email">{user.email}</div>
+            </div>
+          ))}
         </div>
       </aside>
+
       <main className="chat-main">
         <header className="chat-header">
-          <div>{currentRecipient || 'Select a conversation'}</div>
+          {currentRecipient || 'Select a conversation'}
         </header>
+        
         <section className="chat-messages">
           {messages.map((msg, idx) => (
-            <div key={idx} className={`chat-bubble ${msg.from === 'me' ? 'sent' : 'received'}`}>
+            <div
+              key={idx}
+              className={`chat-bubble ${msg.from === 'me' ? 'sent' : 'received'}`}
+            >
               {msg.text}
             </div>
           ))}
         </section>
+
         {currentRecipient && (
           <footer className="chat-input-area">
             <input
@@ -133,9 +148,7 @@ function Chat() {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Type a message"
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleSend();
-              }}
+              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
             />
             <button onClick={handleSend}>Send</button>
           </footer>
