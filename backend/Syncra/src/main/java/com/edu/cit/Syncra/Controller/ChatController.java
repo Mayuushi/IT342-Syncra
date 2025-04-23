@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @CrossOrigin(origins = "https://it342-syncra-web.onrender.com")
@@ -24,10 +25,12 @@ public class ChatController {
         this.chatService = chatService;
     }
 
-    @MessageMapping("/chat")
-    public void sendMessage(@Payload ChatMessage message) {
-        ChatMessage saved = chatService.save(message);
-        messagingTemplate.convertAndSend("/topic/messages/" + saved.getReceiverId(), saved);
+    @MessageMapping("/chat.send")
+    public void sendMessage(ChatMessage message) {
+        message.setTimestamp(LocalDateTime.now());
+        messagingTemplate.convertAndSendToUser(
+                message.getReceiverId(), "/queue/messages", message
+        );
     }
 
     @GetMapping("/chat/{user1}/{user2}")
