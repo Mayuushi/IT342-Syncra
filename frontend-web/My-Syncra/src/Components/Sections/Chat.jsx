@@ -92,7 +92,7 @@ function Chat() {
         }
       };
     }
-  }, []); // Remove currentRecipient from dependency array
+  }, [currentRecipient]); // Remove currentRecipient from dependency array
 
   const loadUsers = async () => {
     try {
