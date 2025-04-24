@@ -72,10 +72,10 @@ function Chat() {
   const handleSend = () => {
     if (message.trim() && currentRecipient && stompClient.current?.connected) {
       const payload = {
-        sender: currentUser.email,
-        recipient: currentRecipient,
+        senderEmail: currentUser.email,
+        receiverEmail: currentRecipient,
         content: message
-      };
+      };      
       
       stompClient.current.publish({
         destination: '/app/chat',
