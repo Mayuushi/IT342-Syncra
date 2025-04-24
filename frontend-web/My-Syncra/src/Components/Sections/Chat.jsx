@@ -29,14 +29,15 @@ function Chat() {
       console.log('Setting up WebSocket for user:', user.email);
       setCurrentUser(user);
 
-      const socket = new SockJS('https://it342-syncra.onrender.com/ws');
+      // Include email in the query params for authentication
+      const socket = new SockJS(`https://it342-syncra.onrender.com/ws?email=${encodeURIComponent(user.email)}`);
       
       stompClient.current = new Client({
         webSocketFactory: () => socket,
         debug: function(str) {
           console.log('STOMP Debug:', str);
         },
-        reconnectDelay: 5000, // Try reconnecting every 5 seconds
+        reconnectDelay: 5000,
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
         onConnect: () => {
@@ -53,7 +54,7 @@ function Chat() {
                 console.log('Parsed message:', msg);
                 console.log('Current recipient ref:', currentRecipientRef.current);
                 
-                // If this message is from the current conversation, add it directly
+                // Always add to messages or unread based on current recipient
                 if (msg.senderEmail === currentRecipientRef.current) {
                   console.log('Message is from current recipient, adding to conversation');
                   setMessages(prev => {
@@ -66,7 +67,6 @@ function Chat() {
                   });
                 } else {
                   console.log('Message is from someone else, marking as unread');
-                  // Otherwise mark it as unread
                   setUnreadMessages(prev => {
                     const updated = {
                       ...prev,
@@ -79,8 +79,7 @@ function Chat() {
               } catch (error) {
                 console.error('Error parsing message:', error);
               }
-            },
-            { id: `sub-user-${user.email}` }
+            }
           );
           
           console.log('Subscription active:', subscription.id);
@@ -95,7 +94,7 @@ function Chat() {
         },
         onWebSocketClose: (event) => {
           console.log('WebSocket closed', event);
-          setConnectionStatus('Closed: ' + event.reason);
+          setConnectionStatus('Closed: ' + (event.reason || 'Unknown reason'));
         },
         onWebSocketError: (event) => {
           console.error('WebSocket error', event);
@@ -153,7 +152,10 @@ function Chat() {
 
       stompClient.current.publish({
         destination: '/app/chat',
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        headers: {
+          'sender-email': currentUser.email
+        }
       });
 
       console.log('Message published to STOMP');
@@ -237,21 +239,25 @@ function Chat() {
           </div>
         </div>
         <div className="conversation-list">
-          {users.map(user => (
-            <div
-              key={user.id}
-              className={`conversation${user.email === currentRecipient ? ' selected' : ''}`}
-              onClick={() => handleUserClick(user)}
-            >
-              <div className="name">
-                {user.name}
-                {unreadMessages[user.email] > 0 && 
-                  <span className="unread-count">{unreadMessages[user.email]}</span>
-                }
+          {users.length > 0 ? (
+            users.map(user => (
+              <div
+                key={user.id}
+                className={`conversation${user.email === currentRecipient ? ' selected' : ''}`}
+                onClick={() => handleUserClick(user)}
+              >
+                <div className="name">
+                  {user.name}
+                  {unreadMessages[user.email] > 0 && 
+                    <span className="unread-count">{unreadMessages[user.email]}</span>
+                  }
+                </div>
+                <div className="email">{user.email}</div>
               </div>
-              <div className="email">{user.email}</div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <div className="no-users">No users available</div>
+          )}
         </div>
       </aside>
 
@@ -261,14 +267,18 @@ function Chat() {
         </header>
 
         <section className="chat-messages">
-          {messages.map((msg, idx) => (
-            <div
-              key={idx}
-              className={`chat-bubble ${msg.from === 'me' ? 'sent' : 'received'}`}
-            >
-              {msg.text}
-            </div>
-          ))}
+          {messages.length > 0 ? (
+            messages.map((msg, idx) => (
+              <div
+                key={idx}
+                className={`chat-bubble ${msg.from === 'me' ? 'sent' : 'received'}`}
+              >
+                {msg.text}
+              </div>
+            ))
+          ) : (
+            currentRecipient && <div className="no-messages">No messages yet. Start a conversation!</div>
+          )}
           <div ref={messagesEndRef} />
         </section>
 
@@ -281,7 +291,9 @@ function Chat() {
               placeholder="Type a message"
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
             />
-            <button onClick={handleSend}>Send</button>
+            <button onClick={handleSend} disabled={!stompClient.current?.connected}>
+              {stompClient.current?.connected ? 'Send' : 'Connecting...'}
+            </button>
           </footer>
         )}
       </main>
