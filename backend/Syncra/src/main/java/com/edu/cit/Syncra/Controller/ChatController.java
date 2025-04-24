@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.security.Principal;
+import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 
 @CrossOrigin(origins = "https://it342-syncra-web.onrender.com")
 @Controller
@@ -23,31 +26,49 @@ public class ChatController {
     private MessageRepository messageRepository;
 
     @MessageMapping("/chat")
-    public void sendPrivateMessage(@Payload ChatMessage message) {
+    public void sendPrivateMessage(@Payload ChatMessage message, Principal principal) {
         message.setTimestamp(LocalDateTime.now());
 
+        // Print debug info
+        System.out.println("Processing message from: " + message.getSenderEmail());
+        System.out.println("To: " + message.getReceiverEmail());
+        System.out.println("Content: " + message.getContent());
+        System.out.println("Principal: " + (principal != null ? principal.getName() : "null"));
+
         // Save message to DB
-        messageRepository.save(message);
+        ChatMessage savedMessage = messageRepository.save(message);
+        System.out.println("Message saved with ID: " + savedMessage.getId());
 
         // Prevent sending to null user
         if (message.getReceiverEmail() != null) {
-            messagingTemplate.convertAndSendToUser(
-                    message.getReceiverEmail(), "/queue/messages", message
-            );
-            System.out.println("Incoming message: " + message);
+            try {
+                // Send message to recipient
+                messagingTemplate.convertAndSendToUser(
+                        message.getReceiverEmail(),
+                        "/queue/messages",
+                        message
+                );
+                System.out.println("Message sent to user: " + message.getReceiverEmail());
+            } catch (Exception e) {
+                System.err.println("Error sending message: " + e.getMessage());
+                e.printStackTrace();
+            }
         } else {
-            // Optionally log or throw a more descriptive error
             System.err.println("Receiver email is null. Message not sent.");
         }
     }
 
-
     @GetMapping("/api/chat/history/{senderEmail}/{receiverEmail}")
     @ResponseBody
-    public List<ChatMessage> getChatHistory(@PathVariable String senderEmail, @PathVariable String receiverEmail) {
-        return messageRepository.findBySenderEmailAndReceiverEmailOrReceiverEmailAndSenderEmail(
+    public List<ChatMessage> getChatHistory(
+            @PathVariable String senderEmail,
+            @PathVariable String receiverEmail
+    ) {
+        System.out.println("Getting chat history between " + senderEmail + " and " + receiverEmail);
+        List<ChatMessage> messages = messageRepository.findBySenderEmailAndReceiverEmailOrReceiverEmailAndSenderEmail(
                 senderEmail, receiverEmail, senderEmail, receiverEmail
         );
+        System.out.println("Found " + messages.size() + " messages");
+        return messages;
     }
 }
-
