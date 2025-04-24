@@ -51,16 +51,14 @@ function Chat() {
                 const msg = JSON.parse(messageOutput.body);
                 console.log('Parsed message:', msg);
                 
-                // Add message to state if it's from current conversation or update unread count
-                if (msg.senderEmail === currentRecipient || msg.senderEmail === user.email) {
+                // Always update messages if from current conversation
+                if (msg.senderEmail === currentRecipient || msg.receiverEmail === currentRecipient) {
                   setMessages(prev => [...prev, {
                     from: msg.senderEmail === user.email ? 'me' : 'them',
                     text: msg.content
                   }]);
-                }
-
-                // Update unread count if message is from someone else
-                if (msg.senderEmail !== currentRecipient && msg.senderEmail !== user.email) {
+                } else {
+                  // Update unread count for messages from other users
                   setUnreadMessages(prev => ({
                     ...prev,
                     [msg.senderEmail]: (prev[msg.senderEmail] || 0) + 1
