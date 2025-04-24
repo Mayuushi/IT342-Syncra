@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.List;
 import java.security.Principal;
 
@@ -25,40 +24,30 @@ public class ChatController {
     private MessageRepository messageRepository;
 
     @MessageMapping("/chat")
-    public void sendPrivateMessage(@Payload ChatMessage message, Principal principal) {
-        message.setTimestamp(LocalDateTime.now());
-
-        // Print debug info
-        System.out.println("Processing message from: " + message.getSenderEmail());
-        System.out.println("To: " + message.getReceiverEmail());
-        System.out.println("Content: " + message.getContent());
-        System.out.println("Principal: " + (principal != null ? principal.getName() : "null"));
-
-        // Validate sender and receiver
-        if (message.getSenderEmail() == null || message.getReceiverEmail() == null) {
-            System.err.println("Error: Sender or receiver email is null");
-            return;
+    public void sendPrivateMessage(@Payload ChatMessage message) {
+        // Set timestamp if not already set
+        if (message.getTimestamp() == null) {
+            message.setTimestamp(LocalDateTime.now());
         }
 
+        // Debug info
+        System.out.println("Received message from: " + message.getSenderEmail());
+        System.out.println("Destination: " + message.getReceiverEmail());
+        System.out.println("Content: " + message.getContent());
+
         try {
-            // Save message to DB
+            // Save message to database
             ChatMessage savedMessage = messageRepository.save(message);
             System.out.println("Message saved with ID: " + savedMessage.getId());
 
-            // Send message to recipient
+            // Send to receiver - this is the critical part
+            System.out.println("Sending to user destination: /user/" + message.getReceiverEmail() + "/queue/messages");
             messagingTemplate.convertAndSendToUser(
                     message.getReceiverEmail(),
                     "/queue/messages",
                     savedMessage
             );
-            System.out.println("Message sent to user: " + message.getReceiverEmail());
-
-            // Also send confirmation back to sender
-            messagingTemplate.convertAndSendToUser(
-                    message.getSenderEmail(),
-                    "/queue/confirmations",
-                    savedMessage.getId()
-            );
+            System.out.println("Message sent to recipient queue");
 
         } catch (Exception e) {
             System.err.println("Error processing message: " + e.getMessage());
@@ -73,21 +62,8 @@ public class ChatController {
             @PathVariable String receiverEmail
     ) {
         System.out.println("Getting chat history between " + senderEmail + " and " + receiverEmail);
-
-        try {
-            List<ChatMessage> messages = messageRepository.findBySenderEmailAndReceiverEmailOrReceiverEmailAndSenderEmail(
-                    senderEmail, receiverEmail, senderEmail, receiverEmail
-            );
-
-            // Sort messages by timestamp
-            messages.sort(Comparator.comparing(ChatMessage::getTimestamp));
-
-            System.out.println("Found " + messages.size() + " messages");
-            return messages;
-        } catch (Exception e) {
-            System.err.println("Error retrieving chat history: " + e.getMessage());
-            e.printStackTrace();
-            return List.of(); // Return empty list on error
-        }
+        return messageRepository.findBySenderEmailAndReceiverEmailOrReceiverEmailAndSenderEmail(
+                senderEmail, receiverEmail, senderEmail, receiverEmail
+        );
     }
 }
