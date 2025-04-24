@@ -3,6 +3,7 @@ package com.edu.cit.Syncra.Config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.socket.config.annotation.*;
 import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
 
@@ -16,11 +17,20 @@ import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
+    @Bean
+    public ThreadPoolTaskScheduler messageBrokerTaskScheduler() {
+        ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
+        scheduler.setPoolSize(1);
+        scheduler.setThreadNamePrefix("ws-heartbeat-thread-");
+        scheduler.initialize();
+        return scheduler;
+    }
+
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        // Configure message broker with increased buffer sizes
+        // Configure message broker with heartbeat
         config.enableSimpleBroker("/topic", "/queue")
-                .setTaskScheduler(new org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler())
+                .setTaskScheduler(messageBrokerTaskScheduler())
                 .setHeartbeatValue(new long[] {10000, 10000});
 
         config.setApplicationDestinationPrefixes("/app");
@@ -32,9 +42,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/ws")
                 .setAllowedOrigins("https://it342-syncra-web.onrender.com")
                 .setHandshakeHandler(new CustomHandshakeHandler())
-                .withSockJS()
-                .setDisconnectDelay(30 * 1000)
-                .setClientLibraryUrl("https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js");
+                .withSockJS();
     }
 
     @Bean
@@ -42,7 +50,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
         container.setMaxTextMessageBufferSize(8192);
         container.setMaxBinaryMessageBufferSize(8192);
-        container.setAsyncSendTimeout(30000L);
         return container;
     }
 
@@ -56,9 +63,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 final String userEmail = extractEmail(query);
 
                 if (userEmail != null && !userEmail.isEmpty()) {
-                    // Log successful principal creation
-                    System.out.println("Creating WebSocket principal for user: " + userEmail);
-
                     // Return custom principal with the email
                     return new Principal() {
                         @Override
@@ -69,7 +73,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 }
             }
 
-            System.out.println("Warning: Could not determine user from request: " + request.getURI());
             return super.determineUser(request, wsHandler, attributes);
         }
 
