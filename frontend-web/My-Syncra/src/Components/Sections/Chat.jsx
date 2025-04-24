@@ -27,7 +27,7 @@ function Chat() {
             `/user/${user.email}/queue/messages`, 
             (message) => {
               const msg = JSON.parse(message.body);
-              if (msg.sender === currentRecipient) {
+              if (msg.senderEmail === currentRecipient) {
                 setMessages(prev => [...prev, { 
                   from: 'them', 
                   text: msg.content 
