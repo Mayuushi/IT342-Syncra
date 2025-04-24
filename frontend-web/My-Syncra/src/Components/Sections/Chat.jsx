@@ -15,53 +15,12 @@ function Chat() {
   const [connectionStatus, setConnectionStatus] = useState('Disconnected');
   const stompClient = useRef(null);
   const messagesEndRef = useRef(null);
-  const pollingInterval = useRef(null);
+  const pollingIntervalRef = useRef(null);
 
   // Scroll to bottom when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
-
-  // Function to fetch messages
-  const fetchMessages = async () => {
-    if (currentUser?.email && currentRecipient) {
-      try {
-        const url = `https://it342-syncra.onrender.com/api/chat/history/${currentUser.email}/${currentRecipient}`;
-        const response = await axios.get(url);
-        
-        const formattedMessages = response.data.map(msg => ({
-          from: msg.senderEmail === currentUser.email ? 'me' : 'them',
-          text: msg.content
-        }));
-        
-        setMessages(formattedMessages);
-      } catch (error) {
-        console.error('Error fetching messages:', error);
-      }
-    }
-  };
-
-  // Setup message polling
-  useEffect(() => {
-    if (currentUser?.email && currentRecipient) {
-      // Clear any existing interval
-      if (pollingInterval.current) {
-        clearInterval(pollingInterval.current);
-      }
-
-      // Start new polling
-      pollingInterval.current = setInterval(fetchMessages, 2000);
-
-      // Initial fetch
-      fetchMessages();
-    }
-
-    return () => {
-      if (pollingInterval.current) {
-        clearInterval(pollingInterval.current);
-      }
-    };
-  }, [currentRecipient, currentUser]);
 
   // WebSocket connection setup
   useEffect(() => {
@@ -89,7 +48,26 @@ function Chat() {
             `/user/${user.email}/queue/messages`,
             (messageOutput) => {
               console.log('Received message via WebSocket:', messageOutput.body);
-              fetchMessages(); // Fetch messages when receiving WebSocket notification
+              try {
+                const msg = JSON.parse(messageOutput.body);
+                console.log('Parsed message:', msg);
+                
+                // Always update messages if from current conversation
+                if (msg.senderEmail === currentRecipient || msg.receiverEmail === currentRecipient) {
+                  setMessages(prev => [...prev, {
+                    from: msg.senderEmail === user.email ? 'me' : 'them',
+                    text: msg.content
+                  }]);
+                } else {
+                  // Update unread count for messages from other users
+                  setUnreadMessages(prev => ({
+                    ...prev,
+                    [msg.senderEmail]: (prev[msg.senderEmail] || 0) + 1
+                  }));
+                }
+              } catch (error) {
+                console.error('Error parsing message:', error);
+              }
             }
           );
           
@@ -113,9 +91,61 @@ function Chat() {
         if (stompClient.current?.connected) {
           stompClient.current.deactivate();
         }
+        // Clear polling interval on unmount
+        if (pollingIntervalRef.current) {
+          clearInterval(pollingIntervalRef.current);
+        }
       };
     }
-  }, []); // Remove currentRecipient dependency
+  }, []); // Remove dependency to avoid recreating connection
+
+  // Setup polling for messages
+  useEffect(() => {
+    // Clear previous interval if exists
+    if (pollingIntervalRef.current) {
+      clearInterval(pollingIntervalRef.current);
+    }
+    
+    // Only start polling if we have a current user and recipient
+    if (currentUser?.email && currentRecipient) {
+      console.log('Setting up polling for new messages');
+      
+      // Function to fetch latest messages
+      const fetchLatestMessages = async () => {
+        try {
+          const url = `https://it342-syncra.onrender.com/api/chat/history/${currentUser.email}/${currentRecipient}`;
+          const response = await axios.get(url);
+          
+          // Compare with current messages to avoid unnecessary updates
+          const formattedMessages = response.data.map(msg => ({
+            id: msg.id, // Assuming messages have unique IDs
+            from: msg.senderEmail === currentUser.email ? 'me' : 'them',
+            text: msg.content
+          }));
+          
+          // Only update if there are new messages
+          if (formattedMessages.length > messages.length) {
+            console.log('New messages detected, updating...');
+            setMessages(formattedMessages);
+          }
+        } catch (error) {
+          console.error('Error polling messages:', error);
+        }
+      };
+      
+      // Initial fetch
+      fetchLatestMessages();
+      
+      // Set up interval (every 2 seconds)
+      pollingIntervalRef.current = setInterval(fetchLatestMessages, 2000);
+    }
+    
+    return () => {
+      if (pollingIntervalRef.current) {
+        clearInterval(pollingIntervalRef.current);
+      }
+    };
+  }, [currentUser, currentRecipient]);
 
   const loadUsers = async () => {
     try {
@@ -132,12 +162,20 @@ function Chat() {
   useEffect(() => {
     if (currentUser?.email) {
       loadUsers();
+      
+      // Set up polling for users list as well (less frequent)
+      const userPollingInterval = setInterval(loadUsers, 10000); // Every 10 seconds
+      
+      return () => clearInterval(userPollingInterval);
     }
   }, [currentUser]);
 
-  const handleSend = async () => {
+  const handleSend = () => {
     if (message.trim() && currentRecipient && stompClient.current?.connected) {
       console.log('Sending message to:', currentRecipient);
+      
+      // Add to UI immediately
+      setMessages(prev => [...prev, { from: 'me', text: message }]);
       
       const payload = {
         senderEmail: currentUser.email,
@@ -154,18 +192,38 @@ function Chat() {
 
       console.log('Message published to STOMP');
       setMessage('');
+    } else if (message.trim() && currentRecipient) {
+      // Fallback to HTTP if WebSocket is not connected
+      console.log('WebSocket not connected, sending via HTTP fallback');
       
-      // Fetch messages after sending
-      await fetchMessages();
+      // Add to UI immediately
+      setMessages(prev => [...prev, { from: 'me', text: message }]);
+      
+      const payload = {
+        senderEmail: currentUser.email,
+        receiverEmail: currentRecipient,
+        content: message
+      };
+
+      // Send message via HTTP endpoint
+      axios.post('https://it342-syncra.onrender.com/api/chat/send', payload)
+        .then(response => {
+          console.log('Message sent via HTTP:', response.data);
+        })
+        .catch(error => {
+          console.error('Error sending message via HTTP:', error);
+        });
+      
+      setMessage('');
     } else {
       console.warn('Cannot send message:', {
         messageEmpty: !message.trim(),
-        noRecipient: !currentRecipient,
-        notConnected: !stompClient.current?.connected
+        noRecipient: !currentRecipient
       });
     }
   };
 
+  // Handle user click and load chat history
   const handleUserClick = async (user) => {
     console.log('User clicked:', user.name, user.email);
     setCurrentRecipient(user.email);
@@ -176,8 +234,20 @@ function Chat() {
       [user.email]: 0
     }));
 
-    // Initial fetch of messages
-    await fetchMessages();
+    try {
+      console.log('Loading chat history...');
+      const url = `https://it342-syncra.onrender.com/api/chat/history/${currentUser.email}/${user.email}`;
+      const response = await axios.get(url);
+      
+      const formattedMessages = response.data.map(msg => ({
+        from: msg.senderEmail === currentUser.email ? 'me' : 'them',
+        text: msg.content
+      }));
+      
+      setMessages(formattedMessages);
+    } catch (error) {
+      console.error('Error loading history:', error);
+    }
   };
 
   const reconnectWebSocket = () => {
@@ -188,6 +258,7 @@ function Chat() {
       stompClient.current.deactivate();
       
       setTimeout(() => {
+        // Create a new socket connection
         const socket = new SockJS(`https://it342-syncra.onrender.com/ws?email=${encodeURIComponent(currentUser.email)}&t=${new Date().getTime()}`);
         stompClient.current.webSocketFactory = () => socket;
         stompClient.current.activate();
@@ -266,8 +337,8 @@ function Chat() {
               placeholder="Type a message"
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
             />
-            <button onClick={handleSend} disabled={!stompClient.current?.connected}>
-              {stompClient.current?.connected ? 'Send' : 'Connecting...'}
+            <button onClick={handleSend}>
+              {stompClient.current?.connected ? 'Send' : 'Send (HTTP)'}
             </button>
           </footer>
         )}
