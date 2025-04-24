@@ -28,7 +28,6 @@ function Chat() {
       console.log('Setting up WebSocket for user:', user.email);
       setCurrentUser(user);
 
-      // Include email in the query params for authentication
       const socket = new SockJS(`https://it342-syncra.onrender.com/ws?email=${encodeURIComponent(user.email)}`);
       
       stompClient.current = new Client({
@@ -52,26 +51,21 @@ function Chat() {
                 const msg = JSON.parse(messageOutput.body);
                 console.log('Parsed message:', msg);
                 
-                // Handle incoming message
-                setMessages(prev => {
-                  // Only update messages if we're in the correct conversation
-                  if (msg.senderEmail === currentRecipient) {
-                    return [...prev, { from: 'them', text: msg.content }];
-                  }
-                  return prev;
-                });
+                // Add message to state if it's from current conversation or update unread count
+                if (msg.senderEmail === currentRecipient || msg.senderEmail === user.email) {
+                  setMessages(prev => [...prev, {
+                    from: msg.senderEmail === user.email ? 'me' : 'them',
+                    text: msg.content
+                  }]);
+                }
 
-                // Update unread messages count if not from current conversation
-                setUnreadMessages(prev => {
-                  if (msg.senderEmail !== currentRecipient) {
-                    console.log('Incrementing unread count for:', msg.senderEmail);
-                    return {
-                      ...prev,
-                      [msg.senderEmail]: (prev[msg.senderEmail] || 0) + 1
-                    };
-                  }
-                  return prev;
-                });
+                // Update unread count if message is from someone else
+                if (msg.senderEmail !== currentRecipient && msg.senderEmail !== user.email) {
+                  setUnreadMessages(prev => ({
+                    ...prev,
+                    [msg.senderEmail]: (prev[msg.senderEmail] || 0) + 1
+                  }));
+                }
               } catch (error) {
                 console.error('Error parsing message:', error);
               }
@@ -100,7 +94,7 @@ function Chat() {
         }
       };
     }
-  }, [currentRecipient]); // Add currentRecipient to dependency array
+  }, []); // Remove currentRecipient from dependency array
 
   const loadUsers = async () => {
     try {
@@ -151,33 +145,27 @@ function Chat() {
     }
   };
 
+  // Handle user click and load chat history
   const handleUserClick = async (user) => {
     console.log('User clicked:', user.name, user.email);
     setCurrentRecipient(user.email);
     
     // Clear unread count for this user
-    if (unreadMessages[user.email]) {
-      console.log('Clearing unread count for:', user.email);
-      setUnreadMessages(prev => ({
-        ...prev,
-        [user.email]: 0
-      }));
-    }
+    setUnreadMessages(prev => ({
+      ...prev,
+      [user.email]: 0
+    }));
 
     try {
       console.log('Loading chat history...');
       const url = `https://it342-syncra.onrender.com/api/chat/history/${currentUser.email}/${user.email}`;
-      console.log('History URL:', url);
-      
       const response = await axios.get(url);
-      console.log('Chat history response:', response.data);
-
+      
       const formattedMessages = response.data.map(msg => ({
         from: msg.senderEmail === currentUser.email ? 'me' : 'them',
         text: msg.content
       }));
       
-      console.log('Formatted messages:', formattedMessages);
       setMessages(formattedMessages);
     } catch (error) {
       console.error('Error loading history:', error);
