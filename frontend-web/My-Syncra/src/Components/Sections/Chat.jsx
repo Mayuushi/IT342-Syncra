@@ -17,22 +17,20 @@ function Chat() {
     const user = authService.getCurrentUser();
     if (user?.email) {
       setCurrentUser(user);
-      
+  
       const socket = new SockJS('https://it342-syncra.onrender.com/ws');
       stompClient.current = new Client({
         webSocketFactory: () => socket,
         onConnect: () => {
           console.log('WebSocket connected');
           stompClient.current.subscribe(
-            `/user/${user.email}/queue/messages`, 
+            `/user/${user.email}/queue/messages`,
             (message) => {
               const msg = JSON.parse(message.body);
-              if (msg.senderEmail === currentRecipient) {
-                setMessages(prev => [...prev, { 
-                  from: 'them', 
-                  text: msg.content 
-                }]);
-              }
+              setMessages(prev => [...prev, {
+                from: msg.senderEmail === user.email ? 'me' : 'them',
+                text: msg.content
+              }]);
             }
           );
         },
@@ -40,16 +38,14 @@ function Chat() {
           console.error('STOMP error', frame);
         },
       });
-
+  
       stompClient.current.activate();
-    } else {
-      console.error('User not authenticated');
     }
-
+  
     return () => {
       stompClient.current?.deactivate();
     };
-  }, [currentRecipient]);
+  }, []);  
 
   useEffect(() => {
     const loadUsers = async () => {
