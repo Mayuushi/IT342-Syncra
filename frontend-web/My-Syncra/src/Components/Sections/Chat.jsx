@@ -11,6 +11,7 @@ function Chat() {
   const [currentRecipient, setCurrentRecipient] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [users, setUsers] = useState([]);
+  const [unreadMessages, setUnreadMessages] = useState({});
   const stompClient = useRef(null);
   const currentRecipientRef = useRef(null);
   const messagesEndRef = useRef(null);
@@ -34,11 +35,22 @@ function Chat() {
             `/user/${user.email}/queue/messages`,
             (message) => {
               const msg = JSON.parse(message.body);
+              
+              // If this message is from the current conversation, add it directly
               if (msg.senderEmail === currentRecipientRef.current) {
                 setMessages(prev => [...prev, {
                   from: 'them',
                   text: msg.content
                 }]);
+              } else {
+                // Otherwise mark it as unread
+                setUnreadMessages(prev => ({
+                  ...prev,
+                  [msg.senderEmail]: (prev[msg.senderEmail] || 0) + 1
+                }));
+                
+                // Also reload the user list to show unread indicators
+                loadUsers();
               }
             }
           );
@@ -56,21 +68,22 @@ function Chat() {
     };
   }, []);
 
+  // Keep the ref updated with the latest value
   useEffect(() => {
     currentRecipientRef.current = currentRecipient;
   }, [currentRecipient]);
 
-  useEffect(() => {
-    const loadUsers = async () => {
-      try {
-        const users = await authService.getUsers();
-        const filtered = users.filter(u => u.email.trim() !== currentUser?.email.trim());
-        setUsers(filtered);
-      } catch (error) {
-        console.error('Error loading users:', error);
-      }
-    };
+  const loadUsers = async () => {
+    try {
+      const users = await authService.getUsers();
+      const filtered = users.filter(u => u.email.trim() !== currentUser?.email.trim());
+      setUsers(filtered);
+    } catch (error) {
+      console.error('Error loading users:', error);
+    }
+  };
 
+  useEffect(() => {
     if (currentUser?.email) {
       loadUsers();
     }
@@ -101,6 +114,14 @@ function Chat() {
     setCurrentRecipient(user.email);
     currentRecipientRef.current = user.email;
 
+    // Clear unread count for this user
+    if (unreadMessages[user.email]) {
+      setUnreadMessages(prev => ({
+        ...prev,
+        [user.email]: 0
+      }));
+    }
+
     try {
       const history = await axios.get(
         `https://it342-syncra.onrender.com/api/chat/history/${currentUser.email}/${user.email}`
@@ -126,7 +147,12 @@ function Chat() {
               className={`conversation${user.email === currentRecipient ? ' selected' : ''}`}
               onClick={() => handleUserClick(user)}
             >
-              <div className="name">{user.name}</div>
+              <div className="name">
+                {user.name}
+                {unreadMessages[user.email] > 0 && 
+                  <span className="unread-count">{unreadMessages[user.email]}</span>
+                }
+              </div>
               <div className="email">{user.email}</div>
             </div>
           ))}
