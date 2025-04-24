@@ -52,30 +52,9 @@ function Chat() {
               try {
                 const msg = JSON.parse(messageOutput.body);
                 console.log('Parsed message:', msg);
-                console.log('Current recipient ref:', currentRecipientRef.current);
                 
-                // Always add to messages or unread based on current recipient
-                if (msg.senderEmail === currentRecipientRef.current) {
-                  console.log('Message is from current recipient, adding to conversation');
-                  setMessages(prev => {
-                    const newMessages = [...prev, {
-                      from: 'them',
-                      text: msg.content
-                    }];
-                    console.log('Updated messages:', newMessages);
-                    return newMessages;
-                  });
-                } else {
-                  console.log('Message is from someone else, marking as unread');
-                  setUnreadMessages(prev => {
-                    const updated = {
-                      ...prev,
-                      [msg.senderEmail]: (prev[msg.senderEmail] || 0) + 1
-                    };
-                    console.log('Updated unread counts:', updated);
-                    return updated;
-                  });
-                }
+                // Handle incoming message
+                handleIncomingMessage(msg);
               } catch (error) {
                 console.error('Error parsing message:', error);
               }
@@ -114,6 +93,24 @@ function Chat() {
     }
   }, []);
 
+  // Handle incoming messages
+  const handleIncomingMessage = (msg) => {
+    console.log('Handling incoming message from:', msg.senderEmail);
+    console.log('Current recipient ref:', currentRecipientRef.current);
+    
+    // Always add to messages if it matches current conversation
+    if (msg.senderEmail === currentRecipientRef.current) {
+      console.log('Message is from current recipient, adding to conversation');
+      setMessages(prev => [...prev, { from: 'them', text: msg.content }]);
+    } else {
+      console.log('Message is from someone else, marking as unread');
+      setUnreadMessages(prev => ({
+        ...prev,
+        [msg.senderEmail]: (prev[msg.senderEmail] || 0) + 1
+      }));
+    }
+  };
+
   // Keep the ref updated with the latest value
   useEffect(() => {
     console.log('Current recipient changed to:', currentRecipient);
@@ -138,7 +135,7 @@ function Chat() {
     }
   }, [currentUser]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (message.trim() && currentRecipient && stompClient.current?.connected) {
       console.log('Sending message to:', currentRecipient);
       
@@ -150,32 +147,35 @@ function Chat() {
 
       console.log('Message payload:', payload);
 
-      stompClient.current.publish({
-        destination: '/app/chat',
-        body: JSON.stringify(payload),
-        headers: {
-          'sender-email': currentUser.email
-        }
-      });
+      try {
+        // Add immediate feedback for the sender
+        setMessages(prev => [...prev, { from: 'me', text: message }]);
+        
+        // Send the message
+        stompClient.current.publish({
+          destination: '/app/chat',
+          body: JSON.stringify(payload),
+          headers: { 'sender-email': currentUser.email }
+        });
 
-      console.log('Message published to STOMP');
-
-      setMessages(prev => {
-        const newMessages = [...prev, {
-          from: 'me',
-          text: message
-        }];
-        console.log('Updated sent messages:', newMessages);
-        return newMessages;
-      });
-      
-      setMessage('');
+        console.log('Message published to STOMP');
+        
+        // Clear the input
+        setMessage('');
+      } catch (error) {
+        console.error('Error sending message:', error);
+        alert('Failed to send message. Please try again.');
+      }
     } else {
       console.warn('Cannot send message:', {
         messageEmpty: !message.trim(),
         noRecipient: !currentRecipient,
         notConnected: !stompClient.current?.connected
       });
+      
+      if (!stompClient.current?.connected) {
+        alert('You are disconnected. Please reconnect to send messages.');
+      }
     }
   };
 
@@ -200,7 +200,12 @@ function Chat() {
       const response = await axios.get(url);
       console.log('Chat history response:', response.data);
 
-      const formattedMessages = response.data.map(msg => ({
+      // Sort messages by timestamp
+      const sortedMessages = [...response.data].sort((a, b) => 
+        new Date(a.timestamp) - new Date(b.timestamp)
+      );
+
+      const formattedMessages = sortedMessages.map(msg => ({
         from: msg.senderEmail === currentUser.email ? 'me' : 'them',
         text: msg.content
       }));
@@ -209,15 +214,25 @@ function Chat() {
       setMessages(formattedMessages);
     } catch (error) {
       console.error('Error loading history:', error);
+      alert('Error loading message history. Please try again.');
     }
   };
 
   const reconnectWebSocket = () => {
     console.log('Attempting to reconnect WebSocket...');
+    setConnectionStatus('Reconnecting...');
+    
     if (stompClient.current) {
       stompClient.current.deactivate();
+      
       setTimeout(() => {
-        stompClient.current.activate();
+        // Recreate the connection with fresh socket
+        const user = currentUser;
+        if (user?.email) {
+          const socket = new SockJS(`https://it342-syncra.onrender.com/ws?email=${encodeURIComponent(user.email)}`);
+          stompClient.current.webSocketFactory = () => socket;
+          stompClient.current.activate();
+        }
       }, 1000);
     }
   };
@@ -228,7 +243,7 @@ function Chat() {
         <div className="sidebar-header">
           Messages
           <div className="connection-status" title={connectionStatus}>
-            {connectionStatus === 'Connected' ? '🟢' : '🔴'}
+            {connectionStatus === 'Connected' ? '🟢' : connectionStatus === 'Reconnecting...' ? '🟠' : '🔴'}
             <button 
               onClick={reconnectWebSocket}
               style={{ marginLeft: '5px', fontSize: '12px' }}
@@ -263,7 +278,9 @@ function Chat() {
 
       <main className="chat-main">
         <header className="chat-header">
-          {currentRecipient || 'Select a conversation'}
+          {currentRecipient ? 
+            users.find(u => u.email === currentRecipient)?.name || currentRecipient 
+            : 'Select a conversation'}
         </header>
 
         <section className="chat-messages">
@@ -291,7 +308,10 @@ function Chat() {
               placeholder="Type a message"
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
             />
-            <button onClick={handleSend} disabled={!stompClient.current?.connected}>
+            <button 
+              onClick={handleSend} 
+              disabled={!stompClient.current?.connected || !message.trim()}
+            >
               {stompClient.current?.connected ? 'Send' : 'Connecting...'}
             </button>
           </footer>
