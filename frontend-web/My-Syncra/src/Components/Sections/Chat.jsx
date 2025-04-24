@@ -12,6 +12,7 @@ function Chat() {
   const [currentUser, setCurrentUser] = useState(null);
   const [users, setUsers] = useState([]);
   const [unreadMessages, setUnreadMessages] = useState({});
+  const [connectionStatus, setConnectionStatus] = useState('Disconnected');
   const stompClient = useRef(null);
   const currentRecipientRef = useRef(null);
   const messagesEndRef = useRef(null);
@@ -21,62 +22,111 @@ function Chat() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  // WebSocket connection setup
   useEffect(() => {
     const user = authService.getCurrentUser();
     if (user?.email) {
+      console.log('Setting up WebSocket for user:', user.email);
       setCurrentUser(user);
 
       const socket = new SockJS('https://it342-syncra.onrender.com/ws');
+      
       stompClient.current = new Client({
         webSocketFactory: () => socket,
+        debug: function(str) {
+          console.log('STOMP Debug:', str);
+        },
+        reconnectDelay: 5000, // Try reconnecting every 5 seconds
+        heartbeatIncoming: 4000,
+        heartbeatOutgoing: 4000,
         onConnect: () => {
-          console.log('WebSocket connected');
-          stompClient.current.subscribe(
+          console.log('WebSocket connected successfully');
+          setConnectionStatus('Connected');
+          
+          // Subscribe to personal queue
+          const subscription = stompClient.current.subscribe(
             `/user/${user.email}/queue/messages`,
-            (message) => {
-              const msg = JSON.parse(message.body);
-              
-              // If this message is from the current conversation, add it directly
-              if (msg.senderEmail === currentRecipientRef.current) {
-                setMessages(prev => [...prev, {
-                  from: 'them',
-                  text: msg.content
-                }]);
-              } else {
-                // Otherwise mark it as unread
-                setUnreadMessages(prev => ({
-                  ...prev,
-                  [msg.senderEmail]: (prev[msg.senderEmail] || 0) + 1
-                }));
+            (messageOutput) => {
+              console.log('Received message via WebSocket:', messageOutput.body);
+              try {
+                const msg = JSON.parse(messageOutput.body);
+                console.log('Parsed message:', msg);
+                console.log('Current recipient ref:', currentRecipientRef.current);
                 
-                // Also reload the user list to show unread indicators
-                loadUsers();
+                // If this message is from the current conversation, add it directly
+                if (msg.senderEmail === currentRecipientRef.current) {
+                  console.log('Message is from current recipient, adding to conversation');
+                  setMessages(prev => {
+                    const newMessages = [...prev, {
+                      from: 'them',
+                      text: msg.content
+                    }];
+                    console.log('Updated messages:', newMessages);
+                    return newMessages;
+                  });
+                } else {
+                  console.log('Message is from someone else, marking as unread');
+                  // Otherwise mark it as unread
+                  setUnreadMessages(prev => {
+                    const updated = {
+                      ...prev,
+                      [msg.senderEmail]: (prev[msg.senderEmail] || 0) + 1
+                    };
+                    console.log('Updated unread counts:', updated);
+                    return updated;
+                  });
+                }
+              } catch (error) {
+                console.error('Error parsing message:', error);
               }
-            }
+            },
+            { id: `sub-user-${user.email}` }
           );
+          
+          console.log('Subscription active:', subscription.id);
         },
         onStompError: (frame) => {
           console.error('STOMP error', frame);
+          setConnectionStatus('Error: ' + frame.headers.message);
         },
+        onDisconnect: () => {
+          console.log('WebSocket disconnected');
+          setConnectionStatus('Disconnected');
+        },
+        onWebSocketClose: (event) => {
+          console.log('WebSocket closed', event);
+          setConnectionStatus('Closed: ' + event.reason);
+        },
+        onWebSocketError: (event) => {
+          console.error('WebSocket error', event);
+          setConnectionStatus('WebSocket Error');
+        }
       });
 
+      console.log('Activating STOMP client');
       stompClient.current.activate();
-    }
 
-    return () => {
-      stompClient.current?.deactivate();
-    };
+      return () => {
+        console.log('Cleaning up WebSocket connection');
+        if (stompClient.current?.connected) {
+          stompClient.current.deactivate();
+        }
+      };
+    }
   }, []);
 
   // Keep the ref updated with the latest value
   useEffect(() => {
+    console.log('Current recipient changed to:', currentRecipient);
     currentRecipientRef.current = currentRecipient;
   }, [currentRecipient]);
 
   const loadUsers = async () => {
     try {
+      console.log('Loading users...');
       const users = await authService.getUsers();
       const filtered = users.filter(u => u.email.trim() !== currentUser?.email.trim());
+      console.log('Loaded users:', filtered);
       setUsers(filtered);
     } catch (error) {
       console.error('Error loading users:', error);
@@ -91,31 +141,49 @@ function Chat() {
 
   const handleSend = () => {
     if (message.trim() && currentRecipient && stompClient.current?.connected) {
+      console.log('Sending message to:', currentRecipient);
+      
       const payload = {
         senderEmail: currentUser.email,
         receiverEmail: currentRecipient,
         content: message
       };
 
+      console.log('Message payload:', payload);
+
       stompClient.current.publish({
         destination: '/app/chat',
         body: JSON.stringify(payload)
       });
 
-      setMessages(prev => [...prev, {
-        from: 'me',
-        text: message
-      }]);
+      console.log('Message published to STOMP');
+
+      setMessages(prev => {
+        const newMessages = [...prev, {
+          from: 'me',
+          text: message
+        }];
+        console.log('Updated sent messages:', newMessages);
+        return newMessages;
+      });
+      
       setMessage('');
+    } else {
+      console.warn('Cannot send message:', {
+        messageEmpty: !message.trim(),
+        noRecipient: !currentRecipient,
+        notConnected: !stompClient.current?.connected
+      });
     }
   };
 
   const handleUserClick = async (user) => {
+    console.log('User clicked:', user.name, user.email);
     setCurrentRecipient(user.email);
-    currentRecipientRef.current = user.email;
-
+    
     // Clear unread count for this user
     if (unreadMessages[user.email]) {
+      console.log('Clearing unread count for:', user.email);
       setUnreadMessages(prev => ({
         ...prev,
         [user.email]: 0
@@ -123,23 +191,51 @@ function Chat() {
     }
 
     try {
-      const history = await axios.get(
-        `https://it342-syncra.onrender.com/api/chat/history/${currentUser.email}/${user.email}`
-      );
+      console.log('Loading chat history...');
+      const url = `https://it342-syncra.onrender.com/api/chat/history/${currentUser.email}/${user.email}`;
+      console.log('History URL:', url);
+      
+      const response = await axios.get(url);
+      console.log('Chat history response:', response.data);
 
-      setMessages(history.data.map(msg => ({
-        from: msg.sender === currentUser.email ? 'me' : 'them',
+      const formattedMessages = response.data.map(msg => ({
+        from: msg.senderEmail === currentUser.email ? 'me' : 'them',
         text: msg.content
-      })));
+      }));
+      
+      console.log('Formatted messages:', formattedMessages);
+      setMessages(formattedMessages);
     } catch (error) {
       console.error('Error loading history:', error);
+    }
+  };
+
+  const reconnectWebSocket = () => {
+    console.log('Attempting to reconnect WebSocket...');
+    if (stompClient.current) {
+      stompClient.current.deactivate();
+      setTimeout(() => {
+        stompClient.current.activate();
+      }, 1000);
     }
   };
 
   return (
     <div className="chat-layout">
       <aside className="sidebar">
-        <div className="sidebar-header">Messages</div>
+        <div className="sidebar-header">
+          Messages
+          <div className="connection-status" title={connectionStatus}>
+            {connectionStatus === 'Connected' ? '🟢' : '🔴'}
+            <button 
+              onClick={reconnectWebSocket}
+              style={{ marginLeft: '5px', fontSize: '12px' }}
+              title="Reconnect WebSocket"
+            >
+              ⟳
+            </button>
+          </div>
+        </div>
         <div className="conversation-list">
           {users.map(user => (
             <div
