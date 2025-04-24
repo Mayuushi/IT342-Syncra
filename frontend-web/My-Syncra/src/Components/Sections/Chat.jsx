@@ -14,7 +14,6 @@ function Chat() {
   const [unreadMessages, setUnreadMessages] = useState({});
   const [connectionStatus, setConnectionStatus] = useState('Disconnected');
   const stompClient = useRef(null);
-  const currentRecipientRef = useRef(null);
   const messagesEndRef = useRef(null);
 
   // Scroll to bottom when messages change
@@ -54,16 +53,25 @@ function Chat() {
                 console.log('Parsed message:', msg);
                 
                 // Handle incoming message
-                if (msg.senderEmail === currentRecipientRef.current) {
-                  console.log('Adding message to current conversation');
-                  setMessages(prev => [...prev, { from: 'them', text: msg.content }]);
-                } else {
-                  console.log('Incrementing unread count for:', msg.senderEmail);
-                  setUnreadMessages(prev => ({
-                    ...prev,
-                    [msg.senderEmail]: (prev[msg.senderEmail] || 0) + 1
-                  }));
-                }
+                setMessages(prev => {
+                  // Only update messages if we're in the correct conversation
+                  if (msg.senderEmail === currentRecipient) {
+                    return [...prev, { from: 'them', text: msg.content }];
+                  }
+                  return prev;
+                });
+
+                // Update unread messages count if not from current conversation
+                setUnreadMessages(prev => {
+                  if (msg.senderEmail !== currentRecipient) {
+                    console.log('Incrementing unread count for:', msg.senderEmail);
+                    return {
+                      ...prev,
+                      [msg.senderEmail]: (prev[msg.senderEmail] || 0) + 1
+                    };
+                  }
+                  return prev;
+                });
               } catch (error) {
                 console.error('Error parsing message:', error);
               }
@@ -92,13 +100,7 @@ function Chat() {
         }
       };
     }
-  }, []);
-
-  // Keep the ref updated with the latest value
-  useEffect(() => {
-    console.log('Current recipient changed to:', currentRecipient);
-    currentRecipientRef.current = currentRecipient;
-  }, [currentRecipient]);
+  }, [currentRecipient]); // Add currentRecipient to dependency array
 
   const loadUsers = async () => {
     try {
