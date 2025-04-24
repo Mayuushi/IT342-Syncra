@@ -56,11 +56,24 @@ const getCurrentUser = () => {
   return userStr ? JSON.parse(userStr) : null;
 };
 
+const getUsers = async () => {
+  try {
+    const response = await axios.get(API_BASE_URL);
+    return response.data.users; // only return the array
+  } catch (error) {
+    const message =
+      error.response?.data?.message || 'Failed to fetch users';
+    throw new Error(message);
+  }
+};
+
+
 const authService = {
   register,
   login,
   logout,
   getCurrentUser,
+  getUsers,
 };
 
 export default authService;
