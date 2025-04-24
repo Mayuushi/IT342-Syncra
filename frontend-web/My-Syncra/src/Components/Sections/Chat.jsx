@@ -12,12 +12,19 @@ function Chat() {
   const [currentUser, setCurrentUser] = useState(null);
   const [users, setUsers] = useState([]);
   const stompClient = useRef(null);
+  const currentRecipientRef = useRef(null);
+  const messagesEndRef = useRef(null);
+
+  // Scroll to bottom when messages change
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   useEffect(() => {
     const user = authService.getCurrentUser();
     if (user?.email) {
       setCurrentUser(user);
-  
+
       const socket = new SockJS('https://it342-syncra.onrender.com/ws');
       stompClient.current = new Client({
         webSocketFactory: () => socket,
@@ -27,10 +34,12 @@ function Chat() {
             `/user/${user.email}/queue/messages`,
             (message) => {
               const msg = JSON.parse(message.body);
-              setMessages(prev => [...prev, {
-                from: msg.senderEmail === user.email ? 'me' : 'them',
-                text: msg.content
-              }]);
+              if (msg.senderEmail === currentRecipientRef.current) {
+                setMessages(prev => [...prev, {
+                  from: 'them',
+                  text: msg.content
+                }]);
+              }
             }
           );
         },
@@ -38,22 +47,24 @@ function Chat() {
           console.error('STOMP error', frame);
         },
       });
-  
+
       stompClient.current.activate();
     }
-  
+
     return () => {
       stompClient.current?.deactivate();
     };
-  }, []);  
+  }, []);
+
+  useEffect(() => {
+    currentRecipientRef.current = currentRecipient;
+  }, [currentRecipient]);
 
   useEffect(() => {
     const loadUsers = async () => {
       try {
         const users = await authService.getUsers();
-        const filtered = users.filter(u => 
-          u.email.trim() !== currentUser?.email.trim()
-        );
+        const filtered = users.filter(u => u.email.trim() !== currentUser?.email.trim());
         setUsers(filtered);
       } catch (error) {
         console.error('Error loading users:', error);
@@ -71,16 +82,16 @@ function Chat() {
         senderEmail: currentUser.email,
         receiverEmail: currentRecipient,
         content: message
-      };      
-      
+      };
+
       stompClient.current.publish({
         destination: '/app/chat',
         body: JSON.stringify(payload)
       });
-      
-      setMessages(prev => [...prev, { 
-        from: 'me', 
-        text: message 
+
+      setMessages(prev => [...prev, {
+        from: 'me',
+        text: message
       }]);
       setMessage('');
     }
@@ -88,12 +99,13 @@ function Chat() {
 
   const handleUserClick = async (user) => {
     setCurrentRecipient(user.email);
-    
+    currentRecipientRef.current = user.email;
+
     try {
       const history = await axios.get(
         `https://it342-syncra.onrender.com/api/chat/history/${currentUser.email}/${user.email}`
       );
-      
+
       setMessages(history.data.map(msg => ({
         from: msg.sender === currentUser.email ? 'me' : 'them',
         text: msg.content
@@ -125,7 +137,7 @@ function Chat() {
         <header className="chat-header">
           {currentRecipient || 'Select a conversation'}
         </header>
-        
+
         <section className="chat-messages">
           {messages.map((msg, idx) => (
             <div
@@ -135,6 +147,7 @@ function Chat() {
               {msg.text}
             </div>
           ))}
+          <div ref={messagesEndRef} />
         </section>
 
         {currentRecipient && (
