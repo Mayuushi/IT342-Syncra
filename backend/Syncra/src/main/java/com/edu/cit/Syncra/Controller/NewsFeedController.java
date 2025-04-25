@@ -53,7 +53,7 @@ public class NewsFeedController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> deletePost(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> deletePost(@PathVariable String id) {
         newsFeedService.deletePost(id);
         return ResponseEntity.ok(Map.of("message", "Post deleted successfully"));
     }
