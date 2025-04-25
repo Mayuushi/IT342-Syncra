@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.edu.cit.Syncra.Entity.NewsFeed;
 import com.edu.cit.Syncra.Service.NewsFeedService;
 
-@CrossOrigin(origins = {"https://it342-syncra-web.onrender.com", "http://localhost:3000"})
+@CrossOrigin(origins = "https://it342-syncra-web.onrender.com")
 @RestController
 @RequestMapping("/api/newsfeed")
 public class NewsFeedController {
@@ -40,14 +40,9 @@ public class NewsFeedController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> getPostById(@PathVariable String id) {
-        NewsFeed post = newsFeedService.getPostById(id);
-        if (post == null) {
-            return ResponseEntity.status(404).body(Map.of("message", "Post not found"));
-        }
-        return ResponseEntity.ok(Map.of("message", "Post found", "post", post));
+    public ResponseEntity<Map<String, Object>> getPostsByUser(@PathVariable String id) {
+        return ResponseEntity.ok(Map.of("message", "User posts", "posts", newsFeedService.getPostsByUserId(id)));
     }
-
     @GetMapping("/user/{userId}")
     public ResponseEntity<Map<String, Object>> getPostsByUserId(@PathVariable String userId) {
         List<NewsFeed> posts = newsFeedService.getPostsByUserId(userId);
@@ -58,11 +53,8 @@ public class NewsFeedController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> deletePost(@PathVariable String id) {
-        boolean deleted = newsFeedService.deletePost(id);
-        if (!deleted) {
-            return ResponseEntity.status(404).body(Map.of("message", "Post not found"));
-        }
+    public ResponseEntity<Map<String, Object>> deletePost(@PathVariable Long id) {
+        newsFeedService.deletePost(id);
         return ResponseEntity.ok(Map.of("message", "Post deleted successfully"));
     }
 }
