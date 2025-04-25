@@ -8,8 +8,8 @@ import {
   FiSend,
   FiMoreHorizontal,
 } from 'react-icons/fi';
-import authService from '../../services/authService';
-import newsFeedService from '../../services/newsFeedService';
+import authService from '../../Service/authService';
+import newsFeedService from '../../Service/newsFeedService';
 
 function Feed() {
   const navigate = useNavigate();
