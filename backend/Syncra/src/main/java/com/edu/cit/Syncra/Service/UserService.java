@@ -20,7 +20,7 @@ public class UserService {
     }
 
     // Retrieve user by ID
-    public User getUserById(Long id) {
+    public User getUserById(String id) {
         return userRepository.findById(id).orElse(null);
     }
 
@@ -30,7 +30,7 @@ public class UserService {
     }
 
     // Delete a user
-    public void deleteUser(Long id) {
+    public void deleteUser(String id) {
         userRepository.deleteById(id);
     }
     public User getUserByEmail(String email){

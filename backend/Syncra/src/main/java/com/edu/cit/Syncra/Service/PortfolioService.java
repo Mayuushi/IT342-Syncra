@@ -21,11 +21,11 @@ public class PortfolioService {
         return portfolioRepository.findAll();
     }
 
-    public List<Portfolio> getPortfoliosByUserId(Long userId) {
+    public List<Portfolio> getPortfoliosByUserId(String userId) {
         return portfolioRepository.findByUserId(userId);
     }
 
-    public void deletePortfolio(Long id) {
+    public void deletePortfolio(String id) {
         portfolioRepository.deleteById(id);
     }
 }
