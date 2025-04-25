@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  padding-top: 64px;
+  padding: 80px 0;  /* Increased padding top and bottom */
   background: linear-gradient(120deg, #1a365d 0%, #2d3748 50%, #1a365d 100%);
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
@@ -24,7 +24,7 @@
 }
 
 .chat-layout {
-  height: 100%;
+  height: calc(100% - 32px);  /* Reduced height to account for spacing */
   max-width: 1400px;
   margin: 0 auto;
   background-color: rgba(255, 255, 255, 0.95);
