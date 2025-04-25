@@ -8,49 +8,109 @@ import {
   FiSend,
   FiMoreHorizontal,
 } from 'react-icons/fi';
+import authService from '../services/authService';
+import newsFeedService from '../service/newsFeedService';
 
 function Feed() {
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [newPost, setNewPost] = useState('');
+  const [sortBy, setSortBy] = useState('Popular');
 
+  // Check if user is logged in
   useEffect(() => {
-    const user = localStorage.getItem("user");
+    const user = authService.getCurrentUser();
     if (!user) {
       navigate("/login");
+    } else {
+      setCurrentUser(user);
     }
   }, [navigate]);
 
-  const [posts, setPosts] = useState([    //gi delete nako ang posts ID diri
-  ]);
+  // Fetch posts
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        setLoading(true);
+        const fetchedPosts = await newsFeedService.getAllPosts();
+        setPosts(fetchedPosts);
+      } catch (err) {
+        setError(err.message);
+        console.error('Error fetching posts:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const [newPost, setNewPost] = useState('');
-  const [sortBy, setSortBy] = useState('Popular');
+    if (currentUser) {
+      fetchPosts();
+    }
+  }, [currentUser]);
 
   const handlePostChange = (e) => {
     setNewPost(e.target.value);
   };
 
-  const handleSubmitPost = (e) => {
+  const handleSubmitPost = async (e) => {
     e.preventDefault();
     if (newPost.trim()) {
-      const newPostObj = {
-        id: posts.length + 1,
-        user: {
-          name: 'Shane Adrian Opinion',
-          followers: '1,234 followers',
-          profileImage: 'https://via.placeholder.com/50',
-          isPromoted: false,
-        },
-        content: newPost,
-        images: [],
-        likes: 0,
-        comments: 0,
-        shares: 0,
-        timestamp: 'Just now',
-      };
-      setPosts([newPostObj, ...posts]);
-      setNewPost('');
+      try {
+        const createdPost = await newsFeedService.createPost(newPost);
+        
+        // Create a formatted post object to match our UI requirements
+        const newPostObj = {
+          id: createdPost.id,
+          user: {
+            name: currentUser.name,
+            followers: '1,234 followers', // placeholder
+            profileImage: 'https://via.placeholder.com/50', // placeholder
+            isPromoted: false,
+          },
+          content: createdPost.content,
+          images: createdPost.imageUrl ? [createdPost.imageUrl] : [],
+          likes: 0,
+          comments: 0,
+          shares: 0,
+          timestamp: 'Just now',
+        };
+        
+        setPosts([newPostObj, ...posts]);
+        setNewPost('');
+      } catch (err) {
+        setError(err.message);
+        console.error('Error creating post:', err);
+      }
     }
   };
+
+  // Format backend posts to match our frontend structure
+  const formatBackendPosts = (backendPosts) => {
+    return backendPosts.map(post => ({
+      id: post.id,
+      user: {
+        name: post.user?.name || 'Unknown User',
+        followers: '1,234 followers', // placeholder
+        profileImage: post.user?.profilePicture || 'https://via.placeholder.com/50',
+        isPromoted: false,
+      },
+      content: post.content,
+      images: post.imageUrl ? [post.imageUrl] : [],
+      likes: 0, // Backend doesn't have likes yet
+      comments: 0, // Backend doesn't have comments yet
+      shares: 0, // Backend doesn't have shares yet
+      timestamp: post.createdAt ? new Date(post.createdAt).toLocaleString() : 'Recently',
+    }));
+  };
+
+  // Apply the formatting when posts change
+  useEffect(() => {
+    if (posts.length > 0 && posts[0].user && !posts[0].user.name) {
+      setPosts(formatBackendPosts(posts));
+    }
+  }, [posts]);
 
   const recommendedUsers = [
     {
@@ -103,7 +163,7 @@ function Feed() {
                 </div>
               </div>
               <div className="pt-10 pb-2 px-3 text-center border-b border-gray-200">
-                <h2 className="text-lg font-bold">SHANE ADRIAN OPINION</h2>
+                <h2 className="text-lg font-bold">{currentUser?.name || 'LOADING...'}</h2>
                 <p className="text-gray-500 text-xs">
                   Frontend Web Developer
                 </p>
@@ -288,7 +348,32 @@ function Feed() {
               </div>
             </div>
 
+            {/* Loading and Error States */}
+            {loading && (
+              <div className="bg-white rounded-lg shadow-sm p-4 mb-2 text-center">
+                <p>Loading posts...</p>
+              </div>
+            )}
+            
+            {error && (
+              <div className="bg-red-50 text-red-500 rounded-lg shadow-sm p-4 mb-2">
+                <p>Error: {error}</p>
+                <button 
+                  className="text-blue-500 underline mt-2"
+                  onClick={() => window.location.reload()}
+                >
+                  Try again
+                </button>
+              </div>
+            )}
+
             {/* Posts */}
+            {!loading && posts.length === 0 && (
+              <div className="bg-white rounded-lg shadow-sm p-4 mb-2 text-center">
+                <p>No posts yet. Be the first to post something!</p>
+              </div>
+            )}
+
             {posts.map((post) => (
               <div
                 key={post.id}
@@ -319,7 +404,7 @@ function Feed() {
                     </button>
                   </div>
                   <p className="my-2 text-sm">{post.content}</p>
-                  {post.images.length > 0 && (
+                  {post.images && post.images.length > 0 && post.images[0] && (
                     <div className="mt-1">
                       <img
                         src={post.images[0]}
