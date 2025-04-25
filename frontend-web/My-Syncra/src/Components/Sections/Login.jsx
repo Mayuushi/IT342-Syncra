@@ -11,7 +11,7 @@ const Login = () => {
         <span className="ml-2 text-3xl font-bold text-blue-600">Syncra.</span>
       </div>
 
-      <div className="sm:mx-auto sm:w-full sm:max-w-md mb-20">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md mb-20 mr-20">
         <h2 className="mt-0 text-center text-3xl font-extrabold text-gray-900">
           Sign in to your account
         </h2>
