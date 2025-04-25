@@ -8,8 +8,8 @@ import {
   FiSend,
   FiMoreHorizontal,
 } from 'react-icons/fi';
-import authService from '../../Service/authService';
-import newsFeedService from '../../Service/newsFeedService';
+import authService from '../services/authService';
+import newsFeedService from '../services/newsFeedService';
 
 function Feed() {
   const navigate = useNavigate();
@@ -19,6 +19,7 @@ function Feed() {
   const [error, setError] = useState(null);
   const [newPost, setNewPost] = useState('');
   const [sortBy, setSortBy] = useState('Popular');
+  const [postError, setPostError] = useState(null);
 
   // Check if user is logged in
   useEffect(() => {
@@ -26,6 +27,7 @@ function Feed() {
     if (!user) {
       navigate("/login");
     } else {
+      console.log("Current user:", user);
       setCurrentUser(user);
     }
   }, [navigate]);
@@ -36,10 +38,11 @@ function Feed() {
       try {
         setLoading(true);
         const fetchedPosts = await newsFeedService.getAllPosts();
+        console.log("Fetched posts:", fetchedPosts);
         setPosts(fetchedPosts);
       } catch (err) {
-        setError(err.message);
         console.error('Error fetching posts:', err);
+        setError(err.message);
       } finally {
         setLoading(false);
       }
@@ -58,30 +61,45 @@ function Feed() {
     e.preventDefault();
     if (newPost.trim()) {
       try {
+        setPostError(null);
+
+        // Get user details
+        const user = authService.getCurrentUser();
+        if (!user || !user.id) {
+          throw new Error("User not logged in properly. Please log in again.");
+        }
+
+        // Log for debugging
+        console.log("Creating post as user:", user);
+        console.log("Post content:", newPost);
+
+        // Try to create the post
         const createdPost = await newsFeedService.createPost(newPost);
+        console.log("Post created successfully:", createdPost);
         
         // Create a formatted post object to match our UI requirements
         const newPostObj = {
-          id: createdPost.id,
+          id: createdPost?.id || `temp-${Date.now()}`,
           user: {
-            name: currentUser.name,
+            name: user.name || 'You',
             followers: '1,234 followers', // placeholder
-            profileImage: 'https://via.placeholder.com/50', // placeholder
+            profileImage: user.profilePicture || 'https://via.placeholder.com/50', // placeholder
             isPromoted: false,
           },
-          content: createdPost.content,
-          images: createdPost.imageUrl ? [createdPost.imageUrl] : [],
+          content: newPost,
+          images: [], // No images for now
           likes: 0,
           comments: 0,
           shares: 0,
           timestamp: 'Just now',
         };
         
-        setPosts([newPostObj, ...posts]);
-        setNewPost('');
+        // Add the new post to the top of the list
+        setPosts(prevPosts => [newPostObj, ...prevPosts]);
+        setNewPost(''); // Clear the input
       } catch (err) {
-        setError(err.message);
-        console.error('Error creating post:', err);
+        console.error('Error submitting post:', err);
+        setPostError(err.message);
       }
     }
   };
@@ -89,14 +107,14 @@ function Feed() {
   // Format backend posts to match our frontend structure
   const formatBackendPosts = (backendPosts) => {
     return backendPosts.map(post => ({
-      id: post.id,
+      id: post.id || `post-${Math.random().toString(36).substr(2, 9)}`,
       user: {
         name: post.user?.name || 'Unknown User',
         followers: '1,234 followers', // placeholder
         profileImage: post.user?.profilePicture || 'https://via.placeholder.com/50',
         isPromoted: false,
       },
-      content: post.content,
+      content: post.content || 'No content',
       images: post.imageUrl ? [post.imageUrl] : [],
       likes: 0, // Backend doesn't have likes yet
       comments: 0, // Backend doesn't have comments yet
@@ -107,7 +125,7 @@ function Feed() {
 
   // Apply the formatting when posts change
   useEffect(() => {
-    if (posts.length > 0 && posts[0].user && !posts[0].user.name) {
+    if (Array.isArray(posts) && posts.length > 0 && posts[0].user && !posts[0].user.name) {
       setPosts(formatBackendPosts(posts));
     }
   }, [posts]);
@@ -279,22 +297,26 @@ function Feed() {
           <div className="w-1/2 h-full overflow-y-auto px-2">
             {/* Create Post */}
             <div className="bg-white rounded-lg shadow-sm p-3 mb-2 mt-4">
+              {postError && (
+                <div className="bg-red-50 text-red-500 p-2 rounded mb-2 text-xs">
+                  <p>Error creating post: {postError}</p>
+                </div>
+              )}
               <div className="flex items-center mb-2">
                 <img
                   src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                   alt="User"
                   className="rounded-full mr-2 w-9 h-9"
                 />
-                <input
-                  type="text"
-                  placeholder="New publication"
-                  className="w-full p-2 text-sm border border-gray-300 rounded-full"
-                  value={newPost}
-                  onChange={handlePostChange}
-                  onKeyPress={(e) =>
-                    e.key === 'Enter' && handleSubmitPost(e)
-                  }
-                />
+                <form onSubmit={handleSubmitPost} className="w-full">
+                  <input
+                    type="text"
+                    placeholder="New publication"
+                    className="w-full p-2 text-sm border border-gray-300 rounded-full"
+                    value={newPost}
+                    onChange={handlePostChange}
+                  />
+                </form>
               </div>
               <div className="flex justify-between">
                 <button className="flex items-center text-gray-600 hover:bg-gray-100 px-2 py-1 rounded text-xs">
@@ -315,11 +337,14 @@ function Feed() {
                   </span>
                   Event
                 </button>
-                <button className="flex items-center text-gray-600 hover:bg-gray-100 px-2 py-1 rounded text-xs">
+                <button 
+                  className="flex items-center text-gray-600 hover:bg-gray-100 px-2 py-1 rounded text-xs"
+                  onClick={handleSubmitPost}
+                >
                   <span className="bg-red-100 text-red-500 p-1 rounded mr-1">
                     📝
                   </span>
-                  To write an article
+                  Post
                 </button>
               </div>
             </div>
