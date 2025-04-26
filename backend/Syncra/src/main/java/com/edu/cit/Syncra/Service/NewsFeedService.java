@@ -18,7 +18,7 @@ public class NewsFeedService {
     @Autowired
     private UserRepository userRepository;
 
-    public NewsFeed createPost(Long userId, NewsFeed newsFeed) {
+    public NewsFeed createPost(String userId, NewsFeed newsFeed) {
         User user = userRepository.findById(userId).orElse(null);
         if (user != null) {
             newsFeed.setUser(user);
@@ -31,11 +31,11 @@ public class NewsFeedService {
         return newsFeedRepository.findAll();
     }
 
-    public List<NewsFeed> getPostsByUserId(Long userId) {
+    public List<NewsFeed> getPostsByUserId(String userId) {
         return newsFeedRepository.findByUserId(userId);
     }
 
-    public void deletePost(Long id) {
+    public void deletePost(String id) {
         newsFeedRepository.deleteById(id);
     }
 }

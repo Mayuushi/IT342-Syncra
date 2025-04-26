@@ -26,7 +26,7 @@ public class NewsFeedController {
     private NewsFeedService newsFeedService;
 
     @PostMapping("/user/{userId}")
-    public ResponseEntity<Map<String, Object>> createPost(@PathVariable Long userId, @RequestBody NewsFeed post) {
+    public ResponseEntity<Map<String, Object>> createPost(@PathVariable String userId, @RequestBody NewsFeed post) {
         NewsFeed created = newsFeedService.createPost(userId, post);
         if (created == null) {
             return ResponseEntity.status(404).body(Map.of("message", "User not found"));
@@ -40,11 +40,11 @@ public class NewsFeedController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> getPostsByUser(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> getPostsByUser(@PathVariable String id) {
         return ResponseEntity.ok(Map.of("message", "User posts", "posts", newsFeedService.getPostsByUserId(id)));
     }
     @GetMapping("/user/{userId}")
-    public ResponseEntity<Map<String, Object>> getPostsByUserId(@PathVariable Long userId) {
+    public ResponseEntity<Map<String, Object>> getPostsByUserId(@PathVariable String userId) {
         List<NewsFeed> posts = newsFeedService.getPostsByUserId(userId);
         return ResponseEntity.ok(Map.of(
                 "message", "Posts by user ID: " + userId,
@@ -53,7 +53,7 @@ public class NewsFeedController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> deletePost(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> deletePost(@PathVariable String id) {
         newsFeedService.deletePost(id);
         return ResponseEntity.ok(Map.of("message", "Post deleted successfully"));
     }

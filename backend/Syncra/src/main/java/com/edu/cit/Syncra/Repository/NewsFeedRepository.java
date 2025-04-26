@@ -5,6 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
-public interface NewsFeedRepository extends MongoRepository<NewsFeed, Long> {
-    List<NewsFeed> findByUserId(Long userId);
+public interface NewsFeedRepository extends MongoRepository<NewsFeed, String> {
+    List<NewsFeed> findByUserId(String userId);
 }

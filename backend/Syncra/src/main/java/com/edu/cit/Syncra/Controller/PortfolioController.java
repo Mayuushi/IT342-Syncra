@@ -22,7 +22,7 @@ public class PortfolioController {
     private UserService userService;
 
     @PostMapping("/user/{userId}")
-    public ResponseEntity<?> createPortfolio(@PathVariable Long userId, @RequestBody Portfolio portfolio) {
+    public ResponseEntity<?> createPortfolio(@PathVariable String userId, @RequestBody Portfolio portfolio) {
         User user = userService.getUserById(userId);
         if (user == null) {
             return ResponseEntity.status(404).body("User not found");
@@ -37,12 +37,12 @@ public class PortfolioController {
     }
 
     @GetMapping("/user/{userId}")
-    public List<Portfolio> getUserPortfolios(@PathVariable Long userId) {
+    public List<Portfolio> getUserPortfolios(@PathVariable String userId) {
         return portfolioService.getPortfoliosByUserId(userId);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> deletePortfolio(@PathVariable Long id) {
+    public ResponseEntity<Map<String, String>> deletePortfolio(@PathVariable String id) {
         portfolioService.deletePortfolio(id);
         return ResponseEntity.ok(Map.of("message", "Portfolio deleted successfully"));
     }

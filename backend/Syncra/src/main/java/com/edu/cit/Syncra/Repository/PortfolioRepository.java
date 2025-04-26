@@ -5,6 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
-public interface PortfolioRepository extends MongoRepository<Portfolio, Long> {
-    List<Portfolio> findByUserId(Long userId);
+public interface PortfolioRepository extends MongoRepository<Portfolio, String> {
+    List<Portfolio> findByUserId(String userId);
 }

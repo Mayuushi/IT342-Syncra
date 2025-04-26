@@ -42,7 +42,7 @@ public class UserController {
 
     // Get user by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> getUserById(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> getUserById(@PathVariable String id) {
         System.out.println("Fetching user with ID: " + id);
         User user = userService.getUserById(id);
 
@@ -89,7 +89,7 @@ public class UserController {
 
     // Update an existing user
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
+    public ResponseEntity<Map<String, Object>> updateUser(@PathVariable String id, @RequestBody User userDetails) {
         System.out.println("Updating user with ID: " + id);
         User existingUser = userService.getUserById(id);
 
@@ -111,7 +111,7 @@ public class UserController {
 
     // Delete a user
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable String id) {
         System.out.println("Deleting user with ID: " + id);
         User existingUser = userService.getUserById(id);
 
