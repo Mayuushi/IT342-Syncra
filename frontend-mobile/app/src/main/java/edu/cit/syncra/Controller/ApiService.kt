@@ -1,5 +1,6 @@
 package edu.cit.syncra.Controller
 
+import edu.cit.syncra.DataClass.NewsFeedResponse
 import edu.cit.syncra.DataClass.NewsPost
 import edu.cit.syncra.DataClass.Portfolio
 import edu.cit.syncra.DataClass.User
@@ -36,8 +37,9 @@ interface ApiService {
     @GET("/api/users/email/{email}")
     suspend fun getUserByEmail(@Path("email") email: String): Response<Map<String, Any>>
 
-    @GET("/posts")
+    @GET("/api/newsfeed")
     suspend fun getAllPosts(): Response<Map<String, Any>>
+
 
     @POST("/api/portfolio/user/{userId}")
     suspend fun createPortfolio(

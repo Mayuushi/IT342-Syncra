@@ -45,6 +45,7 @@ class UpdateUserFragment : Fragment() {
             val password = binding.editTextPassword.text.toString()
 
             val updatedUser = User(
+                id = userId,
                 name = name,
                 email = email,
                 password = password,
