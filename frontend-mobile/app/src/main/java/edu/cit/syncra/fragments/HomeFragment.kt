@@ -38,18 +38,14 @@ class HomeFragment : Fragment() {
             try {
                 val response = apiService.getAllPosts()
                 if (response.isSuccessful) {
-                    // Log the raw response to see if it’s correctly structured
                     Log.d("HomeFragment", "Response: ${response.body()}")
 
-                    // Get the posts as a List of Map<String, Any>
                     val posts = (response.body()
                         ?.get("posts") as? List<*>)?.filterIsInstance<Map<String, Any>>()
                         ?: emptyList()
 
-                    // Log the posts to verify the data before deserialization
                     Log.d("HomeFragment", "Posts Data: $posts")
 
-                    // Use Gson to map the list properly
                     val gson = com.google.gson.Gson()
                     val json = gson.toJson(posts)
                     val postList: List<NewsPostResponse> = gson.fromJson(
@@ -57,21 +53,18 @@ class HomeFragment : Fragment() {
                         object : com.google.gson.reflect.TypeToken<List<NewsPostResponse>>() {}.type
                     )
 
-                    // Log the final deserialized data
-                    Log.d("HomeFragment", "Post List: $postList")
+                    // 🎲 Shuffle the list before displaying
+                    val shuffledPosts = postList.shuffled()
 
-                    // Update the adapter with the posts
-                    adapter.updateData(postList)
+                    Log.d("HomeFragment", "Shuffled Post List: $shuffledPosts")
+
+                    adapter.updateData(shuffledPosts)
                 } else {
-                    // handle error
                     Log.e("HomeFragment", "Error: ${response.message()}")
                 }
             } catch (e: Exception) {
-                // Log the exception if there's one
                 Log.e("HomeFragment", "Exception: ${e.message}", e)
             }
         }
-
-
     }
 }
