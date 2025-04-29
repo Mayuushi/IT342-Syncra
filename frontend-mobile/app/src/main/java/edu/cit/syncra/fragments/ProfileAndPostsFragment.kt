@@ -54,7 +54,7 @@ class ProfileAndPostsFragment : Fragment() {
         emailTextView = view.findViewById(R.id.textViewEmail)
         logoutButton = view.findViewById(R.id.btnLogout)
         recyclerView = view.findViewById(R.id.recyclerUserPosts)
-        btnPortfolio = view.findViewById(R.id.btnPortfolio)
+        btnPortfolio = view.findViewById(R.id.btnCreatePortfolio)
         btnViewPortfolio = view.findViewById(R.id.btnViewPortfolio)
 
         nameTextView.text = "Name: $userName"
