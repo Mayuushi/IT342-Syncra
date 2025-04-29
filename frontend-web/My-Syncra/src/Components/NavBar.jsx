@@ -65,6 +65,8 @@ export const NavBar = () => {
               <span className="text-xs mt-1">CHAT</span>
             </Link>
 
+            {/* The NOTICES link below has been removed */}
+            {/* 
             <Link
               to="/notices"
               className="flex flex-col items-center justify-center px-2 text-gray-600 hover:text-blue-600"
@@ -72,6 +74,7 @@ export const NavBar = () => {
               <FiBell className="h-5 w-5" />
               <span className="text-xs mt-1">NOTICES</span>
             </Link>
+            */}
           </div>
 
           {/* Search Bar (moved closer to Nav Links) */}
