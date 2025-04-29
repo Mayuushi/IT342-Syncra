@@ -8,7 +8,7 @@ object RetrofitInstance {
 
     private val retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8080/")  // Replace with actual backend URL
+            .baseUrl("https://it342-syncra.onrender.com")  // Replace with actual backend URL
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
