@@ -11,8 +11,6 @@ import retrofit2.http.Path
 
 interface ApiService {
 
-
-
     @POST("/api/users")
     suspend fun createUser(@Body user: User): Response<Map<String, Any>>
 
@@ -20,36 +18,26 @@ interface ApiService {
     suspend fun getAllUsers(): Response<Map<String, Any>>
 
     @GET("/api/newsfeed/{userId}")
-    suspend fun getPostsByUser(@Path("userId") userId: Long): Response<Map<String, Any>>
+    suspend fun getPostsByUser(@Path("userId") userId: String): Response<Map<String, Any>>
 
     @POST("/api/newsfeed/user/{userId}")
     suspend fun createPost(
-        @Path("userId") userId: Long,
+        @Path("userId") userId: String,
         @Body post: NewsPost
     ): Response<Map<String, Any>>
 
-        @GET("/api/users/email/{email}")
-        suspend fun getUserByEmail(@Path("email") email: String): Response<Map<String, Any>>
+    @GET("/api/users/email/{email}")
+    suspend fun getUserByEmail(@Path("email") email: String): Response<Map<String, Any>>
 
     @GET("/posts")
     suspend fun getAllPosts(): Response<Map<String, Any>>
 
     @POST("/api/portfolio/user/{userId}")
     suspend fun createPortfolio(
-        @Path("userId") userId: Long,
+        @Path("userId") userId: String,
         @Body portfolio: Portfolio
     ): Response<Map<String, Any>>
 
     @GET("/api/portfolio/user/{userId}")
-    suspend fun getPortfoliosByUser(@Path("userId") userId: Long): Response<List<Portfolio>>
-
-
-
-
-
+    suspend fun getPortfoliosByUser(@Path("userId") userId: String): Response<List<Portfolio>>
 }
-
-
-
-
-

@@ -34,12 +34,12 @@ class ProfileAndPostsFragment : Fragment() {
 
     private var userName: String? = null
     private var userEmail: String? = null
-    private var userId: Long = -1L
+    private var userId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val sessionManager = SessionManager(requireContext())
-        userId = sessionManager.getUserId()
+        userId = sessionManager.getUserId() // Ensure userId is String?
         userName = sessionManager.getUserName()
         userEmail = sessionManager.getUserEmail()
     }
@@ -63,7 +63,7 @@ class ProfileAndPostsFragment : Fragment() {
         btnPortfolio.setOnClickListener {
             val portfolioFragment = PortfolioPostFragment()
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, portfolioFragment)  // ✅ Make sure this ID matches your activity layout
+                .replace(R.id.fragment_container, portfolioFragment)
                 .addToBackStack(null)
                 .commit()
         }
@@ -71,11 +71,10 @@ class ProfileAndPostsFragment : Fragment() {
         btnViewPortfolio.setOnClickListener {
             val portfolioListFragment = PortfolioListFragment()
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, portfolioListFragment)  // ✅ Make sure this ID matches your activity layout
+                .replace(R.id.fragment_container, portfolioListFragment)
                 .addToBackStack(null)
                 .commit()
         }
-
 
         logoutButton.setOnClickListener {
             val sessionManager = SessionManager(requireContext())
@@ -94,14 +93,15 @@ class ProfileAndPostsFragment : Fragment() {
                 post.createdAt ?: ""
             )
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, detailFragment) // Make sure this matches your activity layout's fragment container ID
+                .replace(R.id.fragment_container, detailFragment)
                 .addToBackStack(null)
                 .commit()
         }
         recyclerView.adapter = adapter
 
-        if (userId != -1L) {
-            fetchUserPosts(userId)
+        // Ensure userId is not null and proceed with fetching posts
+        if (!userId.isNullOrEmpty()) {
+            fetchUserPosts(userId!!)
         } else {
             Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show()
         }
@@ -109,7 +109,7 @@ class ProfileAndPostsFragment : Fragment() {
         return view
     }
 
-    private fun fetchUserPosts(userId: Long) {
+    private fun fetchUserPosts(userId: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = RetrofitInstance.api.getPostsByUser(userId)
@@ -138,5 +138,5 @@ class ProfileAndPostsFragment : Fragment() {
             }
         }
     }
-
 }
+

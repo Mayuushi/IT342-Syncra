@@ -55,14 +55,15 @@ class PortfolioPostFragment : Fragment() {
             val desc = inputDescription.text.toString().trim()
             val userId = requireContext()
                 .getSharedPreferences("UserSession", 0)
-                .getLong("userId", -1L)
+                .getString("userId", null)
+
 
             if (title.isEmpty() || desc.isEmpty()) {
                 Toast.makeText(requireContext(), "Fill in all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            if (userId == -1L) {
+            if (userId == null) {
                 Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }

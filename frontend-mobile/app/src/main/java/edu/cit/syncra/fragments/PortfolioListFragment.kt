@@ -22,7 +22,7 @@ class PortfolioListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var portfolioAdapter: PortfolioAdapter
-    private var userId: Long = -1L
+    private var userId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +49,18 @@ class PortfolioListFragment : Fragment() {
     private fun fetchPortfolios() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = RetrofitInstance.api.getPortfoliosByUser(userId)
+                if (userId.isNullOrEmpty()) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show()
+                    }
+                    return@launch
+                }
+
+                val response = RetrofitInstance.api.getPortfoliosByUser(userId!!)
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         val portfolios = response.body() ?: emptyList()
-                        portfolioAdapter.updateData(portfolios)  // This will update the adapter's data
+                        portfolioAdapter.updateData(portfolios)
                     } else {
                         Toast.makeText(requireContext(), "Failed to fetch portfolios", Toast.LENGTH_SHORT).show()
                     }
@@ -65,4 +72,5 @@ class PortfolioListFragment : Fragment() {
             }
         }
     }
+
 }

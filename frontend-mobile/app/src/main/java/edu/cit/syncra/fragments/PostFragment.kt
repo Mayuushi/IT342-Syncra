@@ -54,11 +54,11 @@ class PostFragment : Fragment() {
         btnSubmitPost.setOnClickListener {
             val content = inputPost.text.toString().trim()
             val sharedPref = requireContext().getSharedPreferences("UserSession", MODE_PRIVATE)
-            val userId = sharedPref.getLong("userId", -1L)
+            val userId = sharedPref.getString("userId", null)
 
             if (content.isEmpty() && imageUri == null) {
                 Toast.makeText(requireContext(), "Post cannot be empty", Toast.LENGTH_SHORT).show()
-            } else if (userId == -1L) {
+            } else if (userId.isNullOrEmpty()) {
                 Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show()
             } else {
                 showLoading(true)
@@ -119,7 +119,7 @@ class PostFragment : Fragment() {
         }
     }
 
-    private suspend fun submitPost(userId: Long, content: String, imageUrl: String?) {
+    private suspend fun submitPost(userId: String, content: String, imageUrl: String?) {
         try {
             val response = RetrofitInstance.api.createPost(userId, NewsPost(content, imageUrl))
             withContext(Dispatchers.Main) {
