@@ -59,7 +59,15 @@ class PortfolioListFragment : Fragment() {
                 val response = RetrofitInstance.api.getPortfoliosByUser(userId!!)
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
-                        val portfolios = response.body() ?: emptyList()
+                        val portfolios = response.body()?.map { portfolio ->
+                            // Handle the portfolio object with id as String
+                            Portfolio(
+                                id = portfolio.id,  // id should be a String here
+                                projectTitle = portfolio.projectTitle,
+                                description = portfolio.description,
+                                imageUrl = portfolio.imageUrl
+                            )
+                        } ?: emptyList()
                         portfolioAdapter.updateData(portfolios)
                     } else {
                         Toast.makeText(requireContext(), "Failed to fetch portfolios", Toast.LENGTH_SHORT).show()
@@ -72,5 +80,6 @@ class PortfolioListFragment : Fragment() {
             }
         }
     }
+
 
 }
