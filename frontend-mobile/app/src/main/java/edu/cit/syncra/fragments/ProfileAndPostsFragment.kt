@@ -16,6 +16,7 @@ import edu.cit.syncra.adapter.UserPostAdapter
 import edu.cit.syncra.DataClass.UserPost
 import edu.cit.syncra.LoginActivity
 import edu.cit.syncra.R
+import edu.cit.syncra.UpdateUserFragment
 import edu.cit.syncra.utils.SessionManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -75,6 +76,16 @@ class ProfileAndPostsFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        val btnEditProfile: Button = view.findViewById(R.id.btnEditProfile)
+        btnEditProfile.setOnClickListener {
+            val updateFragment = UpdateUserFragment()  // Make sure this fragment exists
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, updateFragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
 
         logoutButton.setOnClickListener {
             val sessionManager = SessionManager(requireContext())
