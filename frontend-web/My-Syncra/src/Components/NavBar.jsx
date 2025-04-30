@@ -106,9 +106,6 @@ export const NavBar = () => {
                     <div className="text-sm font-medium text-gray-900">USERNAME</div>
                     <div className="ml-2 text-xs font-medium text-blue-600">YOU</div>
                   </div>
-                  <div className="text-xs text-gray-500">
-                    0 views today <span className="text-green-500">+0</span>
-                  </div>
                 </div>
               </div>
             </div>
