@@ -22,7 +22,7 @@ class PortfolioListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var portfolioAdapter: PortfolioAdapter
-    private var userId: Long = -1L
+    private var userId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +49,26 @@ class PortfolioListFragment : Fragment() {
     private fun fetchPortfolios() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = RetrofitInstance.api.getPortfoliosByUser(userId)
+                if (userId.isNullOrEmpty()) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show()
+                    }
+                    return@launch
+                }
+
+                val response = RetrofitInstance.api.getPortfoliosByUser(userId!!)
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
-                        val portfolios = response.body() ?: emptyList()
-                        portfolioAdapter.updateData(portfolios)  // This will update the adapter's data
+                        val portfolios = response.body()?.map { portfolio ->
+                            // Handle the portfolio object with id as String
+                            Portfolio(
+                                id = portfolio.id,  // id should be a String here
+                                projectTitle = portfolio.projectTitle,
+                                description = portfolio.description,
+                                imageUrl = portfolio.imageUrl
+                            )
+                        } ?: emptyList()
+                        portfolioAdapter.updateData(portfolios)
                     } else {
                         Toast.makeText(requireContext(), "Failed to fetch portfolios", Toast.LENGTH_SHORT).show()
                     }
@@ -65,4 +80,6 @@ class PortfolioListFragment : Fragment() {
             }
         }
     }
+
+
 }

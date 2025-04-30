@@ -56,7 +56,7 @@ class NetworkFragment : Fragment() {
                 if (response.isSuccessful) {
                     val usersRaw = response.body()?.get("users") as? List<Map<String, Any>>
                     val users = usersRaw?.mapNotNull {
-                        val id = (it["id"] as? Double)?.toLong()
+                        val id = (it["id"] as? Double)?.toString()
                         val name = it["name"] as? String
                         val email = it["email"] as? String
                         if (id != null && name != null && email != null) {

@@ -12,16 +12,16 @@ class SessionManager(context: Context) {
         private const val EMAIL = "email"
     }
 
-    fun saveUserSession(userId: Long, name: String?, email: String?) {
+    fun saveUserSession(userId: String?, name: String?, email: String?) {
         with(prefs.edit()) {
-            putLong(USER_ID, userId)
+            putString(USER_ID, userId)
             putString(NAME, name)
             putString(EMAIL, email)
             apply()
         }
     }
 
-    fun getUserId(): Long = prefs.getLong(USER_ID, -1L)
+    fun getUserId(): String? = prefs.getString(USER_ID, null)
 
     fun getUserName(): String? = prefs.getString(NAME, "Unknown")
 
@@ -30,4 +30,5 @@ class SessionManager(context: Context) {
     fun clearSession() {
         prefs.edit().clear().apply()
     }
+
 }

@@ -1,27 +1,23 @@
 package edu.cit.syncra.adapter
 
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import edu.cit.syncra.DataClass.NewsPostResponse
+import com.edu.cit.Syncra.DataClass.NewsPostResponse
 import edu.cit.syncra.DataClass.User
 import edu.cit.syncra.databinding.ItemNewsFeedBinding
 
 class NewsFeedAdapter(
-    private val posts: List<NewsPostResponse>,
-    private val users: List<User> // Preloaded list of all users
+    private val posts: MutableList<NewsPostResponse>
 ) : RecyclerView.Adapter<NewsFeedAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemNewsFeedBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
         fun bind(post: NewsPostResponse) {
             binding.tvContent.text = post.content
-            binding.tvTimestamp.text = post.timestamp
-
-            // Match userId to find the user's name
-            val user = users.find { it.id == post.userId }
-            binding.tvUsername.text = user?.name ?: "Unknown User"
+            binding.tvTimestamp.text = post.createdAt ?: "Unknown Time"
+            binding.tvUsername.text = post.user.name
         }
     }
 
@@ -35,4 +31,12 @@ class NewsFeedAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(posts[position])
     }
+
+    fun updateData(newPosts: List<NewsPostResponse>) {
+        posts.clear()
+        posts.addAll(newPosts)
+        notifyDataSetChanged()
+    }
 }
+
+

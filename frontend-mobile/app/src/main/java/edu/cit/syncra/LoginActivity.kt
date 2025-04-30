@@ -39,17 +39,13 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        val forgotPasswordText: TextView = findViewById(R.id.forgotPasswordText)
-        forgotPasswordText.setOnClickListener {
-            val intent = Intent(this, LandingPageActivity::class.java)
-            startActivity(intent)
+        findViewById<TextView>(R.id.forgotPasswordText).setOnClickListener {
+            startActivity(Intent(this, LandingPageActivity::class.java))
             finish()
         }
 
-        val signUpText: TextView = findViewById(R.id.signUpText)
-        signUpText.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
+        findViewById<TextView>(R.id.signUpText).setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
             finish()
         }
     }
@@ -67,12 +63,12 @@ class LoginActivity : AppCompatActivity() {
                         val userEmail = user["email"] as? String
                         val userPassword = user["password"] as? String
                         val userName = user["name"] as? String
-                        val userId = (user["id"] as? Number)?.toLong()
+                        val userId = user["id"] as? String
 
-                        if (userEmail == email && userPassword == password) {
+                        if (userEmail == email && userPassword == password && userId != null) {
                             withContext(Dispatchers.Main) {
                                 val sessionManager = SessionManager(this@LoginActivity)
-                                sessionManager.saveUserSession(userId ?: -1, userName, userEmail)
+                                sessionManager.saveUserSession(userId, userName, userEmail)
 
                                 Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
                                 goToHomePage()
