@@ -11,7 +11,6 @@ import PrivateRoute from './Components/PrivateRoute'
 import Chat from './Components/Sections/Chat'
 import Network from './Components/Sections/Network'
 
-
 function App() {
   const [isLoaded, setIsLoaded] = useState(false)
 
@@ -60,8 +59,6 @@ function App() {
                 </PrivateRoute>
               }            
             />
-            {/* Add Profile route here */}
-  
           </Routes>
         </div>
       )}
