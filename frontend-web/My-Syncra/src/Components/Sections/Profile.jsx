@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import NavBar from "../NavBar"; // Add this import
 
 const initialProfile = {
   firstName: "WALTER",
@@ -41,13 +42,16 @@ function Profile() {
   };
 
   // Enhanced styles
+  // Add a constant for NavBar height
+  const NAVBAR_HEIGHT = 64; // Adjust if your NavBar is taller
+
   const containerStyle = {
     display: "flex",
     flexWrap: "wrap",
     gap: "2.5rem",
     justifyContent: "center",
     alignItems: "flex-start",
-    padding: "2.5rem 0",
+    padding: `${NAVBAR_HEIGHT + 40}px 0 2.5rem 0`, // Top padding for NavBar + extra space
     background: "#f5f5f5",
     minHeight: "100vh",
   };
@@ -303,153 +307,156 @@ function Profile() {
   };
 
   return (
-    <div style={containerStyle}>
-      {/* Profile Card */}
-      <div style={cardStyle}>
-        <div style={{ position: "relative" }}>
-          <img
-            src={backgroundImage}
-            alt="background"
-            style={{
-              width: "100%",
-              height: "110px",
-              objectFit: "cover",
-              borderRadius: "18px 18px 0 0",
-              boxShadow: "0 2px 8px rgba(21,101,192,0.06)",
-            }}
-          />
-          <button
-            style={{
-              position: "absolute",
-              top: 14,
-              right: 14,
-              background: "#222",
-              color: "#fff",
-              border: "none",
-              borderRadius: "6px",
-              fontSize: "0.85rem",
-              padding: "0.35rem 0.9rem",
-              cursor: "pointer",
-              opacity: 0.88,
-              boxShadow: "0 1px 4px rgba(21,101,192,0.10)",
-              transition: "background 0.2s",
-            }}
-          >
-            CHANGE BACKGROUND
-          </button>
-          <div style={profileImageWrapper}>
+    <>
+      <NavBar /> {/* Add NavBar at the top */}
+      <div style={containerStyle}>
+        {/* Profile Card */}
+        <div style={cardStyle}>
+          <div style={{ position: "relative" }}>
             <img
-              src={profileImage}
-              alt="profile"
-              style={profileImageStyle}
+              src={backgroundImage}
+              alt="background"
+              style={{
+                width: "100%",
+                height: "110px",
+                objectFit: "cover",
+                borderRadius: "18px 18px 0 0",
+                boxShadow: "0 2px 8px rgba(21,101,192,0.06)",
+              }}
             />
             <button
-              onClick={() => setShowUploadModal(true)}
-              style={uploadBtnStyle}
-              title="Upload new photo"
-            >
-              <span role="img" aria-label="upload">⬆️</span>
-            </button>
-          </div>
-        </div>
-        <div style={cardContentStyle}>
-          <h2 style={nameStyle}>
-            SHANE ADRIAN OPINION
-          </h2>
-          <div style={usernameStyle}>
-            @opinion
-          </div>
-          <button
-            style={mainUploadBtnStyle}
-            onClick={() => setShowUploadModal(true)}
-          >
-            UPLOAD NEW PHOTO
-          </button>
-        </div>
-      </div>
-
-      {/* Edit Profile Panel */}
-      <div style={editPanelStyle}>
-        <h2 style={{ fontWeight: "bold", fontSize: "1.35rem", marginBottom: "1.7rem", letterSpacing: "0.5px" }}>
-          Edit Profile
-        </h2>
-        {/* Tabs */}
-        <div style={{ display: "flex", borderBottom: "2px solid #e0e0e0", marginBottom: "1.7rem" }}>
-          {["PROFILE", "ABOUT", "EXPERIENCE", "EDUCATION"].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => handleTabClick(tab)}
-              style={tabBtnStyle(activeTab === tab)}
-            >
-              {tab.charAt(0) + tab.slice(1).toLowerCase()}
-            </button>
-          ))}
-        </div>
-        {/* Tab Content */}
-        <div>{renderTabContent()}</div>
-      </div>
-
-      {/* Upload Modal */}
-      {showUploadModal && (
-        <div style={modalOverlay}>
-          <div style={modalBox}>
-            <h3 style={{ fontWeight: "bold", marginBottom: "1.7rem", fontSize: "1.15rem" }}>ADD FILES</h3>
-            <div
               style={{
-                border: "2px solid #1976d2",
-                borderRadius: "12px",
-                padding: "2.2rem 1.2rem",
-                marginBottom: "1.7rem",
-                background: "#f8fafd",
-                boxShadow: "0 2px 8px rgba(21,101,192,0.08)",
+                position: "absolute",
+                top: 14,
+                right: 14,
+                background: "#222",
+                color: "#fff",
+                border: "none",
+                borderRadius: "6px",
+                fontSize: "0.85rem",
+                padding: "0.35rem 0.9rem",
+                cursor: "pointer",
+                opacity: 0.88,
+                boxShadow: "0 1px 4px rgba(21,101,192,0.10)",
+                transition: "background 0.2s",
               }}
             >
-              <div style={{ fontSize: "3.2rem", color: "#1976d2", marginBottom: "1.1rem" }}>
-                <span role="img" aria-label="upload">☁️</span>
-              </div>
-              <div style={{ fontWeight: "bold", fontSize: "1.22rem", marginBottom: "0.6rem" }}>
-                UPLOAD YOUR FILES HERE
-              </div>
-              <div style={{ color: "#888", fontSize: "1.01rem", marginBottom: "1.1rem" }}>
-                FILE SUPPORTED: PNG, JPEG
-              </div>
-              <div>
-                <label
-                  htmlFor="profile-upload"
-                  style={{
-                    display: "inline-block",
-                    border: "2px solid #1976d2",
-                    borderRadius: "24px",
-                    padding: "0.6rem 2.7rem",
-                    color: "#1976d2",
-                    fontWeight: "bold",
-                    cursor: "pointer",
-                    marginBottom: "1.1rem",
-                    fontSize: "1.05rem",
-                    transition: "background 0.2s, color 0.2s",
-                  }}
-                >
-                  BROWSE
-                  <input
-                    id="profile-upload"
-                    type="file"
-                    accept="image/png, image/jpeg"
-                    style={{ display: "none" }}
-                    onChange={handlePhotoChange}
-                  />
-                </label>
-              </div>
+              CHANGE BACKGROUND
+            </button>
+            <div style={profileImageWrapper}>
+              <img
+                src={profileImage}
+                alt="profile"
+                style={profileImageStyle}
+              />
+              <button
+                onClick={() => setShowUploadModal(true)}
+                style={uploadBtnStyle}
+                title="Upload new photo"
+              >
+                <span role="img" aria-label="upload">⬆️</span>
+              </button>
+            </div>
+          </div>
+          <div style={cardContentStyle}>
+            <h2 style={nameStyle}>
+              SHANE ADRIAN OPINION
+            </h2>
+            <div style={usernameStyle}>
+              @opinion
             </div>
             <button
-              style={buttonStyle}
-              onClick={() => setShowUploadModal(false)}
+              style={mainUploadBtnStyle}
+              onClick={() => setShowUploadModal(true)}
             >
-              SAVE
+              UPLOAD NEW PHOTO
             </button>
           </div>
         </div>
-      )}
-    </div>
+
+        {/* Edit Profile Panel */}
+        <div style={editPanelStyle}>
+          <h2 style={{ fontWeight: "bold", fontSize: "1.35rem", marginBottom: "1.7rem", letterSpacing: "0.5px" }}>
+            Edit Profile
+          </h2>
+          {/* Tabs */}
+          <div style={{ display: "flex", borderBottom: "2px solid #e0e0e0", marginBottom: "1.7rem" }}>
+            {["PROFILE", "ABOUT", "EXPERIENCE", "EDUCATION"].map((tab) => (
+              <button
+                key={tab}
+                onClick={() => handleTabClick(tab)}
+                style={tabBtnStyle(activeTab === tab)}
+              >
+                {tab.charAt(0) + tab.slice(1).toLowerCase()}
+              </button>
+            ))}
+          </div>
+          {/* Tab Content */}
+          <div>{renderTabContent()}</div>
+        </div>
+
+        {/* Upload Modal */}
+        {showUploadModal && (
+          <div style={modalOverlay}>
+            <div style={modalBox}>
+              <h3 style={{ fontWeight: "bold", marginBottom: "1.7rem", fontSize: "1.15rem" }}>ADD FILES</h3>
+              <div
+                style={{
+                  border: "2px solid #1976d2",
+                  borderRadius: "12px",
+                  padding: "2.2rem 1.2rem",
+                  marginBottom: "1.7rem",
+                  background: "#f8fafd",
+                  boxShadow: "0 2px 8px rgba(21,101,192,0.08)",
+                }}
+              >
+                <div style={{ fontSize: "3.2rem", color: "#1976d2", marginBottom: "1.1rem" }}>
+                  <span role="img" aria-label="upload">☁️</span>
+                </div>
+                <div style={{ fontWeight: "bold", fontSize: "1.22rem", marginBottom: "0.6rem" }}>
+                  UPLOAD YOUR FILES HERE
+                </div>
+                <div style={{ color: "#888", fontSize: "1.01rem", marginBottom: "1.1rem" }}>
+                  FILE SUPPORTED: PNG, JPEG
+                </div>
+                <div>
+                  <label
+                    htmlFor="profile-upload"
+                    style={{
+                      display: "inline-block",
+                      border: "2px solid #1976d2",
+                      borderRadius: "24px",
+                      padding: "0.6rem 2.7rem",
+                      color: "#1976d2",
+                      fontWeight: "bold",
+                      cursor: "pointer",
+                      marginBottom: "1.1rem",
+                      fontSize: "1.05rem",
+                      transition: "background 0.2s, color 0.2s",
+                    }}
+                  >
+                    BROWSE
+                    <input
+                      id="profile-upload"
+                      type="file"
+                      accept="image/png, image/jpeg"
+                      style={{ display: "none" }}
+                      onChange={handlePhotoChange}
+                    />
+                  </label>
+                </div>
+              </div>
+              <button
+                style={buttonStyle}
+                onClick={() => setShowUploadModal(false)}
+              >
+                SAVE
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 
