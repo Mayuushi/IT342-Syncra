@@ -270,6 +270,7 @@ function Chat() {
   return (
     <>
       <NavBar />
+      <div className="chat-bg"></div> {/* Add this line for full background */}
       <div className="chat-container">
         <div className="chat-layout">
           <aside className="sidebar">

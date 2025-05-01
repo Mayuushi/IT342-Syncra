@@ -1,13 +1,25 @@
+/* Add this at the top or near the top */
+.chat-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(120deg, #1a365d 0%, #2d3748 50%, #1a365d 100%);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  z-index: -1;
+}
+
+/* Update .chat-container to remove background and animation */
 .chat-container {
   position: fixed;
-  top: 80px; /* Increased offset to move chat further down */
+  top: 80px; /* Still offset for NavBar */
   left: 0;
   right: 0;
   bottom: 0;
   padding: 0 0 16px 0;
-  background: linear-gradient(120deg, #1a365d 0%, #2d3748 50%, #1a365d 100%);
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
+  /* Remove background and animation here */
   z-index: 0;
 }
 
