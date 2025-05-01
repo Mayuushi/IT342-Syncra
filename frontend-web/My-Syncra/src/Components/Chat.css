@@ -41,8 +41,18 @@
   border-right: 1px solid rgba(224, 224, 224, 0.5);
   display: flex;
   flex-direction: column;
+  height: 100%; /* Ensure sidebar fills parent */
+  min-width: 240px;
+  max-width: 320px;
 }
 
+.conversation-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  min-height: 0;
+  max-height: 70vh; /* Or use 100% if parent is sized */
+  padding-right: 4px; /* Optional: space for scrollbar */
+}
 .sidebar-header {
   padding: 20px;
   border-bottom: 1px solid #e0e0e0;
