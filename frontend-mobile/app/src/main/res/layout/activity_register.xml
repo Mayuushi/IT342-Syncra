@@ -202,7 +202,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Already on LinkedIn? "
+                    android:text="Already on Syncra? "
                     android:textColor="@color/linkedin_medium_text"
                     android:textSize="16sp" />
 
