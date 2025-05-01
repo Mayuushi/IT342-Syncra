@@ -21,22 +21,13 @@ import kotlinx.coroutines.withContext
 class NetworkFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: UserAdapter  // ✅ Make sure this is declared
+    private lateinit var adapter: UserAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_network, container, false)
-
-        recyclerView = view.findViewById(R.id.recyclerViewUsers)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = UserAdapter(listOf())
-        recyclerView.adapter = adapter
-
-        fetchUsers()
-
-        return view
+        return inflater.inflate(R.layout.fragment_network, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,10 +35,22 @@ class NetworkFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recyclerViewUsers)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = UserAdapter(emptyList())
+
+        adapter = UserAdapter(emptyList()) { selectedUser ->
+            val fragment = UserProfileFragment().apply {
+                arguments = Bundle().apply {
+                    putString("userId", selectedUser.id)
+                }
+            }
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
         recyclerView.adapter = adapter
 
-        fetchUsers() // Call the function here
+        fetchUsers()  // ✅ Safe to call here because adapter is now initialized
     }
 
     private fun fetchUsers() {
@@ -67,7 +70,7 @@ class NetworkFragment : Fragment() {
                             User(id, name, email)
                         } else null
                     }?.filter {
-                        it.id != currentUserId  // ✅ Exclude current user
+                        it.id != currentUserId
                     } ?: emptyList()
 
                     adapter.updateData(users)
@@ -77,7 +80,5 @@ class NetworkFragment : Fragment() {
             }
         }
     }
-
-
 }
 

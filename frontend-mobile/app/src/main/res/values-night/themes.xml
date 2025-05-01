@@ -1,7 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Base application theme for dark mode -->
     <style name="Base.Theme.Syncra" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <!-- Primary brand colors -->
+        <item name="colorPrimary">@color/linkedin_blue_dark</item>
+        <item name="colorPrimaryVariant">@color/linkedin_dark_blue_dark</item>
+        <item name="colorOnPrimary">@color/white_dark</item>
+
+        <!-- Secondary brand colors -->
+        <item name="colorSecondary">@color/linkedin_blue_dark</item>
+        <item name="colorSecondaryVariant">@color/linkedin_dark_blue_dark</item>
+        <item name="colorOnSecondary">@color/white_dark</item>
+
+        <!-- Background colors -->
+        <item name="android:colorBackground">@color/linkedin_background_dark</item>
+        <item name="colorSurface">@color/linkedin_surface_dark</item>
+        <item name="colorOnBackground">@color/linkedin_dark_text_dark</item>
+        <item name="colorOnSurface">@color/linkedin_dark_text_dark</item>
+
+        <!-- Status bar styling -->
+        <item name="android:statusBarColor">@color/linkedin_background_dark</item>
+        <item name="android:windowLightStatusBar">false</item> <!-- Light icons on dark background -->
+
+        <!-- Navigation bar styling -->
+        <item name="android:navigationBarColor">@color/linkedin_background_dark</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+
+        <!-- Text colors -->
+        <item name="android:textColorPrimary">@color/linkedin_dark_text_dark</item>
+        <item name="android:textColorSecondary">@color/linkedin_medium_text_dark</item>
+        <item name="android:textColorTertiary">@color/linkedin_light_text_dark</item>
+
+        <!-- Card and component styling -->
+        <item name="cardBackgroundColor">@color/linkedin_card_background_dark</item>
+        <item name="materialCardViewStyle">@style/Widget.Syncra.CardView.Dark</item>
+        <item name="textInputStyle">@style/Widget.Syncra.TextInputLayout.Dark</item>
+        <item name="buttonStyle">@style/Widget.Syncra.Button.Dark</item>
+    </style>
+
+    <!-- Card style for dark mode -->
+    <style name="Widget.Syncra.CardView.Dark" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardBackgroundColor">@color/linkedin_card_background_dark</item>
+        <item name="cardElevation">1dp</item>
+        <item name="cardCornerRadius">8dp</item>
+    </style>
+
+    <!-- Text input style for dark mode -->
+    <style name="Widget.Syncra.TextInputLayout.Dark" parent="Widget.Material3.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">@color/linkedin_surface_dark</item>
+        <item name="boxStrokeColor">@color/linkedin_blue_dark</item>
+        <item name="hintTextColor">@color/linkedin_blue_dark</item>
+        <item name="android:textColorHint">@color/linkedin_medium_text_dark</item>
+    </style>
+
+    <!-- Button style for dark mode -->
+    <style name="Widget.Syncra.Button.Dark" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/linkedin_blue_dark</item>
+        <item name="android:textColor">@color/white_dark</item>
+        <item name="cornerRadius">28dp</item>
     </style>
 </resources>

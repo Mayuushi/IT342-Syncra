@@ -55,6 +55,22 @@
 <color name="linkedin_medium_text">#666666</color>
 <color name="linkedin_light_text">#86888A</color>
 
+    <color name="linkedin_light_blue_dark">#1D2226</color>   <!-- Darker variant for light blue backgrounds -->
+    <color name="linkedin_dark_blue_dark">#0073B1</color>    <!-- Slightly adjusted dark blue -->
+
+    <color name="linkedin_dark_text_dark">#FFFFFF</color>    <!-- White text for dark backgrounds -->
+    <color name="linkedin_medium_text_dark">#B0B0B0</color>  <!-- Medium gray text for dark mode -->
+    <color name="linkedin_light_text_dark">#848884</color>   <!-- Light gray text for dark mode -->
+
+    <color name="linkedin_light_gray_dark">#38434F</color>   <!-- Darker gray for separators -->
+    <color name="linkedin_background_dark">#1D2226</color>   <!-- Main dark background -->
+
+    <color name="linkedin_card_background_dark">#2C3C41</color> <!-- Slightly lighter than background for cards -->
+    <color name="linkedin_surface_dark">#283339</color>
+
+    <color name="white_dark">#E6E6E6</color>                 <!-- Slightly off-white for dark mode -->
+    <color name="black_dark">#000000</color>
+
 
 
 
