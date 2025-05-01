@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 80px 0;  /* Increased padding top and bottom */
+  padding: 56px 0 16px 0; /* Reduced top and bottom padding for more height */
   background: linear-gradient(120deg, #1a365d 0%, #2d3748 50%, #1a365d 100%);
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
@@ -24,7 +24,7 @@
 }
 
 .chat-layout {
-  height: calc(100% - 32px);  /* Reduced height to account for spacing */
+  height: calc(100% - 40px); /* Increased height for chat area */
   max-width: 1400px;
   margin: 0 auto;
   background-color: rgba(255, 255, 255, 0.95);
@@ -41,7 +41,7 @@
   border-right: 1px solid rgba(224, 224, 224, 0.5);
   display: flex;
   flex-direction: column;
-  height: 100%; /* Ensure sidebar fills parent */
+  height: 100%;
   min-width: 240px;
   max-width: 320px;
 }
@@ -50,8 +50,9 @@
   flex: 1 1 auto;
   overflow-y: auto;
   min-height: 0;
-  max-height: 70vh; /* Or use 100% if parent is sized */
-  padding-right: 4px; /* Optional: space for scrollbar */
+  height: 100%; /* Make it fill the sidebar */
+  max-height: none; /* Remove max-height restriction */
+  padding-right: 4px;
 }
 .sidebar-header {
   padding: 20px;
