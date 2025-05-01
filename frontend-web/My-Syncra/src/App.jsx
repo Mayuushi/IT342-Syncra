@@ -58,7 +58,6 @@ function App() {
                   <Network />
                 </PrivateRoute>
               }            
-            
             />
           </Routes>
         </div>

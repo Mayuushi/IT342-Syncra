@@ -10,6 +10,9 @@ import {
 } from 'react-icons/fi';
 import authService from '../../Service/authService';
 import newsFeedService from '../../Service/newsFeedService';
+import spacexImg from '../../assets/spacex.jpg';
+import teslaImg from '../../assets/Tesla.jpg';
+import xImg from '../../assets/x.png';
 
 function Feed() {
   const navigate = useNavigate();
@@ -210,87 +213,45 @@ function Feed() {
               <div className="px-3 py-2">
                 <p className="text-xs flex items-center">🔖 My elements</p>
               </div>
-            </div>
-
-            {/* Latest Section */}
-            <div className="bg-white rounded-lg shadow-sm p-3">
-              <h3 className="font-medium text-sm mb-1">Latest</h3>
-              <ul className="space-y-1">
-                {[1, 2, 3, 4, 5].map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-center text-xs text-gray-600"
-                  >
-                    <span className="mr-1">📊</span>
-                    <span>Sample</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Groups Section */}
-            <div className="bg-white rounded-lg shadow-sm p-3">
-              <h3 className="font-medium text-sm mb-1">Groups</h3>
-              <ul className="space-y-1">
-                {[1, 2, 3].map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-center text-xs text-gray-600"
-                  >
-                    <span className="mr-1">👥</span>
-                    <span>Sample</span>
-                  </li>
-                ))}
-              </ul>
-              <button className="text-xs text-blue-500 mt-1 flex items-center">
-                show more
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-3 w-3 ml-1"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+              {/* Add Edit Profile button */}
+              <div className="px-3 pb-3">
+                <button
+                  className="w-full bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold py-1 rounded transition"
+                  onClick={() => navigate('/edit-profile')}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-            </div>
-
-            {/* Events Section */}
-            <div className="bg-white rounded-lg shadow-sm p-3">
-              <div className="flex justify-between items-center">
-                <h3 className="font-medium text-sm">Events</h3>
-                <button className="text-blue-500">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 4v16m8-8H4"
-                    />
-                  </svg>
+                  Edit profile
                 </button>
               </div>
-              <p className="text-xs text-blue-500 mt-1">Tracked hashtags</p>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  placeholder="Search for new"
-                  className="w-full p-1 text-xs border border-gray-300 rounded-md"
-                />
+            </div>
+
+            {/* Overview Section (User Portfolio Projects) */}
+            <div className="bg-white rounded-lg shadow-sm p-3">
+              <h3 className="font-medium text-sm mb-2">Projects</h3>
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <img src={spacexImg} alt="SpaceX Project" className="w-12 h-12 rounded object-cover" />
+                  <div>
+                    <div className="font-semibold text-xs text-gray-800">SpaceX</div>
+                    <div className="text-xs text-gray-500">Rocket Launch Platform</div>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <img src={teslaImg} alt="Tesla Project" className="w-12 h-12 rounded object-cover" />
+                  <div>
+                    <div className="font-semibold text-xs text-gray-800">Tesla</div>
+                    <div className="text-xs text-gray-500">Electric Vehicles</div>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <img src={xImg} alt="X Project" className="w-12 h-12 rounded object-cover" />
+                  <div>
+                    <div className="font-semibold text-xs text-gray-800">X</div>
+                    <div className="text-xs text-gray-500">Social Platform</div>
+                  </div>
+                </div>
               </div>
             </div>
+            {/* End Overview Section */}
           </div>
 
           {/* MAIN FEED */}
