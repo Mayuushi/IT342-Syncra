@@ -269,6 +269,7 @@ function Chat() {
 
   return (
     <>
+      <div className="chat-bg"></div>
       <NavBar />
       <div className="chat-container">
         <div className="chat-layout">
