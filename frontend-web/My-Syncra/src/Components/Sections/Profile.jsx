@@ -45,7 +45,7 @@ function Profile() {
     display: "flex",
     flexWrap: "nowrap",
     gap: "2.5rem",
-    justifyContent: "center",
+    justifyContent: "flex-start", // Changed from "center" to "flex-start"
     alignItems: "flex-start",
     padding: "2.5rem 2vw",
     background: "#f5f5f5",
