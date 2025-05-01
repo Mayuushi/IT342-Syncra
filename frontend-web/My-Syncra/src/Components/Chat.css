@@ -8,7 +8,7 @@
   background: linear-gradient(120deg, #1a365d 0%, #2d3748 50%, #1a365d 100%);
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
-  z-index: -1;
+  z-index: 0; /* Change from -1 to 0 */
 }
 
 /* Update .chat-container to remove background and animation */
