@@ -128,7 +128,7 @@ class ProfileAndPostsFragment : Fragment() {
                     if (response.isSuccessful) {
                         val postsRaw = response.body()?.get("posts") as? List<Map<String, Any>>
                         val posts = postsRaw?.mapNotNull {
-                            val id = (it["id"] as? Double)?.toLong()
+                            val id = it["id"] as? String
                             val content = it["content"] as? String
                             val createdAt = it["createdAt"] as? String
                             val imageUrl = it["imageUrl"] as? String
@@ -136,6 +136,7 @@ class ProfileAndPostsFragment : Fragment() {
                                 UserPost(id, content, createdAt, userName, imageUrl)
                             } else null
                         } ?: emptyList()
+
 
                         adapter.updateData(posts)
                     } else {
