@@ -213,11 +213,28 @@ function Feed() {
               <div className="px-3 py-2">
                 <p className="text-xs flex items-center">🔖 My elements</p>
               </div>
+              {/* Add Edit Profile button */}
+              <div className="px-3 pb-3">
+                <button
+                  className="w-full bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold py-1 rounded transition"
+                  onClick={() => navigate('/edit-profile')}
+                >
+                  Edit profile
+                </button>
+              </div>
             </div>
 
             {/* Overview Section (User Portfolio Projects) */}
             <div className="bg-white rounded-lg shadow-sm p-3">
-              <h3 className="font-medium text-sm mb-2">Projects</h3>
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="font-medium text-sm">Projects</h3>
+                <button
+                  className="text-xs text-blue-600 hover:underline font-medium"
+                  onClick={() => navigate('/portfolio')}
+                >
+                  View Portfolio
+                </button>
+              </div>
               <div className="space-y-3">
                 <div className="flex items-center space-x-2">
                   <img src={spacexImg} alt="SpaceX Project" className="w-12 h-12 rounded object-cover" />
