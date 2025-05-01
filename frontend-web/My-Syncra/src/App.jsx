@@ -10,6 +10,7 @@ import Feed from './Components/Sections/Feed'
 import PrivateRoute from './Components/PrivateRoute'
 import Chat from './Components/Sections/Chat'
 import Network from './Components/Sections/Network'
+import Profile from './Components/Sections/Profile' // <-- Add this import
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -58,7 +59,15 @@ function App() {
                   <Network />
                 </PrivateRoute>
               }            
-            
+            />
+            {/* Add Profile route here */}
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoute>
+                  <Profile />
+                </PrivateRoute>
+              }
             />
           </Routes>
         </div>
