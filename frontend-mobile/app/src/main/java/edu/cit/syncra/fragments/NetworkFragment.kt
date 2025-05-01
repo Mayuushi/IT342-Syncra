@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.edu.cit.Syncra.network.RetrofitInstance
 import edu.cit.syncra.adapter.UserAdapter
 import edu.cit.syncra.DataClass.User
@@ -24,6 +25,7 @@ class NetworkFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: UserAdapter
     private lateinit var progressBar: ProgressBar
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +41,7 @@ class NetworkFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         progressBar = view.findViewById(R.id.progressBar)
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
 
         adapter = UserAdapter(emptyList()) { selectedUser ->
             val fragment = UserProfileFragment().apply {
@@ -54,19 +57,25 @@ class NetworkFragment : Fragment() {
 
         recyclerView.adapter = adapter
 
-        fetchUsers()  // ✅ Safe to call here because adapter is now initialized
+        swipeRefreshLayout.setOnRefreshListener {
+            fetchUsers(isRefreshing = true)
+        }
+
+        fetchUsers()
     }
 
-    private fun fetchUsers() {
+    private fun fetchUsers(isRefreshing: Boolean = false) {
         val sessionManager = SessionManager(requireContext())
         val currentUserId = sessionManager.getUserId()
 
-        // Show the progress bar while fetching data
-        progressBar.visibility = View.VISIBLE
+        if (!isRefreshing) progressBar.visibility = View.VISIBLE
 
         CoroutineScope(Dispatchers.IO).launch {
             val response = RetrofitInstance.api.getAllUsers()
             withContext(Dispatchers.Main) {
+                if (!isRefreshing) progressBar.visibility = View.GONE
+                if (isRefreshing) swipeRefreshLayout.isRefreshing = false
+
                 if (response.isSuccessful) {
                     val usersRaw = response.body()?.get("users") as? List<Map<String, Any>>
                     val users = usersRaw?.mapNotNull {
@@ -78,15 +87,12 @@ class NetworkFragment : Fragment() {
                         } else null
                     }?.filter {
                         it.id != currentUserId
-                    } ?: emptyList()
+                    }?.shuffled() ?: emptyList()  // 🔀 Randomize list
 
                     adapter.updateData(users)
                 } else {
                     Toast.makeText(requireContext(), "Failed to load users", Toast.LENGTH_SHORT).show()
                 }
-
-                // Hide the progress bar after the network call is complete
-                progressBar.visibility = View.GONE
             }
         }
     }
