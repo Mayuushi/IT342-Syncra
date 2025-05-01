@@ -217,7 +217,7 @@ function Feed() {
               <div className="px-3 pb-3">
                 <button
                   className="w-full bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold py-1 rounded transition"
-                  onClick={() => navigate('/edit-profile')}
+                  onClick={() => navigate('/profile')}
                 >
                   Edit profile
                 </button>
