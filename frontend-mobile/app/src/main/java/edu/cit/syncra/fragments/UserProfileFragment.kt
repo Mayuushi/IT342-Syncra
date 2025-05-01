@@ -1,19 +1,18 @@
 package edu.cit.syncra.fragments
 
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import coil.load // You can keep this if you want to use it for loading images directly
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.edu.cit.Syncra.network.RetrofitInstance
 import edu.cit.syncra.DataClass.Portfolio
 import edu.cit.syncra.R
+import edu.cit.syncra.adapter.PortfolioAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +22,8 @@ class UserProfileFragment : Fragment() {
 
     private lateinit var nameTextView: TextView
     private lateinit var emailTextView: TextView
-    private lateinit var portfolioContainer: LinearLayout
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var portfolioAdapter: PortfolioAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +37,11 @@ class UserProfileFragment : Fragment() {
 
         nameTextView = view.findViewById(R.id.textViewUserName)
         emailTextView = view.findViewById(R.id.textViewUserEmail)
-        portfolioContainer = view.findViewById(R.id.portfolioContainer)
+        recyclerView = view.findViewById(R.id.recyclerViewPortfolio)
+
+        portfolioAdapter = PortfolioAdapter(emptyList())
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = portfolioAdapter
 
         val userId = arguments?.getString("userId")
         if (userId != null) {
@@ -51,7 +55,7 @@ class UserProfileFragment : Fragment() {
     private fun fetchUserProfile(userId: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = RetrofitInstance.api.getAllUsers()  // No getUserById in your API
+                val response = RetrofitInstance.api.getAllUsers()
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         val usersRaw = response.body()?.get("users") as? List<Map<String, Any>>
@@ -85,7 +89,7 @@ class UserProfileFragment : Fragment() {
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         val portfolios = response.body() ?: emptyList()
-                        displayPortfolios(portfolios)
+                        portfolioAdapter.updateData(portfolios)
                     } else {
                         Toast.makeText(requireContext(), "Failed to load portfolio", Toast.LENGTH_SHORT).show()
                     }
@@ -94,55 +98,6 @@ class UserProfileFragment : Fragment() {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(requireContext(), "Error loading portfolio", Toast.LENGTH_SHORT).show()
                 }
-            }
-        }
-    }
-
-    private fun displayPortfolios(portfolios: List<Portfolio>) {
-        portfolioContainer.removeAllViews()
-
-        if (portfolios.isEmpty()) {
-            val textView = TextView(requireContext())
-            textView.text = "No portfolio entries"
-            portfolioContainer.addView(textView)
-        } else {
-            portfolios.forEach { portfolio ->
-                // Create a new LinearLayout to hold the portfolio info
-                val portfolioLayout = LinearLayout(requireContext())
-                portfolioLayout.orientation = LinearLayout.VERTICAL
-                portfolioLayout.setPadding(16, 16, 16, 16)
-
-                // Title and Description TextViews
-                val titleTextView = TextView(requireContext())
-                titleTextView.text = portfolio.projectTitle
-                titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
-                titleTextView.setPadding(0, 0, 0, 8)
-
-                val descriptionTextView = TextView(requireContext())
-                descriptionTextView.text = portfolio.description
-                descriptionTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
-                descriptionTextView.setPadding(0, 0, 0, 8)
-
-                // Add TextViews to portfolio layout
-                portfolioLayout.addView(titleTextView)
-                portfolioLayout.addView(descriptionTextView)
-
-                // Image handling
-                portfolio.imageUrl?.let { imageUrl ->
-                    val imageView = ImageView(requireContext())
-                    imageView.layoutParams = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                    )
-                    imageView.load(imageUrl) {
-                        crossfade(true)
-                        placeholder(R.drawable.ic_profile) // Optional placeholder
-                    }
-                    portfolioLayout.addView(imageView)
-                }
-
-                // Add the portfolio layout to the container
-                portfolioContainer.addView(portfolioLayout)
             }
         }
     }
