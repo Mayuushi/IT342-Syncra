@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,7 @@ class NetworkFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: UserAdapter
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +37,8 @@ class NetworkFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recyclerViewUsers)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        progressBar = view.findViewById(R.id.progressBar)
 
         adapter = UserAdapter(emptyList()) { selectedUser ->
             val fragment = UserProfileFragment().apply {
@@ -57,6 +61,9 @@ class NetworkFragment : Fragment() {
         val sessionManager = SessionManager(requireContext())
         val currentUserId = sessionManager.getUserId()
 
+        // Show the progress bar while fetching data
+        progressBar.visibility = View.VISIBLE
+
         CoroutineScope(Dispatchers.IO).launch {
             val response = RetrofitInstance.api.getAllUsers()
             withContext(Dispatchers.Main) {
@@ -77,8 +84,10 @@ class NetworkFragment : Fragment() {
                 } else {
                     Toast.makeText(requireContext(), "Failed to load users", Toast.LENGTH_SHORT).show()
                 }
+
+                // Hide the progress bar after the network call is complete
+                progressBar.visibility = View.GONE
             }
         }
     }
 }
-
