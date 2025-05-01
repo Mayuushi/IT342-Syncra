@@ -43,13 +43,17 @@ function Profile() {
   // Enhanced styles
   const containerStyle = {
     display: "flex",
-    flexWrap: "wrap",
+    flexWrap: "nowrap",
     gap: "2.5rem",
     justifyContent: "center",
     alignItems: "flex-start",
-    padding: "2.5rem 0",
+    padding: "2.5rem 2vw",
     background: "#f5f5f5",
     minHeight: "100vh",
+    width: "100vw",
+    boxSizing: "border-box",
+    maxWidth: "100vw",
+    overflowX: "auto",
   };
 
   const cardStyle = {
@@ -57,21 +61,22 @@ function Profile() {
     borderRadius: "18px",
     boxShadow: "0 6px 24px rgba(21,101,192,0.10)",
     padding: "2.5rem 1.5rem 2rem 1.5rem",
-    width: "350px",
-    minWidth: "280px",
-    maxWidth: "100vw",
+    width: "400px",
+    minWidth: "340px",
+    maxWidth: "480px",
     position: "relative",
     overflow: "visible",
+    flex: "0 0 400px",
   };
 
   const editPanelStyle = {
     background: "#fff",
     borderRadius: "18px",
     boxShadow: "0 6px 24px rgba(21,101,192,0.10)",
-    padding: "2.5rem",
-    flex: "1 1 420px",
-    minWidth: "320px",
-    maxWidth: "700px",
+    padding: "2.5rem 3vw",
+    flex: "1 1 900px",
+    minWidth: "400px",
+    maxWidth: "1200px",
   };
 
   const profileImageWrapper = {
