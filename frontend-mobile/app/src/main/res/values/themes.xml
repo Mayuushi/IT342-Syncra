@@ -1,8 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.Syncra" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Primary brand color -->
+        <item name="colorPrimary">@color/linkedin_blue</item>
+        <item name="colorPrimaryVariant">@color/linkedin_dark_blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Status bar color -->
+        <item name="android:statusBarColor">@color/white</item> <!-- White status bar -->
+        <item name="android:windowLightStatusBar">true</item> <!-- Dark icons for visibility on white -->
+
+        <!-- Other styling attributes -->
+        <item name="colorSecondary">@color/linkedin_blue</item>
+        <item name="colorSecondaryVariant">@color/linkedin_dark_blue</item>
+        <item name="colorOnSecondary">@color/white</item>
     </style>
 
     <style name="Theme.Syncra" parent="Base.Theme.Syncra" />

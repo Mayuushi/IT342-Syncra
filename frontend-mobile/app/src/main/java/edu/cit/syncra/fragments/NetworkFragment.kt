@@ -12,6 +12,7 @@ import com.edu.cit.Syncra.network.RetrofitInstance
 import edu.cit.syncra.adapter.UserAdapter
 import edu.cit.syncra.DataClass.User
 import edu.cit.syncra.R
+import edu.cit.syncra.utils.SessionManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,18 +51,23 @@ class NetworkFragment : Fragment() {
     }
 
     private fun fetchUsers() {
+        val sessionManager = SessionManager(requireContext())
+        val currentUserId = sessionManager.getUserId()
+
         CoroutineScope(Dispatchers.IO).launch {
             val response = RetrofitInstance.api.getAllUsers()
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     val usersRaw = response.body()?.get("users") as? List<Map<String, Any>>
                     val users = usersRaw?.mapNotNull {
-                        val id = (it["id"] as? Double)?.toString()
+                        val id = (it["id"] as? String) ?: (it["id"] as? Double)?.toString()
                         val name = it["name"] as? String
                         val email = it["email"] as? String
                         if (id != null && name != null && email != null) {
                             User(id, name, email)
                         } else null
+                    }?.filter {
+                        it.id != currentUserId  // ✅ Exclude current user
                     } ?: emptyList()
 
                     adapter.updateData(users)
@@ -71,6 +77,7 @@ class NetworkFragment : Fragment() {
             }
         }
     }
+
 
 }
 
