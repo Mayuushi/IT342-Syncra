@@ -47,35 +47,41 @@ function Profile() {
     gap: "2.5rem",
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    padding: "2.5rem 0",
+    padding: "3.5rem 0",
     background: "#f5f5f5",
     minHeight: "100vh",
-    maxWidth: "1700px",      // Set a max width for the whole container
-    margin: "0 auto",        // Center the container horizontally
+    maxWidth: "1300px",      // More balanced max width
+    margin: "0 auto",
     boxSizing: "border-box",
   };
 
   const cardStyle = {
     background: "#fff",
-    borderRadius: "18px",
-    boxShadow: "0 6px 24px rgba(21,101,192,0.10)",
+    borderRadius: "22px",
+    boxShadow: "0 8px 32px rgba(21,101,192,0.13)",
     padding: "2.5rem 1.5rem 2rem 1.5rem",
-    width: "400px",
-    minWidth: "340px",
-    maxWidth: "480px",
+    width: "370px",
+    minWidth: "320px",
+    maxWidth: "420px",
     position: "relative",
     overflow: "visible",
-    flex: "0 0 400px",
+    flex: "0 0 370px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   };
 
   const editPanelStyle = {
     background: "#fff",
-    borderRadius: "18px",
-    boxShadow: "0 6px 24px rgba(21,101,192,0.10)",
+    borderRadius: "22px",
+    boxShadow: "0 8px 32px rgba(21,101,192,0.13)",
     padding: "2.5rem 3vw",
-    flex: "1 1 900px",
+    flex: "1 1 800px",
     minWidth: "400px",
-    maxWidth: "1200px",
+    maxWidth: "900px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   };
 
   const profileImageWrapper = {
@@ -84,12 +90,12 @@ function Profile() {
     top: "60px",
     transform: "translate(-50%, 0)",
     borderRadius: "50%",
-    border: "5px solid #fff",
+    border: "6px solid #fff",
     width: "110px",
     height: "110px",
     overflow: "hidden",
     background: "#fff",
-    boxShadow: "0 2px 12px rgba(21,101,192,0.10)",
+    boxShadow: "0 2px 16px rgba(21,101,192,0.13)",
     zIndex: 2,
     display: "flex",
     alignItems: "center",
@@ -118,13 +124,14 @@ function Profile() {
     justifyContent: "center",
     fontSize: "1.3rem",
     cursor: "pointer",
-    boxShadow: "0 2px 6px rgba(21,101,192,0.15)",
+    boxShadow: "0 2px 8px rgba(21,101,192,0.18)",
     transition: "background 0.2s",
   };
 
   const cardContentStyle = {
-    marginTop: "80px",
+    marginTop: "90px",
     textAlign: "center",
+    width: "100%",
   };
 
   const nameStyle = {
@@ -132,6 +139,7 @@ function Profile() {
     fontSize: "1.35rem",
     margin: 0,
     letterSpacing: "0.5px",
+    color: "#222",
   };
 
   const usernameStyle = {
@@ -147,20 +155,22 @@ function Profile() {
     margin: "0 auto",
     marginTop: "0.7rem",
     boxShadow: "0 2px 8px rgba(21,101,192,0.08)",
+    fontSize: "1.05rem",
+    letterSpacing: "0.5px",
   };
 
   const tabBtnStyle = (active) => ({
     flex: 1,
-    padding: "0.8rem 0",
+    padding: "0.9rem 0",
     border: "none",
     borderBottom: active ? "4px solid #1565c0" : "none",
     background: active ? "#e3f0fc" : "none",
     color: active ? "#1565c0" : "#222",
     fontWeight: active ? "bold" : "normal",
-    fontSize: "1.05rem",
+    fontSize: "1.08rem",
     cursor: "pointer",
     outline: "none",
-    borderRadius: active ? "8px 8px 0 0" : "8px 8px 0 0",
+    borderRadius: active ? "10px 10px 0 0" : "10px 10px 0 0",
     marginRight: "0.2rem",
     transition: "all 0.2s",
   });
@@ -191,9 +201,9 @@ function Profile() {
     switch (activeTab) {
       case "PROFILE":
         return (
-          <form className="profile-form" style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
-            <div style={{ flex: "1 1 180px" }}>
-              <label>FIRST NAME</label>
+          <form className="profile-form" style={{ display: "flex", flexWrap: "wrap", gap: "1.2rem", width: "100%", justifyContent: "center" }}>
+            <div style={{ flex: "1 1 180px", minWidth: 180 }}>
+              <label style={{ fontWeight: 500, fontSize: "0.98rem", color: "#1976d2" }}>FIRST NAME</label>
               <input
                 type="text"
                 name="firstName"
@@ -202,8 +212,8 @@ function Profile() {
                 style={inputStyle}
               />
             </div>
-            <div style={{ flex: "1 1 180px" }}>
-              <label>LAST NAME</label>
+            <div style={{ flex: "1 1 180px", minWidth: 180 }}>
+              <label style={{ fontWeight: 500, fontSize: "0.98rem", color: "#1976d2" }}>LAST NAME</label>
               <input
                 type="text"
                 name="lastName"
@@ -212,8 +222,8 @@ function Profile() {
                 style={inputStyle}
               />
             </div>
-            <div style={{ flex: "1 1 180px" }}>
-              <label>PASSWORD</label>
+            <div style={{ flex: "1 1 180px", minWidth: 180 }}>
+              <label style={{ fontWeight: 500, fontSize: "0.98rem", color: "#1976d2" }}>PASSWORD</label>
               <input
                 type="password"
                 name="password"
@@ -222,8 +232,8 @@ function Profile() {
                 style={inputStyle}
               />
             </div>
-            <div style={{ flex: "1 1 180px" }}>
-              <label>CONFIRM PASSWORD</label>
+            <div style={{ flex: "1 1 180px", minWidth: 180 }}>
+              <label style={{ fontWeight: 500, fontSize: "0.98rem", color: "#1976d2" }}>CONFIRM PASSWORD</label>
               <input
                 type="password"
                 name="confirmPassword"
@@ -232,8 +242,8 @@ function Profile() {
                 style={inputStyle}
               />
             </div>
-            <div style={{ flex: "1 1 180px" }}>
-              <label>EMAIL ADDRESS</label>
+            <div style={{ flex: "1 1 180px", minWidth: 180 }}>
+              <label style={{ fontWeight: 500, fontSize: "0.98rem", color: "#1976d2" }}>EMAIL ADDRESS</label>
               <input
                 type="email"
                 name="email"
@@ -242,8 +252,8 @@ function Profile() {
                 style={inputStyle}
               />
             </div>
-            <div style={{ flex: "1 1 180px" }}>
-              <label>CONFIRM EMAIL ADDRESS</label>
+            <div style={{ flex: "1 1 180px", minWidth: 180 }}>
+              <label style={{ fontWeight: 500, fontSize: "0.98rem", color: "#1976d2" }}>CONFIRM EMAIL ADDRESS</label>
               <input
                 type="email"
                 name="confirmEmail"
@@ -252,7 +262,7 @@ function Profile() {
                 style={inputStyle}
               />
             </div>
-            <div style={{ width: "100%", marginTop: "1.5rem" }}>
+            <div style={{ width: "100%", marginTop: "1.7rem", display: "flex", justifyContent: "center" }}>
               <button type="button" style={buttonStyle}>
                 UPLOAD INFO
               </button>
@@ -460,13 +470,15 @@ function Profile() {
 // Styles for inputs and buttons
 const inputStyle = {
   width: "100%",
-  padding: "0.7rem",
+  padding: "0.8rem",
   borderRadius: "8px",
-  border: "1.5px solid #222",
-  fontSize: "1rem",
+  border: "1.5px solid #b0b0b0",
+  fontSize: "1.02rem",
   marginTop: "0.3rem",
   marginBottom: "0.3rem",
   outline: "none",
+  background: "#f9fafd",
+  transition: "border 0.2s",
 };
 
 const buttonStyle = {
@@ -474,11 +486,13 @@ const buttonStyle = {
   color: "#fff",
   border: "none",
   borderRadius: "8px",
-  padding: "0.7rem 2.5rem",
+  padding: "0.8rem 2.5rem",
   fontWeight: "bold",
-  fontSize: "1rem",
+  fontSize: "1.08rem",
   cursor: "pointer",
   transition: "background 0.2s",
+  letterSpacing: "0.5px",
+  boxShadow: "0 2px 8px rgba(21,101,192,0.08)",
 };
 
 export default Profile;
