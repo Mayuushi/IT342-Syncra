@@ -33,6 +33,7 @@ class HomeFragment : Fragment() {
         adapter = NewsFeedAdapter(mutableListOf())
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
+        binding.progressBar.visibility = View.VISIBLE
 
         lifecycleScope.launch {
             try {
@@ -64,7 +65,10 @@ class HomeFragment : Fragment() {
                 }
             } catch (e: Exception) {
                 Log.e("HomeFragment", "Exception: ${e.message}", e)
+            }finally {
+                binding.progressBar.visibility = View.GONE
             }
+
         }
     }
 }
