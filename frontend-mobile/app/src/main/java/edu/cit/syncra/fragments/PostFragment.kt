@@ -15,6 +15,7 @@ import com.edu.cit.Syncra.network.RetrofitInstance
 import com.github.dhaval2404.imagepicker.ImagePicker
 import edu.cit.syncra.DataClass.NewsPost
 import edu.cit.syncra.R
+import edu.cit.syncra.utils.SessionManager
 import kotlinx.coroutines.*
 import okhttp3.*
 import org.json.JSONObject
@@ -24,9 +25,10 @@ class PostFragment : Fragment() {
 
     private lateinit var inputPost: EditText
     private lateinit var btnSubmitPost: Button
-    private lateinit var btnSelectImage: Button
+    private lateinit var btnSelectImage: ImageButton
     private lateinit var imagePreview: ImageView
     private lateinit var progressBar: ProgressBar
+    private lateinit var txtUsername: TextView
     private var imageUri: Uri? = null
 
     private val IMGUR_CLIENT_ID = "5e8602b64bcbbbb" // Replace with your Imgur client ID
@@ -42,6 +44,10 @@ class PostFragment : Fragment() {
         btnSelectImage = view.findViewById(R.id.btnSelectImage)
         imagePreview = view.findViewById(R.id.imagePreview)
         progressBar = view.findViewById(R.id.progressBar)
+        txtUsername = view.findViewById(R.id.txtUserName)
+        val sessionManager = SessionManager(requireContext())
+        val username = sessionManager.getUserName()
+        txtUsername.text = username
 
         btnSelectImage.setOnClickListener {
             ImagePicker.with(this)
@@ -147,4 +153,6 @@ class PostFragment : Fragment() {
         btnSubmitPost.isEnabled = !isLoading
         btnSelectImage.isEnabled = !isLoading
     }
+
+
 }

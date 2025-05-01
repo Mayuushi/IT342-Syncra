@@ -232,15 +232,5 @@
     </androidx.core.widget.NestedScrollView>
 
     <!-- Floating Action Button for creating new posts -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddPost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add"
-        app:backgroundTint="#0077B5"
-        app:tint="#FFFFFF"
-        android:contentDescription="Add Post"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

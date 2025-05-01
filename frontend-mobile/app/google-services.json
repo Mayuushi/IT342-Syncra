@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "365368451601",
+    "project_id": "syncra-cb455",
+    "storage_bucket": "syncra-cb455.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365368451601:android:215fb04bcd228cbc3407b0",
+        "android_client_info": {
+          "package_name": "edu.cit.syncra"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmc_ullXyYndvoDLsEj6833S34XC7N7uU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

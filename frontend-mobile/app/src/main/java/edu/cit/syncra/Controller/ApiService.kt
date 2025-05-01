@@ -25,6 +25,15 @@ interface ApiService {
     @GET("/api/users")
     suspend fun getAllUsers(): Response<Map<String, Any>>
 
+    @GET("/api/users/{id}")  // ✅ Add this line
+    suspend fun getUserById(@Path("id") id: String): Response<Map<String, Any>>
+
+    @GET("/api/users/email/{email}")
+    suspend fun getUserByEmail(@Path("email") email: String): Response<Map<String, Any>>
+
+    @GET("/api/newsfeed")
+    suspend fun getAllPosts(): Response<Map<String, Any>>
+
     @GET("/api/newsfeed/{userId}")
     suspend fun getPostsByUser(@Path("userId") userId: String): Response<Map<String, Any>>
 
@@ -33,13 +42,6 @@ interface ApiService {
         @Path("userId") userId: String,
         @Body post: NewsPost
     ): Response<Map<String, Any>>
-
-    @GET("/api/users/email/{email}")
-    suspend fun getUserByEmail(@Path("email") email: String): Response<Map<String, Any>>
-
-    @GET("/api/newsfeed")
-    suspend fun getAllPosts(): Response<Map<String, Any>>
-
 
     @POST("/api/portfolio/user/{userId}")
     suspend fun createPortfolio(
@@ -50,3 +52,4 @@ interface ApiService {
     @GET("/api/portfolio/user/{userId}")
     suspend fun getPortfoliosByUser(@Path("userId") userId: String): Response<List<Portfolio>>
 }
+

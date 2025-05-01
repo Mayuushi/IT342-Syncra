@@ -34,6 +34,19 @@ class HomeFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
 
+        // Set up pull-to-refresh
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            fetchPosts() // Call the method to fetch new posts on refresh
+        }
+
+        // Initially load posts
+        fetchPosts()
+    }
+
+    private fun fetchPosts() {
+        // Show the refresh animation
+        binding.swipeRefreshLayout.isRefreshing = true
+
         lifecycleScope.launch {
             try {
                 val response = apiService.getAllPosts()
@@ -64,6 +77,9 @@ class HomeFragment : Fragment() {
                 }
             } catch (e: Exception) {
                 Log.e("HomeFragment", "Exception: ${e.message}", e)
+            } finally {
+                // Hide the refresh animation
+                binding.swipeRefreshLayout.isRefreshing = false
             }
         }
     }

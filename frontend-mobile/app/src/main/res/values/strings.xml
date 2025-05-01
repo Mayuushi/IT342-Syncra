@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Syncra</string>
+    <string name="default_web_client_id">your-web-client-id.apps.googleusercontent.com</string>
+
 </resources>
