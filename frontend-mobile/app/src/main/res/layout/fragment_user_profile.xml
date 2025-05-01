@@ -20,7 +20,9 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="#FFFFFF"
+                android:background="@color/linkedin_blue"
+                app:titleTextColor="@color/white"
+                app:title="Profile"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -118,12 +120,12 @@
                     android:gravity="center"
                     android:background="?attr/selectableItemBackground" />
 
-                
+
             </LinearLayout>
 
             <View
                 android:id="@+id/tabIndicator"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="3dp"
                 android:background="#0077B5"
                 app:layout_constraintTop_toBottomOf="@+id/tabLayout"
