@@ -50,7 +50,7 @@ function Profile() {
     padding: "2.5rem 0",
     background: "#f5f5f5",
     minHeight: "100vh",
-    maxWidth: "1400px",      // Set a max width for the whole container
+    maxWidth: "1700px",      // Set a max width for the whole container
     margin: "0 auto",        // Center the container horizontally
     boxSizing: "border-box",
   };
