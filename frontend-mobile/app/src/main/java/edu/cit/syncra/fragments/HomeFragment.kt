@@ -33,7 +33,19 @@ class HomeFragment : Fragment() {
         adapter = NewsFeedAdapter(mutableListOf())
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
-        binding.progressBar.visibility = View.VISIBLE
+
+        // Set up pull-to-refresh
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            fetchPosts() // Call the method to fetch new posts on refresh
+        }
+
+        // Initially load posts
+        fetchPosts()
+    }
+
+    private fun fetchPosts() {
+        // Show the refresh animation
+        binding.swipeRefreshLayout.isRefreshing = true
 
         lifecycleScope.launch {
             try {
@@ -65,10 +77,10 @@ class HomeFragment : Fragment() {
                 }
             } catch (e: Exception) {
                 Log.e("HomeFragment", "Exception: ${e.message}", e)
-            }finally {
-                binding.progressBar.visibility = View.GONE
+            } finally {
+                // Hide the refresh animation
+                binding.swipeRefreshLayout.isRefreshing = false
             }
-
         }
     }
 }
