@@ -1,12 +1,13 @@
 package edu.cit.syncra.adapter
 
-
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.edu.cit.Syncra.DataClass.NewsPostResponse
-import edu.cit.syncra.DataClass.User
 import edu.cit.syncra.databinding.ItemNewsFeedBinding
+import edu.cit.syncra.R
 
 class NewsFeedAdapter(
     private val posts: MutableList<NewsPostResponse>
@@ -14,10 +15,26 @@ class NewsFeedAdapter(
 
     inner class ViewHolder(val binding: ItemNewsFeedBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(post: NewsPostResponse) {
+            // Set content text
             binding.tvContent.text = post.content
             binding.tvTimestamp.text = post.createdAt ?: "Unknown Time"
             binding.tvUsername.text = post.user.name
+
+            // Load post image only if it exists
+            if (!post.imageUrl.isNullOrEmpty()) {
+                binding.ivPostImage.visibility = View.VISIBLE
+                binding.ivPostImage.load(post.imageUrl) {
+                    crossfade(true)
+                    placeholder(R.drawable.ic_profile) // Replace with your own placeholder drawable
+                    error(R.drawable.ic_profile) // Replace with your own error drawable
+                }
+            } else {
+                binding.ivPostImage.visibility = View.GONE
+            }
+
+            // Optionally: load user profile image if available
         }
     }
 
@@ -38,5 +55,3 @@ class NewsFeedAdapter(
         notifyDataSetChanged()
     }
 }
-
-
