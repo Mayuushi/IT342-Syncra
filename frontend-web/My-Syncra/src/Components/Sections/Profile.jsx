@@ -47,13 +47,12 @@ function Profile() {
     gap: "2.5rem",
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    padding: "2.5rem 0 2.5rem 2.5rem", // Only left padding for spacing from the left edge
+    padding: "2.5rem 0",
     background: "#f5f5f5",
     minHeight: "100vh",
-    width: "100vw",
+    maxWidth: "1400px",      // Set a max width for the whole container
+    margin: "0 auto",        // Center the container horizontally
     boxSizing: "border-box",
-    maxWidth: "100vw",
-    overflowX: "auto",
   };
 
   const cardStyle = {
