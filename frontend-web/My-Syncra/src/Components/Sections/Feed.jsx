@@ -217,7 +217,7 @@ function Feed() {
 
             {/* Overview Section (User Portfolio Projects) */}
             <div className="bg-white rounded-lg shadow-sm p-3">
-              <h3 className="font-medium text-sm mb-2">Overview</h3>
+              <h3 className="font-medium text-sm mb-2">Projects</h3>
               <div className="space-y-3">
                 <div className="flex items-center space-x-2">
                   <img src={spacexImg} alt="SpaceX Project" className="w-12 h-12 rounded object-cover" />
