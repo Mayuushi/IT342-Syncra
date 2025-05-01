@@ -43,45 +43,35 @@ function Profile() {
   // Enhanced styles
   const containerStyle = {
     display: "flex",
-    flexWrap: "nowrap",
+    flexWrap: "wrap",
     gap: "2.5rem",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignItems: "flex-start",
-    padding: "3.5rem 0",
+    padding: "2.5rem 0",
     background: "#f5f5f5",
     minHeight: "100vh",
-    maxWidth: "1300px",      // More balanced max width
-    margin: "0 auto",
-    boxSizing: "border-box",
   };
 
   const cardStyle = {
     background: "#fff",
-    borderRadius: "22px",
-    boxShadow: "0 8px 32px rgba(21,101,192,0.13)",
+    borderRadius: "18px",
+    boxShadow: "0 6px 24px rgba(21,101,192,0.10)",
     padding: "2.5rem 1.5rem 2rem 1.5rem",
-    width: "370px",
-    minWidth: "320px",
-    maxWidth: "420px",
+    width: "350px",
+    minWidth: "280px",
+    maxWidth: "100vw",
     position: "relative",
     overflow: "visible",
-    flex: "0 0 370px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
   };
 
   const editPanelStyle = {
     background: "#fff",
-    borderRadius: "22px",
-    boxShadow: "0 8px 32px rgba(21,101,192,0.13)",
-    padding: "2.5rem 3vw",
-    flex: "1 1 800px",
-    minWidth: "400px",
-    maxWidth: "900px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    borderRadius: "18px",
+    boxShadow: "0 6px 24px rgba(21,101,192,0.10)",
+    padding: "2.5rem",
+    flex: "1 1 420px",
+    minWidth: "320px",
+    maxWidth: "700px",
   };
 
   const profileImageWrapper = {
@@ -90,12 +80,12 @@ function Profile() {
     top: "60px",
     transform: "translate(-50%, 0)",
     borderRadius: "50%",
-    border: "6px solid #fff",
+    border: "5px solid #fff",
     width: "110px",
     height: "110px",
     overflow: "hidden",
     background: "#fff",
-    boxShadow: "0 2px 16px rgba(21,101,192,0.13)",
+    boxShadow: "0 2px 12px rgba(21,101,192,0.10)",
     zIndex: 2,
     display: "flex",
     alignItems: "center",
@@ -124,14 +114,13 @@ function Profile() {
     justifyContent: "center",
     fontSize: "1.3rem",
     cursor: "pointer",
-    boxShadow: "0 2px 8px rgba(21,101,192,0.18)",
+    boxShadow: "0 2px 6px rgba(21,101,192,0.15)",
     transition: "background 0.2s",
   };
 
   const cardContentStyle = {
-    marginTop: "90px",
+    marginTop: "80px",
     textAlign: "center",
-    width: "100%",
   };
 
   const nameStyle = {
@@ -139,7 +128,6 @@ function Profile() {
     fontSize: "1.35rem",
     margin: 0,
     letterSpacing: "0.5px",
-    color: "#222",
   };
 
   const usernameStyle = {
@@ -155,22 +143,20 @@ function Profile() {
     margin: "0 auto",
     marginTop: "0.7rem",
     boxShadow: "0 2px 8px rgba(21,101,192,0.08)",
-    fontSize: "1.05rem",
-    letterSpacing: "0.5px",
   };
 
   const tabBtnStyle = (active) => ({
     flex: 1,
-    padding: "0.9rem 0",
+    padding: "0.8rem 0",
     border: "none",
     borderBottom: active ? "4px solid #1565c0" : "none",
     background: active ? "#e3f0fc" : "none",
     color: active ? "#1565c0" : "#222",
     fontWeight: active ? "bold" : "normal",
-    fontSize: "1.08rem",
+    fontSize: "1.05rem",
     cursor: "pointer",
     outline: "none",
-    borderRadius: active ? "10px 10px 0 0" : "10px 10px 0 0",
+    borderRadius: active ? "8px 8px 0 0" : "8px 8px 0 0",
     marginRight: "0.2rem",
     transition: "all 0.2s",
   });
