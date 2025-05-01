@@ -1,10 +1,10 @@
 .chat-container {
   position: fixed;
-  top: 64px; /* Offset by NavBar height */
+  top: 80px; /* Increased offset to move chat further down */
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 0 0 16px 0; /* Remove top padding, keep bottom padding */
+  padding: 0 0 16px 0;
   background: linear-gradient(120deg, #1a365d 0%, #2d3748 50%, #1a365d 100%);
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
