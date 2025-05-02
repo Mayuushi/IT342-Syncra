@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import {NavBar} from "../NavBar"; // Add this import
 
 const initialProfile = {
-  firstName: "WALTER",
-  lastName: "SHENENCIA",
-  password: "********",
-  confirmPassword: "********",
-  email: "shaneopinion@gmail.com",
-  confirmEmail: "shaneopinion@gmail.com",
+  firstName: "",
+  lastName: "",
+  password: "",
+  confirmPassword: "",
+  email: "",
+  confirmEmail: "",
 };
 
 function Profile() {
