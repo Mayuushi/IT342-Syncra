@@ -86,7 +86,7 @@ function Feed() {
           user: {
             name: user.name || 'You',
             followers: '1,234 followers', // placeholder
-            profileImage: user.profilePicture || 'https://via.placeholder.com/50', // placeholder
+            profileImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80", // match Profile Card
             isPromoted: false,
           },
           content: newPost,
@@ -226,7 +226,16 @@ function Feed() {
 
             {/* Overview Section (User Portfolio Projects) */}
             <div className="bg-white rounded-lg shadow-sm p-3">
-              <h3 className="font-medium text-sm mb-2">Projects</h3>
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="font-medium text-sm">Projects</h3>
+                <button
+                  className="text-xs font-semibold text-blue-600 hover:underline px-2 py-1 rounded transition"
+                  onClick={() => navigate('/portfolio')}
+                  style={{ background: "#e3e9f7" }}
+                >
+                  View Portfolio
+                </button>
+              </div>
               <div className="space-y-3">
                 <div className="flex items-center space-x-2">
                   <img src={spacexImg} alt="SpaceX Project" className="w-12 h-12 rounded object-cover" />

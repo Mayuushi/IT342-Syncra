@@ -11,6 +11,8 @@ import PrivateRoute from './Components/PrivateRoute'
 import Chat from './Components/Sections/Chat'
 import Network from './Components/Sections/Network'
 import Profile from './Components/Sections/Profile'
+import Portfolio from './Components/Sections/Portfolio'
+import Job from './Components/Sections/Job'; // Import your Job component
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -65,6 +67,23 @@ function App() {
               element={
                 <PrivateRoute>
                   <Profile />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/portfolio"
+              element={
+                <PrivateRoute>
+                  <Portfolio />
+                </PrivateRoute>
+              }
+            />
+          
+            <Route
+              path="/jobs"
+              element={
+                <PrivateRoute>
+                  <Job />
                 </PrivateRoute>
               }
             />
