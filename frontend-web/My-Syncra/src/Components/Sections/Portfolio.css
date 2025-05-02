@@ -1,22 +1,21 @@
-/* Root layout */
 .portfolio-root {
   display: flex;
   min-height: 100vh;
-  width: 100vw;              /* Make it fill the viewport width */
-  overflow-x: hidden;        /* Prevent horizontal scroll */
+  width: 100vw;
+  overflow-x: hidden;
   background: #f5f6fa;
-  padding-top: 64px;         /* Height of NavBar */
-  box-sizing: border-box;    /* Include padding in width */
+  padding-top: 64px;
+  box-sizing: border-box;
+  /* Remove any left margin or padding */
 }
 
-/* Sidebar */
 .portfolio-sidebar {
   width: 270px;
   min-width: 220px;
   background: #fff;
   padding: 24px 0 24px 0;
   border-radius: 16px;
-  margin: 16px 0 16px 16px;
+  margin: 16px 0 16px 0; /* Remove left margin */
   display: flex;
   flex-direction: column;
   gap: 24px;
