@@ -1,5 +1,5 @@
 /* Root layout */
-.portfolio-root {
+.job-root {
     display: flex;
     min-height: 100vh;
     background: #f5f6fa;
@@ -7,7 +7,7 @@
   }
   
   /* Sidebar */
-  .portfolio-sidebar {
+  .job-sidebar {
     width: 270px;
     min-width: 220px;
     background: #fff;
@@ -21,7 +21,7 @@
     height: fit-content;
   }
   
-  .portfolio-promo {
+  .job-promo {
     background: #1a6ed8;
     border-radius: 20px;
     padding: 24px 12px;
@@ -30,7 +30,7 @@
     justify-content: center;
   }
   
-  .portfolio-promo-content h2 {
+  .job-promo-content h2 {
     color: #fff;
     font-size: 1.3rem;
     font-weight: 700;
@@ -38,7 +38,7 @@
     line-height: 1.2;
   }
   
-  .portfolio-promo-content button {
+  .job-promo-content button {
     background: #fff;
     color: #1a6ed8;
     border: none;
@@ -50,31 +50,31 @@
     transition: background 0.2s;
   }
   
-  .portfolio-promo-content button:hover {
+  .job-promo-content button:hover {
     background: #e3e9f7;
   }
   
-  .portfolio-filters {
+  .job-filters {
     padding: 0 18px;
   }
   
-  .portfolio-filters h3 {
+  .job-filters h3 {
     font-size: 1.1rem;
     font-weight: 700;
     margin-bottom: 12px;
   }
   
-  .portfolio-filter-group {
+  .job-filter-group {
     margin-bottom: 18px;
   }
   
-  .portfolio-filter-title {
+  .job-filter-title {
     font-size: 0.98rem;
     font-weight: 600;
     margin-bottom: 6px;
   }
   
-  .portfolio-checkbox {
+  .job-checkbox {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -83,18 +83,18 @@
     cursor: pointer;
   }
   
-  .portfolio-checkbox input[type="checkbox"] {
+  .job-checkbox input[type="checkbox"] {
     accent-color: #1a6ed8;
   }
   
   /* Main content */
-  .portfolio-main {
+  .job-main {
     flex: 1;
     padding: 32px 32px 32px 32px;
     min-width: 0;
   }
   
-  .portfolio-header {
+  .job-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -102,7 +102,7 @@
     flex-wrap: wrap;
   }
   
-  .portfolio-header h1 {
+  .job-header h1 {
     font-size: 2rem;
     font-weight: 700;
     margin: 0;
@@ -111,7 +111,7 @@
     gap: 10px;
   }
   
-  .portfolio-count {
+  .job-count {
     background: #e3e9f7;
     color: #1a6ed8;
     border-radius: 12px;
@@ -120,12 +120,12 @@
     font-weight: 600;
   }
   
-  .portfolio-sort {
+  .job-sort {
     font-size: 1rem;
     color: #888;
   }
   
-  .portfolio-sort-link {
+  .job-sort-link {
     color: #1a6ed8;
     text-decoration: underline;
     margin-left: 4px;
@@ -133,13 +133,13 @@
     cursor: pointer;
   }
   
-  .portfolio-grid {
+  .job-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 24px;
   }
   
-  .portfolio-card {
+  .job-card {
     background: linear-gradient(135deg, #b3d0f7 0%, #e3e9f7 100%);
     border-radius: 16px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -151,7 +151,7 @@
     position: relative;
   }
   
-  .portfolio-card-date {
+  .job-card-date {
     position: absolute;
     top: 14px;
     left: 14px;
@@ -164,28 +164,28 @@
     box-shadow: 0 1px 4px rgba(0,0,0,0.04);
   }
   
-  .portfolio-card-company {
+  .job-card-company {
     margin-top: 32px;
     font-size: 1rem;
     font-weight: 600;
     color: #222;
   }
   
-  .portfolio-card-title {
+  .job-card-title {
     font-size: 1.2rem;
     font-weight: 700;
     color: #1a365d;
     margin-bottom: 10px;
   }
   
-  .portfolio-card-tags {
+  .job-card-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     margin-bottom: 18px;
   }
   
-  .portfolio-tag {
+  .job-tag {
     background: #fff;
     color: #1a6ed8;
     border-radius: 8px;
@@ -195,20 +195,20 @@
     box-shadow: 0 1px 4px rgba(0,0,0,0.04);
   }
   
-  .portfolio-card-bottom {
+  .job-card-bottom {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: auto;
   }
   
-  .portfolio-card-rate {
+  .job-card-rate {
     font-size: 1.15rem;
     font-weight: 700;
     color: #222;
   }
   
-  .portfolio-card-details {
+  .job-card-details {
     background: #1a6ed8;
     color: #fff;
     border: none;
@@ -220,17 +220,17 @@
     transition: background 0.2s;
   }
   
-  .portfolio-card-details:hover {
+  .job-card-details:hover {
     background: #155bb5;
   }
   
   /* Responsive styles */
   @media (max-width: 1100px) {
-    .portfolio-root {
+    .job-root {
       flex-direction: column;
       padding-top: 64px;
     }
-    .portfolio-sidebar {
+    .job-sidebar {
       margin: 16px auto 0 auto;
       width: 95%;
       min-width: 0;
@@ -239,17 +239,17 @@
       justify-content: space-between;
       align-items: flex-start;
     }
-    .portfolio-main {
+    .job-main {
       padding: 24px 8px 24px 8px;
     }
   }
   
   @media (max-width: 800px) {
-    .portfolio-root {
+    .job-root {
       flex-direction: column;
       padding-top: 56px;
     }
-    .portfolio-sidebar {
+    .job-sidebar {
       width: 100%;
       margin: 12px 0 0 0;
       border-radius: 0;
@@ -257,24 +257,24 @@
       align-items: stretch;
       gap: 18px;
     }
-    .portfolio-main {
+    .job-main {
       padding: 12px 2vw;
     }
-    .portfolio-header h1 {
+    .job-header h1 {
       font-size: 1.2rem;
     }
   }
   
   @media (max-width: 600px) {
-    .portfolio-main {
+    .job-main {
       padding: 6px 1vw;
     }
-    .portfolio-header {
+    .job-header {
       flex-direction: column;
       align-items: flex-start;
       gap: 8px;
     }
-    .portfolio-grid {
+    .job-grid {
       grid-template-columns: 1fr;
       gap: 14px;
     }

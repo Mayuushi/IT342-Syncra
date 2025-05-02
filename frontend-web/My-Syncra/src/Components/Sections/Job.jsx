@@ -69,7 +69,7 @@ const employmentTypeOptions = [
   "Shift Method",
 ];
 
-function Portfolio() {
+function Jobs() {
   const [selectedWorking, setSelectedWorking] = useState([]);
   const [selectedEmployment, setSelectedEmployment] = useState([]);
 
@@ -172,4 +172,4 @@ function Portfolio() {
   );
 }
 
-export default Portfolio;
+export default Jobs;
