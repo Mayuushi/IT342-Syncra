@@ -3,6 +3,7 @@ html, body {
   margin: 0;
   padding: 0;
   background: #f5f6fa;
+  overflow-x: hidden;
 }
 
 .portfolio-profile-root {
@@ -12,9 +13,10 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-x: hidden;
   overflow-y: auto;
+  overflow-x: hidden;
   padding-top: 64px;
+  box-sizing: border-box;
 }
 
 .portfolio-profile-header {
@@ -26,6 +28,8 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 100vw;
+  box-sizing: border-box;
 }
 
 .portfolio-profile-banner {
@@ -37,6 +41,7 @@ html, body {
   align-items: center;
   justify-content: center;
   position: relative;
+  max-width: 100vw;
 }
 
 .portfolio-profile-banner-img {
@@ -44,6 +49,7 @@ html, body {
   height: 100%;
   object-fit: cover;
   opacity: 0.22;
+  max-width: 100vw;
 }
 
 .portfolio-profile-info {
@@ -55,6 +61,7 @@ html, body {
   position: relative;
   gap: 32px;
   background: transparent;
+  box-sizing: border-box;
 }
 
 .portfolio-profile-avatar {
@@ -78,6 +85,7 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
 }
 
 .portfolio-profile-name {
@@ -147,6 +155,8 @@ html, body {
   gap: 32px;
   align-items: flex-start;
   background: transparent;
+  box-sizing: border-box;
+  max-width: 100vw;
 }
 
 .portfolio-projects-carousel {
@@ -159,6 +169,7 @@ html, body {
   align-items: center;
   min-width: 0;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  max-width: 100%;
 }
 
 .portfolio-projects-title {
@@ -205,6 +216,7 @@ html, body {
   justify-content: center;
   margin: 0 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  max-width: 100vw;
 }
 
 .portfolio-carousel-image {
@@ -213,6 +225,7 @@ html, body {
   object-fit: contain;
   border-radius: 12px;
   background: #fff;
+  max-width: 100%;
 }
 
 .portfolio-carousel-dots {
@@ -247,6 +260,8 @@ html, body {
   margin-top: 0;
   margin-left: 0;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-sizing: border-box;
+  max-width: 100vw;
 }
 
 .portfolio-projects-description-title {
@@ -273,6 +288,8 @@ html, body {
   gap: 32px;
   flex-wrap: wrap;
   box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
+  max-width: 100vw;
+  box-sizing: border-box;
 }
 
 .portfolio-footer-links {
