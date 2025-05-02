@@ -36,4 +36,10 @@ html,body{
     .animate-loading-bar {
         animation: loading 0.8s ease infinite;
     }
+
+    body, #root {
+        background: transparent !important;
+        margin: 0;
+        padding: 0;
+      }
 }
