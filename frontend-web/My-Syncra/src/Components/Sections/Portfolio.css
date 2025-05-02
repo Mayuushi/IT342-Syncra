@@ -2,8 +2,11 @@
 .portfolio-root {
   display: flex;
   min-height: 100vh;
+  width: 100vw;              /* Make it fill the viewport width */
+  overflow-x: hidden;        /* Prevent horizontal scroll */
   background: #f5f6fa;
-  padding-top: 64px; /* Height of NavBar */
+  padding-top: 64px;         /* Height of NavBar */
+  box-sizing: border-box;    /* Include padding in width */
 }
 
 /* Sidebar */
@@ -278,4 +281,11 @@
     grid-template-columns: 1fr;
     gap: 14px;
   }
+}
+
+/* Add this to ensure all elements use border-box */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
