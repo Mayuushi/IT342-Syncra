@@ -319,7 +319,7 @@ function Feed() {
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                 >
-                  <option>Popular</option>
+                  <option>Oldest</option>
                   <option>Recent</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1 text-gray-700">
@@ -360,7 +360,7 @@ function Feed() {
               </div>
             )}
 
-            {posts.map((post) => (
+            {getSortedPosts().map((post) => (
               <div
                 key={post.id}
                 className="bg-white rounded-lg shadow-sm mb-2 overflow-hidden"
