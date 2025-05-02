@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {NavBar} from "../NavBar";
-import "./Portfolio.css";
+import "./Job.css";
 
 const jobsData = [
   {
