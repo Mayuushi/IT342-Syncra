@@ -40,7 +40,7 @@ function Portfolio() {
   return (
     <>
       <NavBar />
-      <div className="portfolio-profile-root" style={{ paddingTop: 64 }}>
+      <div className="portfolio-profile-root">
         <div className="portfolio-profile-header">
           <div className="portfolio-profile-banner">
             <img
@@ -59,7 +59,10 @@ function Portfolio() {
             </div>
             <div className="portfolio-profile-details">
               <div className="portfolio-profile-name">Shane Adrian Opinion</div>
-              <div className="portfolio-profile-location">City, country</div>
+              <div className="portfolio-profile-location">
+                <svg width="16" height="16" fill="#1a6ed8" style={{marginRight: 4, verticalAlign: "middle"}} viewBox="0 0 20 20"><path d="M10 2C6.13 2 3 5.13 3 9c0 5.25 7 9 7 9s7-3.75 7-9c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 10 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+                City, country
+              </div>
               <div className="portfolio-profile-bio">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa.
               </div>

@@ -1,68 +1,76 @@
 html, body {
-  height: 100vh;
-  overflow: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #f5f6fa;
 }
 
 .portfolio-profile-root {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
   min-height: 100vh;
+  width: 100vw;
   background: #f5f6fa;
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: hidden;
-  padding-top: 64px; /* Ensure content starts below NavBar */
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-top: 64px;
 }
 
 .portfolio-profile-header {
   width: 100%;
   background: #fff;
-  border-radius: 0 0 8px 8px;
+  border-radius: 0 0 12px 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  margin-bottom: 24px;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .portfolio-profile-banner {
   width: 100%;
-  height: 120px;
+  height: 140px;
   overflow: hidden;
   background: #e3e9f7;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .portfolio-profile-banner-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.25;
+  opacity: 0.22;
 }
 
 .portfolio-profile-info {
+  width: 100%;
+  max-width: 1100px;
   display: flex;
   align-items: flex-end;
   padding: 0 32px 24px 32px;
   position: relative;
   gap: 32px;
+  background: transparent;
 }
 
 .portfolio-profile-avatar {
   margin-top: -48px;
   margin-right: 24px;
+  flex-shrink: 0;
 }
 
 .portfolio-profile-avatar-img {
-  width: 96px;
-  height: 96px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   border: 4px solid #fff;
   object-fit: cover;
   background: #e3e9f7;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .portfolio-profile-details {
@@ -73,17 +81,20 @@ html, body {
 }
 
 .portfolio-profile-name {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: 700;
 }
 
 .portfolio-profile-location {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: #888;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .portfolio-profile-bio {
-  font-size: 0.98rem;
+  font-size: 1.02rem;
   color: #444;
   margin-bottom: 8px;
 }
@@ -101,7 +112,7 @@ html, body {
   border-radius: 6px;
   padding: 7px 18px;
   font-weight: 600;
-  font-size: 0.97rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -123,35 +134,37 @@ html, body {
   border-radius: 6px;
   padding: 7px 18px;
   font-weight: 600;
-  font-size: 0.97rem;
+  font-size: 1rem;
   cursor: pointer;
   margin-top: 8px;
 }
 
 .portfolio-projects-section {
   display: flex;
-  width: 90%;
+  width: 92%;
   max-width: 1100px;
   margin: 0 auto 32px auto;
-  gap: 24px;
+  gap: 32px;
   align-items: flex-start;
+  background: transparent;
 }
 
 .portfolio-projects-carousel {
   background: #fff;
-  border-radius: 8px;
+  border-radius: 12px;
   flex: 2;
-  padding: 24px 0 24px 0;
+  padding: 28px 0 28px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   min-width: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 .portfolio-projects-title {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 600;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   align-self: flex-start;
   margin-left: 32px;
 }
@@ -166,12 +179,15 @@ html, body {
 .portfolio-carousel-arrow {
   background: none;
   border: none;
-  font-size: 2.2rem;
+  font-size: 2.4rem;
   color: #1a6ed8;
   cursor: pointer;
   padding: 0 18px;
   transition: color 0.2s;
   user-select: none;
+  line-height: 1;
+  display: flex;
+  align-items: center;
 }
 
 .portfolio-carousel-arrow:hover {
@@ -181,9 +197,9 @@ html, body {
 .portfolio-carousel-image-wrapper {
   position: relative;
   background: #f5f6fa;
-  border-radius: 8px;
-  width: 340px;
-  height: 340px;
+  border-radius: 12px;
+  width: 370px;
+  height: 320px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -195,22 +211,22 @@ html, body {
   width: 90%;
   height: 90%;
   object-fit: contain;
-  border-radius: 8px;
+  border-radius: 12px;
   background: #fff;
 }
 
 .portfolio-carousel-dots {
   position: absolute;
-  bottom: 12px;
+  bottom: 14px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 7px;
+  gap: 8px;
 }
 
 .portfolio-carousel-dot {
-  width: 9px;
-  height: 9px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: #cbd5e1;
   display: inline-block;
@@ -223,37 +239,40 @@ html, body {
 
 .portfolio-projects-description {
   background: #f2f3f5;
-  border-radius: 8px;
+  border-radius: 12px;
   flex: 1;
-  padding: 18px 18px 18px 18px;
+  padding: 22px 22px 22px 22px;
   min-width: 220px;
-  max-width: 340px;
+  max-width: 370px;
   margin-top: 0;
   margin-left: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 .portfolio-projects-description-title {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 700;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .portfolio-projects-description-text {
-  font-size: 0.98rem;
+  font-size: 1.02rem;
   color: #444;
+  line-height: 1.5;
 }
 
 .portfolio-footer {
   width: 100%;
   background: #fff;
-  border-radius: 8px 8px 0 0;
+  border-radius: 12px 12px 0 0;
   margin-top: auto;
-  padding: 24px 0 12px 0;
+  padding: 28px 0 16px 0;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 32px;
   flex-wrap: wrap;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
 }
 
 .portfolio-footer-links {
@@ -262,7 +281,7 @@ html, body {
 }
 
 .portfolio-footer-links > div {
-  font-size: 0.97rem;
+  font-size: 1rem;
 }
 
 .portfolio-footer-links ul {
@@ -289,7 +308,7 @@ html, body {
   border-radius: 6px;
   padding: 7px 18px;
   font-weight: 600;
-  font-size: 0.97rem;
+  font-size: 1rem;
   cursor: pointer;
   margin-right: 8px;
   margin-top: 8px;
@@ -306,14 +325,21 @@ html, body {
   padding: 6px 12px;
   border-radius: 6px;
   border: 1px solid #cbd5e1;
-  font-size: 0.97rem;
+  font-size: 1rem;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
+  .portfolio-profile-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 0 16px 18px 16px;
+  }
   .portfolio-projects-section {
     flex-direction: column;
     align-items: stretch;
     gap: 18px;
+    width: 98%;
   }
   .portfolio-projects-description {
     max-width: 100%;
@@ -325,12 +351,9 @@ html, body {
   }
 }
 
-@media (max-width: 600px) {
-  .portfolio-profile-info {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 0 12px 18px 12px;
+@media (max-width: 700px) {
+  .portfolio-profile-header {
+    margin-bottom: 18px;
   }
   .portfolio-projects-section {
     width: 99%;
@@ -338,7 +361,7 @@ html, body {
   }
   .portfolio-carousel-image-wrapper {
     width: 98vw;
-    height: 220px;
+    height: 180px;
   }
   .portfolio-footer {
     flex-direction: column;
