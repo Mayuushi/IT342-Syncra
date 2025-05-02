@@ -103,20 +103,20 @@ function Jobs() {
   return (
     <>
       <NavBar />
-      <div className="portfolio-root">
-        <aside className="portfolio-sidebar">
-          <div className="portfolio-promo">
-            <div className="portfolio-promo-content">
+      <div className="job-root">
+        <aside className="job-sidebar">
+          <div className="job-promo">
+            <div className="job-promo-content">
               <h2>Get your<br />Best profession<br />with Syncra</h2>
               <button>VIEW ALL</button>
             </div>
           </div>
-          <div className="portfolio-filters">
+          <div className="job-filters">
             <h3>FILTERS</h3>
-            <div className="portfolio-filter-group">
-              <div className="portfolio-filter-title">Working Schedule</div>
+            <div className="job-filter-group">
+              <div className="job-filter-title">Working Schedule</div>
               {workingScheduleOptions.map((option) => (
-                <label key={option} className="portfolio-checkbox">
+                <label key={option} className="job-checkbox">
                   <input
                     type="checkbox"
                     checked={selectedWorking.includes(option)}
@@ -126,10 +126,10 @@ function Jobs() {
                 </label>
               ))}
             </div>
-            <div className="portfolio-filter-group">
-              <div className="portfolio-filter-title">Employment type</div>
+            <div className="job-filter-group">
+              <div className="job-filter-title">Employment type</div>
               {employmentTypeOptions.map((option) => (
-                <label key={option} className="portfolio-checkbox">
+                <label key={option} className="job-checkbox">
                   <input
                     type="checkbox"
                     checked={selectedEmployment.includes(option)}
@@ -141,27 +141,27 @@ function Jobs() {
             </div>
           </div>
         </aside>
-        <main className="portfolio-main">
-          <div className="portfolio-header">
-            <h1>Recommended Jobs <span className="portfolio-count">{filteredJobs.length}</span></h1>
-            <div className="portfolio-sort">
-              sort by: <a href="#" className="portfolio-sort-link">Last Update</a>
+        <main className="job-main">
+          <div className="job-header">
+            <h1>Recommended Jobs <span className="job-count">{filteredJobs.length}</span></h1>
+            <div className="job-sort">
+              sort by: <a href="#" className="job-sort-link">Last Update</a>
             </div>
           </div>
-          <div className="portfolio-grid">
+          <div className="job-grid">
             {filteredJobs.map((job) => (
-              <div className="portfolio-card" key={job.id}>
-                <div className="portfolio-card-date">{job.date}</div>
-                <div className="portfolio-card-company">{job.company}</div>
-                <div className="portfolio-card-title">{job.title}</div>
-                <div className="portfolio-card-tags">
+              <div className="job-card" key={job.id}>
+                <div className="job-card-date">{job.date}</div>
+                <div className="job-card-company">{job.company}</div>
+                <div className="job-card-title">{job.title}</div>
+                <div className="job-card-tags">
                   {job.tags.map((tag, idx) => (
-                    <span className="portfolio-tag" key={idx}>{tag}</span>
+                    <span className="job-tag" key={idx}>{tag}</span>
                   ))}
                 </div>
-                <div className="portfolio-card-bottom">
-                  <span className="portfolio-card-rate">{job.rate}</span>
-                  <button className="portfolio-card-details">Details</button>
+                <div className="job-card-bottom">
+                  <span className="job-card-rate">{job.rate}</span>
+                  <button className="job-card-details">Details</button>
                 </div>
               </div>
             ))}
