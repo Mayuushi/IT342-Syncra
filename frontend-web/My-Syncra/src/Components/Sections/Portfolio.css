@@ -1,0 +1,339 @@
+.portfolio-profile-root {
+  min-height: 100vh;
+  background: #f5f6fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  overflow-x: hidden;
+  padding-top: 64px; /* Ensure content starts below NavBar */
+}
+
+.portfolio-profile-header {
+  width: 100%;
+  background: #fff;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  margin-bottom: 24px;
+}
+
+.portfolio-profile-banner {
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+  background: #e3e9f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portfolio-profile-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.25;
+}
+
+.portfolio-profile-info {
+  display: flex;
+  align-items: flex-end;
+  padding: 0 32px 24px 32px;
+  position: relative;
+  gap: 32px;
+}
+
+.portfolio-profile-avatar {
+  margin-top: -48px;
+  margin-right: 24px;
+}
+
+.portfolio-profile-avatar-img {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  object-fit: cover;
+  background: #e3e9f7;
+}
+
+.portfolio-profile-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.portfolio-profile-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.portfolio-profile-location {
+  font-size: 0.95rem;
+  color: #888;
+}
+
+.portfolio-profile-bio {
+  font-size: 0.98rem;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+.portfolio-profile-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.portfolio-profile-btn {
+  background: #1a6ed8;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 18px;
+  font-weight: 600;
+  font-size: 0.97rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.portfolio-profile-btn.outline {
+  background: #fff;
+  color: #1a6ed8;
+  border: 1.5px solid #1a6ed8;
+}
+
+.portfolio-profile-edit {
+  margin-left: auto;
+}
+
+.portfolio-profile-edit-btn {
+  background: #e3e9f7;
+  color: #1a6ed8;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 18px;
+  font-weight: 600;
+  font-size: 0.97rem;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.portfolio-projects-section {
+  display: flex;
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto 32px auto;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.portfolio-projects-carousel {
+  background: #fff;
+  border-radius: 8px;
+  flex: 2;
+  padding: 24px 0 24px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+.portfolio-projects-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  align-self: flex-start;
+  margin-left: 32px;
+}
+
+.portfolio-carousel-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.portfolio-carousel-arrow {
+  background: none;
+  border: none;
+  font-size: 2.2rem;
+  color: #1a6ed8;
+  cursor: pointer;
+  padding: 0 18px;
+  transition: color 0.2s;
+  user-select: none;
+}
+
+.portfolio-carousel-arrow:hover {
+  color: #155bb5;
+}
+
+.portfolio-carousel-image-wrapper {
+  position: relative;
+  background: #f5f6fa;
+  border-radius: 8px;
+  width: 340px;
+  height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.portfolio-carousel-image {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.portfolio-carousel-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 7px;
+}
+
+.portfolio-carousel-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  display: inline-block;
+  transition: background 0.2s;
+}
+
+.portfolio-carousel-dot.active {
+  background: #1a6ed8;
+}
+
+.portfolio-projects-description {
+  background: #f2f3f5;
+  border-radius: 8px;
+  flex: 1;
+  padding: 18px 18px 18px 18px;
+  min-width: 220px;
+  max-width: 340px;
+  margin-top: 0;
+  margin-left: 0;
+}
+
+.portfolio-projects-description-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.portfolio-projects-description-text {
+  font-size: 0.98rem;
+  color: #444;
+}
+
+.portfolio-footer {
+  width: 100%;
+  background: #fff;
+  border-radius: 8px 8px 0 0;
+  margin-top: auto;
+  padding: 24px 0 12px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.portfolio-footer-links {
+  display: flex;
+  gap: 48px;
+}
+
+.portfolio-footer-links > div {
+  font-size: 0.97rem;
+}
+
+.portfolio-footer-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0 0 0;
+}
+
+.portfolio-footer-links li {
+  margin-bottom: 4px;
+  color: #888;
+}
+
+.portfolio-footer-actions {
+  display: flex;
+  gap: 32px;
+  align-items: flex-end;
+}
+
+.portfolio-footer-btn {
+  background: #1a6ed8;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 18px;
+  font-weight: 600;
+  font-size: 0.97rem;
+  cursor: pointer;
+  margin-right: 8px;
+  margin-top: 8px;
+}
+
+.portfolio-footer-btn.outline {
+  background: #fff;
+  color: #1a6ed8;
+  border: 1.5px solid #1a6ed8;
+}
+
+.portfolio-footer-select {
+  margin-top: 8px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.97rem;
+}
+
+@media (max-width: 900px) {
+  .portfolio-projects-section {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+  }
+  .portfolio-projects-description {
+    max-width: 100%;
+    margin-left: 0;
+    margin-top: 12px;
+  }
+  .portfolio-projects-carousel {
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 600px) {
+  .portfolio-profile-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 0 12px 18px 12px;
+  }
+  .portfolio-projects-section {
+    width: 99%;
+    gap: 10px;
+  }
+  .portfolio-carousel-image-wrapper {
+    width: 98vw;
+    height: 220px;
+  }
+  .portfolio-footer {
+    flex-direction: column;
+    gap: 12px;
+    padding: 18px 0 8px 0;
+  }
+}
