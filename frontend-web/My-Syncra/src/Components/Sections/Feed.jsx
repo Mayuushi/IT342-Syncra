@@ -21,7 +21,7 @@ function Feed() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [newPost, setNewPost] = useState('');
-  const [sortBy, setSortBy] = useState('Popular');
+  const [sortBy, setSortBy] = useState('Oldest');
   const [postError, setPostError] = useState(null);
 
   // Check if user is logged in
@@ -354,7 +354,7 @@ function Feed() {
             )}
 
             {/* Posts */}
-            {!loading && posts.length === 0 && (
+            {!loading && getSortedPosts().length === 0 && (
               <div className="bg-white rounded-lg shadow-sm p-4 mb-2 text-center">
                 <p>No posts yet. Be the first to post something!</p>
               </div>
@@ -547,3 +547,24 @@ function Feed() {
 }
 
 export default Feed;
+
+
+// Helper to sort posts
+const getSortedPosts = () => {
+  if (sortBy === "Oldest") {
+    // Sort by timestamp ascending (oldest first)
+    return [...posts].sort((a, b) => {
+      const aTime = a.timestamp === 'Just now' ? Date.now() : Date.parse(a.timestamp) || 0;
+      const bTime = b.timestamp === 'Just now' ? Date.now() : Date.parse(b.timestamp) || 0;
+      return aTime - bTime;
+    });
+  } else if (sortBy === "Recent") {
+    // Sort by timestamp descending (most recent first)
+    return [...posts].sort((a, b) => {
+      const aTime = a.timestamp === 'Just now' ? Date.now() : Date.parse(a.timestamp) || 0;
+      const bTime = b.timestamp === 'Just now' ? Date.now() : Date.parse(b.timestamp) || 0;
+      return bTime - aTime;
+    });
+  }
+  return posts;
+};
