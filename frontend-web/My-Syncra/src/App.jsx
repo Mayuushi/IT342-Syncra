@@ -11,7 +11,6 @@ import PrivateRoute from './Components/PrivateRoute'
 import Chat from './Components/Sections/Chat'
 import Network from './Components/Sections/Network'
 import Profile from './Components/Sections/Profile'
-import Portfolio from './Components/Sections/Portfolio' // <-- Add this import
 import Job from './Components/Sections/Job'; // Import your Job component
 
 function App() {
@@ -70,14 +69,7 @@ function App() {
                 </PrivateRoute>
               }
             />
-            <Route
-              path="/portfolio"
-              element={
-                <PrivateRoute>
-                  <Portfolio />
-                </PrivateRoute>
-              }
-            />
+          
             <Route
               path="/jobs"
               element={
