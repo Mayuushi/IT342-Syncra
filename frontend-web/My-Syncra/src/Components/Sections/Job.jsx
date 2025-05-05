@@ -1,57 +1,9 @@
-import React, { useState } from "react";
-import {NavBar} from "../NavBar";
+import React, { useState, useEffect } from "react";
+import { NavBar } from "../NavBar";
+import { useNavigate } from "react-router-dom";
+import jobService from "../../Service/jobService";
+import authService from "../../Service/authService";
 import "./Job.css";
-
-const jobsData = [
-  {
-    id: 1,
-    company: "Amazon",
-    title: "Senior UI/UX Designer",
-    date: "27 March, 2025",
-    tags: ["Full time", "Senior level", "Distant", "Project Work"],
-    rate: "$250/hr",
-  },
-  {
-    id: 2,
-    company: "Google",
-    title: "Junior UI/UX Designer",
-    date: "27 March, 2025",
-    tags: ["Full time", "Junior level", "Distant", "Project Work", "Part time"],
-    rate: "$150/hr",
-  },
-  {
-    id: 3,
-    company: "Dribbble",
-    title: "Senior Motion Designer",
-    date: "27 March, 2025",
-    tags: ["Part time", "Senior level", "Full Day", "Shift Work"],
-    rate: "$260/hr",
-  },
-  {
-    id: 4,
-    company: "Twitter",
-    title: "UX Designer",
-    date: "27 March, 2025",
-    tags: ["Part time", "Part time", "Project Work"],
-    rate: "$120/hr",
-  },
-  {
-    id: 5,
-    company: "Airbnb",
-    title: "Graphic Designer",
-    date: "27 March, 2025",
-    tags: ["Part time", "Part time"],
-    rate: "$300/hr",
-  },
-  {
-    id: 6,
-    company: "Apple",
-    title: "Graphic Designer",
-    date: "27 March, 2025",
-    tags: ["Part time", "Part time"],
-    rate: "$140/hr",
-  },
-];
 
 const workingScheduleOptions = [
   "Full time",
@@ -70,8 +22,58 @@ const employmentTypeOptions = [
 ];
 
 function Jobs() {
+  const navigate = useNavigate();
   const [selectedWorking, setSelectedWorking] = useState([]);
   const [selectedEmployment, setSelectedEmployment] = useState([]);
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [savedJobs, setSavedJobs] = useState([]);
+
+  // Check if user is logged in
+  useEffect(() => {
+    const user = authService.getCurrentUser();
+    if (user) {
+      setCurrentUser(user);
+    }
+  }, []);
+
+  // Fetch jobs from API
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        setLoading(true);
+        const fetchedJobs = await jobService.getAllJobs();
+        console.log("Fetched jobs:", fetchedJobs);
+        setJobs(fetchedJobs || []);
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching jobs:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchJobs();
+  }, []);
+
+  // Fetch saved jobs if user is logged in
+  useEffect(() => {
+    const fetchSavedJobs = async () => {
+      if (currentUser && currentUser.id) {
+        try {
+          const userSavedJobs = await jobService.getSavedJobs(currentUser.id);
+          setSavedJobs(userSavedJobs || []);
+        } catch (err) {
+          console.error("Error fetching saved jobs:", err);
+        }
+      }
+    };
+
+    fetchSavedJobs();
+  }, [currentUser]);
 
   const handleWorkingChange = (option) => {
     setSelectedWorking((prev) =>
@@ -89,16 +91,83 @@ function Jobs() {
     );
   };
 
-  // Filter jobs based on selected filters
-  const filteredJobs = jobsData.filter((job) => {
-    const workingMatch =
-      selectedWorking.length === 0 ||
-      selectedWorking.some((w) => job.tags.includes(w));
-    const employmentMatch =
-      selectedEmployment.length === 0 ||
-      selectedEmployment.some((e) => job.tags.includes(e));
-    return workingMatch && employmentMatch;
-  });
+  // Apply filters from backend
+  useEffect(() => {
+    const applyFilters = async () => {
+      if (selectedWorking.length > 0 || selectedEmployment.length > 0) {
+        try {
+          setLoading(true);
+          const filteredJobs = await jobService.getFilteredJobs(
+            selectedWorking,
+            selectedEmployment
+          );
+          setJobs(filteredJobs || []);
+          setError(null);
+        } catch (err) {
+          console.error("Error filtering jobs:", err);
+          setError(err.message);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        // If no filters selected, fetch all jobs again
+        try {
+          setLoading(true);
+          const allJobs = await jobService.getAllJobs();
+          setJobs(allJobs || []);
+          setError(null);
+        } catch (err) {
+          console.error("Error fetching all jobs:", err);
+          setError(err.message);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    applyFilters();
+  }, [selectedWorking, selectedEmployment]);
+
+  const handleSaveJob = async (jobId) => {
+    if (!currentUser) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      await jobService.saveJob(currentUser.id, jobId);
+      // Update saved jobs list
+      const updatedSavedJobs = await jobService.getSavedJobs(currentUser.id);
+      setSavedJobs(updatedSavedJobs || []);
+      alert("Job saved successfully!");
+    } catch (err) {
+      console.error("Error saving job:", err);
+      alert("Failed to save job. Please try again.");
+    }
+  };
+
+  const handleApplyJob = async (jobId) => {
+    if (!currentUser) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      await jobService.applyForJob(currentUser.id, jobId);
+      alert("You've successfully applied for this job!");
+    } catch (err) {
+      console.error("Error applying for job:", err);
+      alert("Failed to apply for job. Please try again.");
+    }
+  };
+
+  const isJobSaved = (jobId) => {
+    return savedJobs.some(job => job.id === jobId);
+  };
+
+  const handleJobDetails = (jobId) => {
+    navigate(`/jobs/${jobId}`);
+  };
 
   return (
     <>
@@ -143,28 +212,66 @@ function Jobs() {
         </aside>
         <main className="job-main">
           <div className="job-header">
-            <h1>Recommended Jobs <span className="job-count">{filteredJobs.length}</span></h1>
+            <h1>Recommended Jobs <span className="job-count">{jobs.length}</span></h1>
             <div className="job-sort">
               sort by: <a href="#" className="job-sort-link">Last Update</a>
             </div>
           </div>
+
+          {loading && (
+            <div className="job-loading">Loading jobs...</div>
+          )}
+
+          {error && (
+            <div className="job-error">
+              Error: {error}
+              <button onClick={() => window.location.reload()}>Try Again</button>
+            </div>
+          )}
+
+          {!loading && jobs.length === 0 && !error && (
+            <div className="job-empty">No jobs match your criteria.</div>
+          )}
+
           <div className="job-grid">
-            {filteredJobs.map((job) => (
-              <div className="job-card" key={job.id}>
-                <div className="job-card-date">{job.date}</div>
-                <div className="job-card-company">{job.company}</div>
-                <div className="job-card-title">{job.title}</div>
-                <div className="job-card-tags">
-                  {job.tags.map((tag, idx) => (
-                    <span className="job-tag" key={idx}>{tag}</span>
-                  ))}
+            {!loading &&
+              jobs.map((job) => (
+                <div className="job-card" key={job.id}>
+                  <div className="job-card-date">{job.date || "N/A"}</div>
+                  <div className="job-card-company">{job.company || "Unknown Company"}</div>
+                  <div className="job-card-title">{job.title || "Unknown Position"}</div>
+                  <div className="job-card-tags">
+                    {job.tags && job.tags.map((tag, idx) => (
+                      <span className="job-tag" key={idx}>{tag}</span>
+                    ))}
+                    {!job.tags && <span className="job-tag">No tags</span>}
+                  </div>
+                  <div className="job-card-bottom">
+                    <span className="job-card-rate">{job.rate || "N/A"}</span>
+                    <div className="job-card-actions">
+                      <button 
+                        className={`job-card-save ${isJobSaved(job.id) ? 'saved' : ''}`}
+                        onClick={() => handleSaveJob(job.id)}
+                        title={isJobSaved(job.id) ? "Job Saved" : "Save Job"}
+                      >
+                        ♥
+                      </button>
+                      <button 
+                        className="job-card-details"
+                        onClick={() => handleJobDetails(job.id)}
+                      >
+                        Details
+                      </button>
+                      <button 
+                        className="job-card-apply"
+                        onClick={() => handleApplyJob(job.id)}
+                      >
+                        Apply
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className="job-card-bottom">
-                  <span className="job-card-rate">{job.rate}</span>
-                  <button className="job-card-details">Details</button>
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
         </main>
       </div>
