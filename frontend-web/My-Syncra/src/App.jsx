@@ -13,6 +13,7 @@ import Network from './Components/Sections/Network'
 import Profile from './Components/Sections/Profile'
 import Portfolio from './Components/Sections/Portfolio'
 import Job from './Components/Sections/Job'; // Import your Job component
+import JobDetails from './Components/Sections/JobDetails'; 
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -84,6 +85,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <Job />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/jobs/:jobId"
+              element={
+                <PrivateRoute>
+                  <JobDetails />
                 </PrivateRoute>
               }
             />
