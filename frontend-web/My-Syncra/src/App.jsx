@@ -14,6 +14,9 @@ import Profile from './Components/Sections/Profile'
 import Portfolio from './Components/Sections/Portfolio'
 import Job from './Components/Sections/Job'; // Import your Job component
 import JobDetails from './Components/Sections/JobDetails'; 
+import Companies from './Components/Sections/Companies'
+import CompanyDetails from './Components/Sections/CompanyDetails'
+import CompanyForm from './Components/Sections/CompanyForm'
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -31,6 +34,30 @@ function App() {
             <Route path="/register" element={<Register />} />
 
             {/* Protected routes */}
+            <Route
+              path="/company"
+              element={
+                <PrivateRoute>
+                  <Companies />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/companydetails"
+              element={
+                <PrivateRoute>
+                  <CompanyDetails />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/companyform"
+              element={
+                <PrivateRoute>
+                  <CompanyForm />
+                </PrivateRoute>
+              }
+            />
             <Route
               path="/feed"
               element={
