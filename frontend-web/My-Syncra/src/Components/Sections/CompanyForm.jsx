@@ -111,7 +111,7 @@ function CompanyForm() {
         alert("Company created successfully!");
       }
       
-      navigate("/companies");
+      navigate("/company");
     } catch (err) {
       console.error("Error saving company:", err);
       setError(err.message);
@@ -121,7 +121,7 @@ function CompanyForm() {
   };
 
   const handleCancel = () => {
-    navigate("/companies");
+    navigate("/company");
   };
 
   return (

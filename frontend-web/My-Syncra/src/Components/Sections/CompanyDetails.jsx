@@ -70,7 +70,7 @@ function CompanyDetails() {
     if (window.confirm("Are you sure you want to delete this company?")) {
       try {
         await companyService.deleteCompany(id);
-        navigate("/companies");
+        navigate("/company");
       } catch (err) {
         console.error("Error deleting company:", err);
         setError("Failed to delete company. Please try again.");
