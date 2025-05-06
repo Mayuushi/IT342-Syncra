@@ -27,11 +27,12 @@ function Companies() {
   useEffect(() => {
     const fetchCompanies = async () => {
       if (!currentUser) return;
-      
+    
       try {
         setLoading(true);
         const response = await companyService.getUserCompanies(currentUser.id);
-        setCompanies(response.data || []);
+        const companiesData = Array.isArray(response.data) ? response.data : [];
+        setCompanies(companiesData);
         setError(null);
       } catch (err) {
         console.error("Error fetching companies:", err);
