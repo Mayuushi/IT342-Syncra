@@ -4,11 +4,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
+@JsonIgnoreProperties(value = { "owner", "postedJobs" }, allowGetters = true)
 @Document(collection = "companies")
 @Getter
 @Setter
