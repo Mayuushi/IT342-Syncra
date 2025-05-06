@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import authHeader from "./authHeader";
 const API_URL = "/api/companies";
 
 class CompanyService {
