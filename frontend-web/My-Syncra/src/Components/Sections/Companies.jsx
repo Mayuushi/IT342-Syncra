@@ -50,11 +50,11 @@ function Companies() {
   };
 
   const handleViewCompany = (companyId) => {
-    navigate(`/companies/${companyId}`);
+    navigate(`/company/${companyId}`);
   };
 
   const handleEditCompany = (companyId) => {
-    navigate(`/companies/${companyId}/edit`);
+    navigate(`/company/${companyId}/edit`);
   };
 
   const handleDeleteCompany = async (companyId) => {
@@ -73,11 +73,11 @@ function Companies() {
   };
 
   const handlePostJob = (companyId) => {
-    navigate(`/companies/${companyId}/post-job`);
+    navigate(`/company/${companyId}/post-job`);
   };
 
   const handleViewJobs = (companyId) => {
-    navigate(`/companies/${companyId}/jobs`);
+    navigate(`/company/${companyId}/jobs`);
   };
 
   return (

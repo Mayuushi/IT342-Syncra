@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "/api/companies";
+const API_URL = "https://it342-syncra.onrender.com/api/companies";
 
 class CompanyService {
   // Create a new company
