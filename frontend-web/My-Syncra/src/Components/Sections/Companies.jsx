@@ -46,7 +46,7 @@ function Companies() {
   }, [currentUser]);
 
   const handleCreateCompany = () => {
-    navigate("/companies/create");
+    navigate("/companyform");
   };
 
   const handleViewCompany = (companyId) => {
