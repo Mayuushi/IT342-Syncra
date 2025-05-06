@@ -102,7 +102,7 @@ function CompanyDetails() {
         <div className="error-message">
           <h2>Error loading company details</h2>
           <p>{error}</p>
-          <button onClick={() => navigate("/companies")}>Back to Companies</button>
+          <button onClick={() => navigate("/company")}>Back to Companies</button>
         </div>
       </div>
     );
@@ -114,7 +114,7 @@ function CompanyDetails() {
         <NavBar />
         <div className="not-found-message">
           <h2>Company not found</h2>
-          <button onClick={() => navigate("/companies")}>Back to Companies</button>
+          <button onClick={() => navigate("/company")}>Back to Companies</button>
         </div>
       </div>
     );
