@@ -72,7 +72,7 @@ function JobDetails() {
     return (
       <>
         <NavBar />
-        <div style={{ padding: 32 }}>Job not found.</div>
+        <div style={{ paddingTop: 80, textAlign: "center" }}>Job not found.</div>
       </>
     );
   }
@@ -84,69 +84,126 @@ function JobDetails() {
   const handleApply = (e) => {
     e.preventDefault();
     setApplied(true);
-    // Here you would send the resume and application to your backend
+    // Submit logic here
   };
 
   return (
     <>
       <NavBar />
-      <div className="job-details-root" style={{
-        padding: 24,
-        maxWidth: 600,
-        margin: "32px auto",
-        background: "#fff",
-        borderRadius: 12,
-        boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
-        width: "95vw"
-      }}>
-        <button onClick={() => navigate(-1)} style={{
-          marginBottom: 16,
-          background: "none",
-          border: "none",
-          color: "#1a6ed8",
-          cursor: "pointer",
-          fontWeight: 600,
-          fontSize: 16
-        }}>&larr; Back</button>
-        <h2 style={{ marginBottom: 8 }}>{job.title}</h2>
-        <div style={{ color: "#888", marginBottom: 8 }}>{job.company} &middot; {job.date}</div>
-        <div style={{ marginBottom: 12, flexWrap: "wrap" }}>
+      <div
+        className="job-details-root"
+        style={{
+          padding: "32px 16px 32px 16px",
+          maxWidth: 520,
+          margin: "48px auto 32px auto",
+          background: "#fff",
+          borderRadius: 16,
+          boxShadow: "0 4px 24px rgba(0,0,0,0.08)",
+          width: "100%",
+          minHeight: "calc(100vh - 80px)",
+          position: "relative",
+          top: 0,
+          boxSizing: "border-box",
+        }}
+      >
+        <button
+          onClick={() => navigate(-1)}
+          style={{
+            marginBottom: 18,
+            background: "none",
+            border: "none",
+            color: "#1a6ed8",
+            cursor: "pointer",
+            fontWeight: 600,
+            fontSize: 16,
+            padding: 0,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <span style={{ fontSize: 22, marginRight: 6 }}>&larr;</span> Back
+        </button>
+        <h2 style={{ marginBottom: 10, fontWeight: 700, fontSize: "1.5rem" }}>{job.title}</h2>
+        <div style={{ color: "#888", marginBottom: 10, fontSize: "1.05rem" }}>
+          <span style={{ fontWeight: 600 }}>{job.company}</span> &middot; {job.date}
+        </div>
+        <div style={{ marginBottom: 14, flexWrap: "wrap" }}>
           {job.tags.map((tag, idx) => (
-            <span key={idx} style={{
-              background: "#e3e9f7",
-              color: "#1a6ed8",
-              borderRadius: 8,
-              padding: "3px 10px",
-              marginRight: 6,
-              fontSize: 13,
-              fontWeight: 500,
-              display: "inline-block",
-              marginBottom: 4
-            }}>{tag}</span>
+            <span
+              key={idx}
+              style={{
+                background: "#e3e9f7",
+                color: "#1a6ed8",
+                borderRadius: 8,
+                padding: "4px 12px",
+                marginRight: 8,
+                fontSize: 13,
+                fontWeight: 500,
+                display: "inline-block",
+                marginBottom: 4,
+              }}
+            >
+              {tag}
+            </span>
           ))}
         </div>
-        <div style={{ marginBottom: 16, color: "#444" }}>{job.description || "No description provided."}</div>
-        <div style={{ fontWeight: 600, marginBottom: 24 }}>Rate: {job.rate}</div>
+        <div style={{ marginBottom: 18, color: "#444", fontSize: "1.08rem", lineHeight: 1.6 }}>
+          {job.description || "No description provided."}
+        </div>
+        <div style={{ fontWeight: 600, marginBottom: 28, fontSize: "1.1rem" }}>
+          Rate: <span style={{ color: "#1a6ed8" }}>{job.rate}</span>
+        </div>
         {!applied ? (
-          <form onSubmit={handleApply} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <label>
+          <form onSubmit={handleApply} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <label style={{ fontWeight: 500, marginBottom: 4 }}>
               Upload Resume:
-              <input type="file" accept=".pdf,.doc,.docx" onChange={handleResumeChange} required style={{ marginLeft: 8 }} />
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx"
+                onChange={handleResumeChange}
+                required
+                style={{
+                  marginLeft: 8,
+                  marginTop: 8,
+                  border: "1px solid #cbd5e1",
+                  borderRadius: 6,
+                  padding: "6px 8px",
+                  fontSize: 15,
+                  width: "100%",
+                  boxSizing: "border-box",
+                }}
+              />
             </label>
-            <button type="submit" style={{
-              background: "#1a6ed8",
-              color: "#fff",
-              border: "none",
-              borderRadius: 6,
-              padding: "8px 18px",
-              fontWeight: 600,
-              cursor: "pointer"
-            }}>
+            <button
+              type="submit"
+              style={{
+                background: "#1a6ed8",
+                color: "#fff",
+                border: "none",
+                borderRadius: 8,
+                padding: "10px 0",
+                fontWeight: 700,
+                fontSize: "1.08rem",
+                cursor: "pointer",
+                marginTop: 8,
+                transition: "background 0.2s",
+              }}
+            >
               Apply
             </button>
           </form>
         ) : (
-          <div style={{ color: "#1a6ed8", fontWeight: 600, marginTop: 16 }}>Application sent! Thank you.</div>
+          <div
+            style={{
+              color: "#1a6ed8",
+              fontWeight: 700,
+              marginTop: 24,
+              fontSize: "1.1rem",
+              textAlign: "center",
+            }}
+          >
+            Application sent! Thank you.
+          </div>
         )}
       </div>
     </>
