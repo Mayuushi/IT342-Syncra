@@ -12,7 +12,7 @@ const jobsData = [
     date: "27 March, 2025",
     tags: ["Full time", "Senior level", "Distant", "Project Work"],
     rate: "$250/hr",
-    description: "Lead UI/UX design for Amazon's new platform. Collaborate with product and engineering teams.",
+    description: "Lead UI/UX design for Amazon's new platform. Collaborate with product and engineering teams. You will be responsible for designing intuitive user interfaces, conducting user research, and working closely with cross-functional teams to deliver high-quality products. The ideal candidate has a strong portfolio, excellent communication skills, and a passion for innovation. You will also mentor junior designers and contribute to the overall design strategy. This is a unique opportunity to shape the future of e-commerce at a global scale.",
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ const jobsData = [
     date: "27 March, 2025",
     tags: ["Full time", "Junior level", "Distant", "Project Work", "Part time"],
     rate: "$150/hr",
-    description: "Assist in designing Google products. Work with senior designers and learn best practices.",
+    description: "Assist in designing Google products. Work with senior designers and learn best practices. Participate in brainstorming sessions, create wireframes and prototypes, and help conduct usability testing. This role is perfect for someone eager to grow their skills in a fast-paced, innovative environment. You'll have the chance to work on products used by millions worldwide.",
   },
   {
     id: 3,
@@ -93,69 +93,81 @@ function JobDetails() {
       <div
         className="job-details-root"
         style={{
-          padding: "32px 16px 32px 16px",
-          maxWidth: 520,
-          margin: "48px auto 32px auto",
-          background: "#fff",
-          borderRadius: 16,
-          boxShadow: "0 4px 24px rgba(0,0,0,0.08)",
-          width: "100%",
-          minHeight: "calc(100vh - 80px)",
+          padding: "40px 28px 40px 28px",
+          maxWidth: 820,
+          margin: "56px auto 32px auto",
+          background: "linear-gradient(135deg, #1a6ed8 0%, #e3e9f7 100%)",
+          borderRadius: 22,
+          boxShadow: "0 6px 32px rgba(26,110,216,0.10)",
+          width: "98vw",
+          minHeight: "calc(100vh - 90px)",
           position: "relative",
           top: 0,
           boxSizing: "border-box",
+          color: "#222",
         }}
       >
         <button
           onClick={() => navigate(-1)}
           style={{
-            marginBottom: 18,
+            marginBottom: 22,
             background: "none",
             border: "none",
-            color: "#1a6ed8",
+            color: "#fff",
             cursor: "pointer",
             fontWeight: 600,
-            fontSize: 16,
+            fontSize: 18,
             padding: 0,
             display: "flex",
             alignItems: "center",
+            textShadow: "0 1px 4px rgba(26,110,216,0.15)"
           }}
         >
-          <span style={{ fontSize: 22, marginRight: 6 }}>&larr;</span> Back
+          <span style={{ fontSize: 24, marginRight: 8 }}>&larr;</span> Back
         </button>
-        <h2 style={{ marginBottom: 10, fontWeight: 700, fontSize: "1.5rem" }}>{job.title}</h2>
-        <div style={{ color: "#888", marginBottom: 10, fontSize: "1.05rem" }}>
+        <h2 style={{ marginBottom: 14, fontWeight: 700, fontSize: "2rem", color: "#fff", textShadow: "0 1px 4px rgba(26,110,216,0.15)" }}>{job.title}</h2>
+        <div style={{ color: "#e3e9f7", marginBottom: 14, fontSize: "1.15rem" }}>
           <span style={{ fontWeight: 600 }}>{job.company}</span> &middot; {job.date}
         </div>
-        <div style={{ marginBottom: 14, flexWrap: "wrap" }}>
+        <div style={{ marginBottom: 18, flexWrap: "wrap" }}>
           {job.tags.map((tag, idx) => (
             <span
               key={idx}
               style={{
-                background: "#e3e9f7",
+                background: "#fff",
                 color: "#1a6ed8",
-                borderRadius: 8,
-                padding: "4px 12px",
-                marginRight: 8,
-                fontSize: 13,
+                borderRadius: 10,
+                padding: "6px 16px",
+                marginRight: 10,
+                fontSize: 15,
                 fontWeight: 500,
                 display: "inline-block",
-                marginBottom: 4,
+                marginBottom: 6,
+                boxShadow: "0 1px 4px rgba(26,110,216,0.08)"
               }}
             >
               {tag}
             </span>
           ))}
         </div>
-        <div style={{ marginBottom: 18, color: "#444", fontSize: "1.08rem", lineHeight: 1.6 }}>
+        <div style={{
+          marginBottom: 26,
+          color: "#fff",
+          fontSize: "1.15rem",
+          lineHeight: 1.7,
+          background: "rgba(26,110,216,0.10)",
+          borderRadius: 12,
+          padding: "18px 18px 18px 18px",
+          boxShadow: "0 1px 8px rgba(26,110,216,0.08)"
+        }}>
           {job.description || "No description provided."}
         </div>
-        <div style={{ fontWeight: 600, marginBottom: 28, fontSize: "1.1rem" }}>
-          Rate: <span style={{ color: "#1a6ed8" }}>{job.rate}</span>
+        <div style={{ fontWeight: 700, marginBottom: 32, fontSize: "1.18rem", color: "#fff" }}>
+          Rate: <span style={{ color: "#ffe066" }}>{job.rate}</span>
         </div>
         {!applied ? (
-          <form onSubmit={handleApply} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <label style={{ fontWeight: 500, marginBottom: 4 }}>
+          <form onSubmit={handleApply} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+            <label style={{ fontWeight: 600, marginBottom: 4, color: "#fff" }}>
               Upload Resume:
               <input
                 type="file"
@@ -163,30 +175,33 @@ function JobDetails() {
                 onChange={handleResumeChange}
                 required
                 style={{
-                  marginLeft: 8,
-                  marginTop: 8,
+                  marginLeft: 10,
+                  marginTop: 10,
                   border: "1px solid #cbd5e1",
-                  borderRadius: 6,
-                  padding: "6px 8px",
-                  fontSize: 15,
+                  borderRadius: 8,
+                  padding: "8px 10px",
+                  fontSize: 16,
                   width: "100%",
                   boxSizing: "border-box",
+                  background: "#fff",
+                  color: "#222"
                 }}
               />
             </label>
             <button
               type="submit"
               style={{
-                background: "#1a6ed8",
-                color: "#fff",
+                background: "#ffe066",
+                color: "#1a6ed8",
                 border: "none",
-                borderRadius: 8,
-                padding: "10px 0",
+                borderRadius: 10,
+                padding: "12px 0",
                 fontWeight: 700,
-                fontSize: "1.08rem",
+                fontSize: "1.12rem",
                 cursor: "pointer",
                 marginTop: 8,
                 transition: "background 0.2s",
+                boxShadow: "0 2px 8px rgba(26,110,216,0.08)"
               }}
             >
               Apply
@@ -195,11 +210,12 @@ function JobDetails() {
         ) : (
           <div
             style={{
-              color: "#1a6ed8",
+              color: "#ffe066",
               fontWeight: 700,
-              marginTop: 24,
-              fontSize: "1.1rem",
+              marginTop: 32,
+              fontSize: "1.18rem",
               textAlign: "center",
+              textShadow: "0 1px 4px rgba(26,110,216,0.15)"
             }}
           >
             Application sent! Thank you.
