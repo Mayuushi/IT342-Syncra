@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {NavBar} from "../NavBar";
 import "./Job.css";
+import { useNavigate } from "react-router-dom";
 
 const jobsData = [
   {
@@ -72,6 +73,7 @@ const employmentTypeOptions = [
 function Jobs() {
   const [selectedWorking, setSelectedWorking] = useState([]);
   const [selectedEmployment, setSelectedEmployment] = useState([]);
+  const navigate = useNavigate();
 
   const handleWorkingChange = (option) => {
     setSelectedWorking((prev) =>
@@ -161,7 +163,12 @@ function Jobs() {
                 </div>
                 <div className="job-card-bottom">
                   <span className="job-card-rate">{job.rate}</span>
-                  <button className="job-card-details">Details</button>
+                  <button
+                    className="job-card-details"
+                    onClick={() => navigate(`/jobs/${job.id}`)}
+                  >
+                    Details
+                  </button>
                 </div>
               </div>
             ))}
