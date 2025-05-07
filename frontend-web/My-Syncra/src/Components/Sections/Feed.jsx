@@ -13,6 +13,7 @@ import newsFeedService from '../../Service/newsFeedService';
 import spacexImg from '../../assets/spacex.jpg';
 import teslaImg from '../../assets/Tesla.jpg';
 import xImg from '../../assets/x.png';
+import "./Feed.css"; // Make sure you have this or similar for custom styles
 
 function Feed() {
   const navigate = useNavigate();
@@ -158,113 +159,44 @@ function Feed() {
     <>
       <NavBar />
       <div
+        className="feed-root"
         style={{
-          position: 'fixed',
-          top: 64,
-          left: 0,
-          width: '100vw',
-          height: 'calc(100vh - 64px)',
-          background: '#f3f4f6',
-          overflow: 'hidden',
-          zIndex: 0,
+          minHeight: "100vh",
+          width: "100vw",
+          background: "linear-gradient(135deg, #1a6ed8 0%, #e3e9f7 100%)",
+          paddingTop: 64,
+          overflowX: "hidden",
+          boxSizing: "border-box",
         }}
       >
-        <div className="flex w-full h-full">
-          {/* LEFT SIDEBAR */}
-          <div className="w-1/4 h-full space-y-2 overflow-y-auto">
-            {/* Profile Card */}
-            <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-              <div className="bg-blue-500 h-16 relative">
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
-                  <img
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt="User profile"
-                    className="rounded-full border-2 border-white w-16 h-16"
-                  />
-                </div>
-              </div>
-              <div className="pt-10 pb-2 px-3 text-center border-b border-gray-200">
-                <h2 className="text-lg font-bold">{currentUser?.name || 'LOADING...'}</h2>
-                <p className="text-gray-500 text-xs">
-                  Frontend Web Developer
-                </p>
-              </div>
-              <div className="px-3 py-2 border-b border-gray-200">
-                <div className="flex justify-between items-center">
-                  <span className="text-xs text-gray-500">Contacts</span>
-                  <span className="text-xs text-blue-500">fifty</span>
-                </div>
-                <p className="text-xs text-gray-500">
-                  090-1234-5678, 090-1234-5678
-                </p>
-                <div className="flex justify-between items-center mt-1">
-                  <span className="text-xs text-gray-500">Profile views</span>
-                  <span className="text-xs text-blue-500">3</span>
-                </div>
-              </div>
-              <div className="px-3 py-2 border-b border-gray-200">
-                <p className="text-xs">
-                  Access to exclusive tools and statistics
-                </p>
-                <p className="text-xs font-medium text-amber-600">
-                  🔶 Try Premium for free
-                </p>
-              </div>
-              <div className="px-3 py-2">
-                <p className="text-xs flex items-center">🔖 My elements</p>
-              </div>
-              {/* Add Edit Profile button */}
-              <div className="px-3 pb-3">
-                <button
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold py-1 rounded transition"
-                  onClick={() => navigate('/profile')}
-                >
-                  Edit profile
-                </button>
-              </div>
-            </div>
-
-            {/* Overview Section (User Portfolio Projects) */}
-            <div className="bg-white rounded-lg shadow-sm p-3">
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="font-medium text-sm">Projects</h3>
-                <button
-                  className="text-xs font-semibold text-blue-600 hover:underline px-2 py-1 rounded transition"
-                  onClick={() => navigate('/portfolio')}
-                  style={{ background: "#e3e9f7" }}
-                >
-                  View Portfolio
-                </button>
-              </div>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-2">
-                  <img src={spacexImg} alt="SpaceX Project" className="w-12 h-12 rounded object-cover" />
-                  <div>
-                    <div className="font-semibold text-xs text-gray-800">SpaceX</div>
-                    <div className="text-xs text-gray-500">Rocket Launch Platform</div>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <img src={teslaImg} alt="Tesla Project" className="w-12 h-12 rounded object-cover" />
-                  <div>
-                    <div className="font-semibold text-xs text-gray-800">Tesla</div>
-                    <div className="text-xs text-gray-500">Electric Vehicles</div>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <img src={xImg} alt="X Project" className="w-12 h-12 rounded object-cover" />
-                  <div>
-                    <div className="font-semibold text-xs text-gray-800">X</div>
-                    <div className="text-xs text-gray-500">Social Platform</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* End Overview Section */}
-          </div>
-
-          {/* MAIN FEED */}
-          <div className="w-1/2 h-full overflow-y-auto px-2">
+        <div
+          className="feed-container"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            gap: 32,
+            width: "100%",
+            maxWidth: 1200,
+            margin: "0 auto",
+            padding: "32px 12px",
+            boxSizing: "border-box",
+          }}
+        >
+          {/* Sidebar/Profile Card */}
+          <aside
+            className="feed-sidebar"
+            style={{
+              width: 320,
+              minWidth: 260,
+              background: "#fff",
+              borderRadius: 18,
+              boxShadow: "0 4px 24px rgba(26,110,216,0.10)",
+              padding: "28px 20px",
+              marginBottom: 24,
+              boxSizing: "border-box",
+            }}
+          >
             {/* Create Post */}
             <div className="bg-white rounded-lg shadow-sm p-3 mb-2 mt-4">
               {postError && (

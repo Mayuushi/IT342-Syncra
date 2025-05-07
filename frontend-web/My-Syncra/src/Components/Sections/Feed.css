@@ -1,0 +1,50 @@
+.feed-root {
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #1a6ed8 0%, #e3e9f7 100%);
+  padding-top: 64px;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.feed-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 32px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 12px;
+  box-sizing: border-box;
+}
+
+.feed-sidebar {
+  width: 320px;
+  min-width: 260px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(26,110,216,0.10);
+  padding: 28px 20px;
+  margin-bottom: 24px;
+  box-sizing: border-box;
+}
+
+.feed-main {
+  flex: 1;
+  max-width: 600px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.feed-post-input,
+.feed-post-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(26,110,216,0.10);
+  padding: 24px 20px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
