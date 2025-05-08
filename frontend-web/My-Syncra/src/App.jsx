@@ -12,11 +12,13 @@ import Chat from './Components/Sections/Chat'
 import Network from './Components/Sections/Network'
 import Profile from './Components/Sections/Profile'
 import Portfolio from './Components/Sections/Portfolio'
-import Job from './Components/Sections/Job'; // Import your Job component
-import JobDetails from './Components/Sections/JobDetails'; 
+import Job from './Components/Sections/Job'
+import JobDetails from './Components/Sections/JobDetails'
+import JobForm from './Components/Sections/JobForm'
 import Companies from './Components/Sections/Companies'
 import CompanyDetails from './Components/Sections/CompanyDetails'
 import CompanyForm from './Components/Sections/CompanyForm'
+import CompanyJobs from './Components/Sections/CompanyJobs'
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -34,6 +36,7 @@ function App() {
             <Route path="/register" element={<Register />} />
 
             {/* Protected routes */}
+            {/* Company Routes */}
             <Route
               path="/company"
               element={
@@ -43,10 +46,18 @@ function App() {
               }
             />
             <Route
-              path="/company/:companyId"
+              path="/company/:id"
               element={
                 <PrivateRoute>
                   <CompanyDetails />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/company/:id/edit"
+              element={
+                <PrivateRoute>
+                  <CompanyForm />
                 </PrivateRoute>
               }
             />
@@ -58,6 +69,24 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route
+              path="/company/:id/post-job"
+              element={
+                <PrivateRoute>
+                  <JobForm />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/company/:id/jobs"
+              element={
+                <PrivateRoute>
+                  <CompanyJobs />
+                </PrivateRoute>
+              }
+            />
+            
+            {/* Other routes */}
             <Route
               path="/feed"
               element={
@@ -107,6 +136,7 @@ function App() {
               }
             />
           
+            {/* Job Routes */}
             <Route
               path="/jobs"
               element={
@@ -120,6 +150,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <JobDetails />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/jobs/create"
+              element={
+                <PrivateRoute>
+                  <JobForm />
                 </PrivateRoute>
               }
             />
