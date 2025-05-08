@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { NavBar } from '../NavBar';
+import NavBar from '../NavBar';
 import {
   FiHeart,
   FiMessageSquare,
@@ -562,17 +562,5 @@ function Feed() {
     </>
   );
 }
-
-// REMOVE this duplicate Feed function and its export
-// function Feed() {
-//   const { user } = useContext(UserContext);
-//   return (
-//     <div>
-//       {/* ... existing code ... */}
-//       <span>{user.firstName} {user.lastName}</span>
-//       {/* ... existing code ... */}
-//     </div>
-//   );
-// }
 
 export default Feed;
