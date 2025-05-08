@@ -25,7 +25,7 @@ export const NavBar = () => {
       <div className="w-full">
         <div className="flex items-center h-16 pl-4 pr-4">
           {/* Logo and Syncra text */}
-          <Link to="/" className="flex items-center">
+          <Link to="/feed" className="flex items-center">
             <img src={logo} alt="Syncra Logo" className="h-8 w-auto mr-2" />
             <span className="text-3xl font-bold text-blue-600">Syncra.</span>
           </Link>
