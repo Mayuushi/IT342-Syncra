@@ -213,26 +213,6 @@ function Profile() {
               />
             </div>
             <div style={{ flex: "1 1 180px", minWidth: 180 }}>
-              <label style={{ fontWeight: 500, fontSize: "0.98rem", color: "#1976d2" }}>PASSWORD</label>
-              <input
-                type="password"
-                name="password"
-                value={profile.password}
-                onChange={handleInputChange}
-                style={inputStyle}
-              />
-            </div>
-            <div style={{ flex: "1 1 180px", minWidth: 180 }}>
-              <label style={{ fontWeight: 500, fontSize: "0.98rem", color: "#1976d2" }}>CONFIRM PASSWORD</label>
-              <input
-                type="password"
-                name="confirmPassword"
-                value={profile.confirmPassword}
-                onChange={handleInputChange}
-                style={inputStyle}
-              />
-            </div>
-            <div style={{ flex: "1 1 180px", minWidth: 180 }}>
               <label style={{ fontWeight: 500, fontSize: "0.98rem", color: "#1976d2" }}>EMAIL ADDRESS</label>
               <input
                 type="email"
@@ -254,7 +234,7 @@ function Profile() {
             </div>
             <div style={{ width: "100%", marginTop: "1.7rem", display: "flex", justifyContent: "center" }}>
               <button type="button" style={buttonStyle}>
-                UPLOAD INFO
+                Save Info
               </button>
             </div>
           </form>
