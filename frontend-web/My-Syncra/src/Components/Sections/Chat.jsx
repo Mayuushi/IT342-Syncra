@@ -4,7 +4,7 @@ import { Client } from '@stomp/stompjs';
 import axios from 'axios';
 import authService from '../../Service/authService';
 import '../Chat.css';
-import { NavBar } from '../NavBar';
+import NavBar from '../NavBar';
 
 function Chat() {
   const [message, setMessage] = useState('');
