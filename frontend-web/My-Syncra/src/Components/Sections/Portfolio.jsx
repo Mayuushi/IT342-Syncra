@@ -54,9 +54,8 @@ function Portfolio() {
         <div
           className="portfolio-container"
           style={{
-            maxWidth: 1100,
-            margin: "0 auto",
-            padding: "32px 12px",
+            width: "100vw",
+            padding: "32px 0px",
             boxSizing: "border-box",
           }}
         >
@@ -64,7 +63,7 @@ function Portfolio() {
             className="portfolio-profile-card"
             style={{
               background: "#fff",
-              borderRadius: 18,
+              borderRadius: 0,
               boxShadow: "0 4px 24px rgba(26,110,216,0.10)",
               padding: "32px 24px",
               marginBottom: 32,
@@ -72,6 +71,8 @@ function Portfolio() {
               alignItems: "center",
               gap: 32,
               flexWrap: "wrap",
+              width: "100vw",
+              boxSizing: "border-box",
             }}
           >
             <img
@@ -144,6 +145,8 @@ function Portfolio() {
               alignItems: "flex-start",
               flexWrap: "wrap",
               marginBottom: 32,
+              width: "100vw",
+              boxSizing: "border-box",
             }}
           >
             <div
