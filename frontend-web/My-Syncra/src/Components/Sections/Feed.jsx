@@ -13,6 +13,7 @@ import newsFeedService from '../../Service/newsFeedService';
 import spacexImg from '../../assets/spacex.jpg';
 import teslaImg from '../../assets/Tesla.jpg';
 import xImg from '../../assets/x.png';
+import coverImg from '../../assets/cover.jpg'; // <-- Add this import
 
 function Feed() {
   const navigate = useNavigate();
@@ -174,7 +175,12 @@ function Feed() {
           <div className="w-1/4 h-full space-y-2 overflow-y-auto">
             {/* Profile Card */}
             <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-              <div className="bg-blue-500 h-16 relative">
+              <div
+                className="h-16 relative"
+                style={{
+                  background: `url(${coverImg}) center center/cover no-repeat`
+                }}
+              >
                 <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
                   <img
                     src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
