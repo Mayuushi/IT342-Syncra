@@ -3,7 +3,6 @@ import { NavBar } from "../NavBar";
 import spacexImg from "../../assets/spacex.jpg";
 import teslaImg from "../../assets/Tesla.jpg";
 import xImg from "../../assets/x.png";
-import coverImg from "../../assets/cover.jpg"; // Add a cover/banner image to your assets
 import "./Portfolio.css";
 
 const projects = [
@@ -45,11 +44,11 @@ function Portfolio() {
     <>
       <NavBar />
       <div style={{ background: "#f7f9fb", minHeight: "100vh", width: "100vw", paddingTop: 64 }}>
-        {/* Cover Banner */}
+        {/* Cover Banner - Default Color */}
         <div style={{
           width: "100%",
           height: 180,
-          background: `url(${coverImg}) center center/cover no-repeat`,
+          background: "#e5e7eb", // Default light gray color
           position: "relative",
         }}>
           {/* Edit Profile Button */}
