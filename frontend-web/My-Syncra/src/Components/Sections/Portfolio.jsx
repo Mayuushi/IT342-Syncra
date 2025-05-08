@@ -43,7 +43,7 @@ function Portfolio() {
   return (
     <>
       <NavBar />
-      <div style={{ background: "#f7f9fb", minHeight: "100vh", width: "100vw", paddingTop: 64 }}>
+      <div style={{ background: "#f7f9fb", minHeight: "100vh", width: "100%", paddingTop: 64 }}>
         {/* Cover Banner - Default Color */}
         <div style={{
           width: "100%",
