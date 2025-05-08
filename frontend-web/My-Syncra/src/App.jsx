@@ -43,7 +43,7 @@ function App() {
               }
             />
             <Route
-              path="/companydetails"
+              path="/company/:companyId"
               element={
                 <PrivateRoute>
                   <CompanyDetails />
