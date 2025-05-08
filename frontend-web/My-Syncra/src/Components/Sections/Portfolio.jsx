@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavBar } from "../NavBar";
+import NavBar from "../NavBar";
 import spacexImg from "../../assets/spacex.jpg";
 import teslaImg from "../../assets/Tesla.jpg";
 import xImg from "../../assets/x.png";
