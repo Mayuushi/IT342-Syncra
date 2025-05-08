@@ -5,8 +5,6 @@ import teslaImg from "../../assets/Tesla.jpg";
 import xImg from "../../assets/x.png";
 import coverImg from "../../assets/cover.jpg";
 import "./Portfolio.css";
-import { useContext } from "react";
-import { UserContext } from "../../contexts/UserContext";
 
 const projects = [
   {
@@ -34,7 +32,6 @@ const projects = [
 
 function Portfolio() {
   const [current, setCurrent] = useState(0);
-  const { user } = useContext(UserContext);
 
   const handlePrev = () => {
     setCurrent((prev) => (prev === 0 ? projects.length - 1 : prev - 1));
@@ -48,38 +45,17 @@ function Portfolio() {
     <>
       <NavBar />
       <div style={{ background: "#f7f9fb", minHeight: "100vh", width: "100%", paddingTop: 64 }}>
-        {/* Cover Banner */}
+        {/* Cover Banner - Use cover.jpg */}
         <div style={{
           width: "100%",
           height: 180,
           background: `url(${coverImg}) center center/cover no-repeat`,
           position: "relative",
         }}>
-          {/* Edit Profile Button */}
-          <button
-            style={{
-              position: "absolute",
-              top: 20,
-              right: 40,
-              background: "#fff",
-              color: "#222",
-              border: "1px solid #ddd",
-              borderRadius: 8,
-              padding: "8px 18px",
-              fontWeight: 600,
-              fontSize: "1rem",
-              cursor: "pointer",
-              boxShadow: "0 2px 8px rgba(26,110,216,0.10)",
-              zIndex: 2,
-            }}
-          >
-            EDIT PROFILE
-          </button>
         </div>
 
         {/* Profile Card */}
         <div style={{
-          width: "100%",
           maxWidth: 1100,
           margin: "0 auto",
           marginTop: -60,
@@ -118,12 +94,9 @@ function Portfolio() {
           </div>
           <div style={{ flex: 1 }}>
             <div style={{ display: "flex", alignItems: "center", marginBottom: 6 }}>
-              <span style={{ fontSize: "1.25rem", fontWeight: 700, marginRight: 10 }}>{user.name}</span>
+              <span style={{ fontSize: "1.25rem", fontWeight: 700, marginRight: 10 }}>Shane Adrian Opinion</span>
               <svg width="16" height="16" fill="#1a6ed8" style={{ marginRight: 4, verticalAlign: "middle" }} viewBox="0 0 20 20"><path d="M10 2C6.13 2 3 5.13 3 9c0 5.25 7 9 7 9s7-3.75 7-9c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 10 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
-              <span style={{ color: "#1a6ed8", fontSize: "1rem" }}>{user.location}</span>
-            </div>
-            <div style={{ color: "#888", fontSize: "1rem", marginBottom: 8 }}>
-              {user.bio || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa."}
+              <span style={{ color: "#1a6ed8", fontSize: "1rem" }}>City, country</span>
             </div>
             <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
               <button style={{
@@ -136,16 +109,6 @@ function Portfolio() {
                 fontSize: "1rem",
                 cursor: "pointer",
               }}>CONTACT INFO</button>
-              <button style={{
-                background: "#fff",
-                color: "#1a6ed8",
-                border: "1.5px solid #1a6ed8",
-                borderRadius: 6,
-                padding: "7px 18px",
-                fontWeight: 600,
-                fontSize: "1rem",
-                cursor: "pointer",
-              }}>1,043 CONNECTIONS</button>
             </div>
           </div>
         </div>
