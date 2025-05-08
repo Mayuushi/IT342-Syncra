@@ -4,19 +4,10 @@ import { NavBar } from "../NavBar";
 import "./Job.css";
 
 // You may want to import jobsData from a shared file in a real app
-import amazonLogo from "../../assets/amazon.png";
-import googleLogo from "../../assets/google.png";
-import dribbbleLogo from "../../assets/dribbble.png";
-import twitterLogo from "../../assets/twitter.png";
-import airbnbLogo from "../../assets/airbnb.png";
-import appleLogo from "../../assets/apple.png";
-
-// You may want to import jobsData from a shared file in a real app
 const jobsData = [
   {
     id: 1,
     company: "Amazon",
-    logo: amazonLogo,
     title: "Senior UI/UX Designer",
     date: "27 March, 2025",
     tags: ["Full time", "Senior level", "Distant", "Project Work"],
@@ -26,7 +17,6 @@ const jobsData = [
   {
     id: 2,
     company: "Google",
-    logo: googleLogo,
     title: "Junior UI/UX Designer",
     date: "27 March, 2025",
     tags: ["Full time", "Junior level", "Distant", "Project Work", "Part time"],
@@ -36,7 +26,6 @@ const jobsData = [
   {
     id: 3,
     company: "Dribbble",
-    logo: dribbbleLogo,
     title: "Senior Motion Designer",
     date: "27 March, 2025",
     tags: ["Part time", "Senior level", "Full Day", "Shift Work"],
@@ -46,7 +35,6 @@ const jobsData = [
   {
     id: 4,
     company: "Twitter",
-    logo: twitterLogo,
     title: "UX Designer",
     date: "27 March, 2025",
     tags: ["Part time", "Part time", "Project Work"],
@@ -56,7 +44,6 @@ const jobsData = [
   {
     id: 5,
     company: "Airbnb",
-    logo: airbnbLogo,
     title: "Graphic Designer",
     date: "27 March, 2025",
     tags: ["Part time", "Part time"],
@@ -66,7 +53,6 @@ const jobsData = [
   {
     id: 6,
     company: "Apple",
-    logo: appleLogo,
     title: "Graphic Designer",
     date: "27 March, 2025",
     tags: ["Part time", "Part time"],
@@ -121,24 +107,6 @@ function JobDetails() {
           color: "#222",
         }}
       >
-        {/* Company Logo */}
-        {job.logo && (
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
-            <img
-              src={job.logo}
-              alt={`${job.company} logo`}
-              style={{
-                width: 72,
-                height: 72,
-                objectFit: "contain",
-                borderRadius: 16,
-                background: "#fff",
-                boxShadow: "0 2px 8px rgba(26,110,216,0.08)",
-                padding: 8,
-              }}
-            />
-          </div>
-        )}
         <button
           onClick={() => navigate(-1)}
           style={{
@@ -195,7 +163,7 @@ function JobDetails() {
           {job.description || "No description provided."}
         </div>
         <div style={{ fontWeight: 700, marginBottom: 32, fontSize: "1.18rem", color: "#fff" }}>
-          Rate: <span style={{ color: "#222" }}>{job.rate}</span>
+          Rate: <span style={{ color: "#ffe066" }}>{job.rate}</span>
         </div>
         {!applied ? (
           <form onSubmit={handleApply} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
