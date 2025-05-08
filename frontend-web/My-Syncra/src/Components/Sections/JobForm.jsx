@@ -54,11 +54,13 @@ function JobForm() {
       try {
         setLoading(true);
         const response = await companyService.getUserCompanies(currentUser.id);
-        setUserCompanies(response || []);
+        // Ensure response is an array
+        const companiesArray = Array.isArray(response) ? response : [];
+        setUserCompanies(companiesArray);
         
         // If we have a companyId and companies loaded, set the company name
-        if (companyId && response && response.length > 0) {
-          const selectedCompany = response.find(company => company.id === companyId);
+        if (companyId && companiesArray.length > 0) {
+          const selectedCompany = companiesArray.find(company => company.id === companyId);
           if (selectedCompany) {
             setFormData(prev => ({
               ...prev,
@@ -183,13 +185,13 @@ function JobForm() {
               disabled={companyId ? true : false}
             >
               <option value="">Select a company</option>
-              {userCompanies.map(company => (
+              {Array.isArray(userCompanies) && userCompanies.map(company => (
                 <option key={company.id} value={company.id}>
                   {company.name}
                 </option>
               ))}
             </select>
-            {!userCompanies.length && !loading && (
+            {(!userCompanies || userCompanies.length === 0) && !loading && (
               <p className="job-form-hint">
                 You need to <a href="/companyform">create a company</a> before posting a job.
               </p>
@@ -265,7 +267,7 @@ function JobForm() {
               id="tags"
               name="tags"
               className="job-form-input"
-              value={formData.tags.join(", ")}
+              value={Array.isArray(formData.tags) ? formData.tags.join(", ") : ""}
               onChange={handleTagsChange}
               placeholder="e.g. React, JavaScript, Remote"
             />
