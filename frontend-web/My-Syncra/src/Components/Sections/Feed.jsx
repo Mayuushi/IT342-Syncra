@@ -14,6 +14,8 @@ import spacexImg from '../../assets/spacex.jpg';
 import teslaImg from '../../assets/Tesla.jpg';
 import xImg from '../../assets/x.png';
 import coverImg from '../../assets/cover.jpg'; // <-- Add this import
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 function Feed() {
   const navigate = useNavigate();

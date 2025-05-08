@@ -14,6 +14,7 @@ import Profile from './Components/Sections/Profile'
 import Portfolio from './Components/Sections/Portfolio'
 import Job from './Components/Sections/Job'; // Import your Job component
 import JobDetails from './Components/Sections/JobDetails';
+import { UserProvider } from "./contexts/UserContext";
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false)
