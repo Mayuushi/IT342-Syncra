@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   FiSearch,
   FiRss,
@@ -11,24 +11,22 @@ import {
 } from 'react-icons/fi';
 import logo from '../assets/logo.png'; // Import the logo image
 
-export const NavBar = () => {
+function NavBar() {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    console.log("Logging out...");
-    localStorage.removeItem("user");
-    navigate("/login", { replace: true });
-  };
-  
   return (
-    <nav className="fixed top-0 left-0 w-full bg-white z-40 backdrop-blur-lg border-b border-gray-200 shadow-lg">
+    <nav className="navbar">
       <div className="w-full">
         <div className="flex items-center h-16 pl-4 pr-4">
           {/* Logo and Syncra text */}
-          <Link to="/" className="flex items-center">
-            <img src={logo} alt="Syncra Logo" className="h-8 w-auto mr-2" />
-            <span className="text-3xl font-bold text-blue-600">Syncra.</span>
-          </Link>
+          <div
+            className="navbar-logo"
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate("/feed")}
+          >
+            <img src={logoImg} alt="Syncra Logo" />
+            <span className="navbar-title">Syncra.</span>
+          </div>
 
           {/* Navigation Links */}
           <div className="hidden md:flex ml-6 space-x-4">
@@ -114,4 +112,6 @@ export const NavBar = () => {
       </div>
     </nav>
   );
-};
+}
+
+export default NavBar;
