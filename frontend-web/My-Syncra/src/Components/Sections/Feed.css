@@ -19,7 +19,8 @@
   box-sizing: border-box;
 }
 
-.feed-sidebar {
+.feed-sidebar,
+.feed-right-sidebar {
   width: 320px;
   min-width: 260px;
   background: #fff;
