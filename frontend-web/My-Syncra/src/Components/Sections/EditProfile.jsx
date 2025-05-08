@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
-// ... existing code ...
 
 function EditProfile() {
   const { user, setUser } = useContext(UserContext);
@@ -11,7 +10,8 @@ function EditProfile() {
     // ...save to backend if needed...
   };
 
-  // ...existing code...
+  // Remove any state related to password and confirm password if present
+
   return (
     <form>
       <input
@@ -23,3 +23,5 @@ function EditProfile() {
     </form>
   );
 }
+
+export { EditProfile }
