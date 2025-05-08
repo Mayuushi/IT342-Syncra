@@ -117,9 +117,6 @@ function Portfolio() {
               <svg width="16" height="16" fill="#1a6ed8" style={{ marginRight: 4, verticalAlign: "middle" }} viewBox="0 0 20 20"><path d="M10 2C6.13 2 3 5.13 3 9c0 5.25 7 9 7 9s7-3.75 7-9c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 10 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
               <span style={{ color: "#1a6ed8", fontSize: "1rem" }}>City, country</span>
             </div>
-            <div style={{ color: "#888", fontSize: "1rem", marginBottom: 8 }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa.
-            </div>
             <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
               <button style={{
                 background: "#1a6ed8",
@@ -131,16 +128,6 @@ function Portfolio() {
                 fontSize: "1rem",
                 cursor: "pointer",
               }}>CONTACT INFO</button>
-              <button style={{
-                background: "#fff",
-                color: "#1a6ed8",
-                border: "1.5px solid #1a6ed8",
-                borderRadius: 6,
-                padding: "7px 18px",
-                fontWeight: 600,
-                fontSize: "1rem",
-                cursor: "pointer",
-              }}>1,043 CONNECTIONS</button>
             </div>
           </div>
         </div>
