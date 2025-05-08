@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { NavBar } from "../NavBar";
+import NavBar from "../NavBar";
 import "./Job.css";
 
 // You may want to import jobsData from a shared file in a real app
