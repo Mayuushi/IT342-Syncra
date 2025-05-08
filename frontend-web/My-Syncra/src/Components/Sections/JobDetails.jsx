@@ -163,7 +163,7 @@ function JobDetails() {
           {job.description || "No description provided."}
         </div>
         <div style={{ fontWeight: 700, marginBottom: 32, fontSize: "1.18rem", color: "#fff" }}>
-          Rate: <span style={{ color: "#ffe066" }}>{job.rate}</span>
+          Rate: <span style={{ color: "#000000" }}>{job.rate}</span>
         </div>
         {!applied ? (
           <form onSubmit={handleApply} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
