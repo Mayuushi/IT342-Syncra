@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { NavBar } from "../NavBar";
 import companyService from "../../Service/companyService";
 import authService from "../../Service/authService";
-import "./Company.css";
+import "./CompanyForm.css";
 
 function CompanyForm() {
   const { id } = useParams();
