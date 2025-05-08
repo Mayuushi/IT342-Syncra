@@ -43,28 +43,14 @@ function Portfolio() {
   return (
     <>
       <NavBar />
-      <div
-        style={{
-          background: "#f7f9fb",
-          minHeight: "100vh",
-          width: "100vw",
-          paddingTop: 64,
-          overflowX: "auto", // Prevent horizontal overflow
-          boxSizing: "border-box",
-        }}
-      >
+      <div style={{ background: "#f7f9fb", minHeight: "100vh", width: "100%", paddingTop: 64 }}>
         {/* Cover Banner - Default Color */}
-        <div
-          style={{
-            width: "100%",
-            minWidth: 0,
-            height: 180,
-            background: "#e5e7eb",
-            position: "relative",
-            boxSizing: "border-box",
-            overflow: "hidden",
-          }}
-        >
+        <div style={{
+          width: "100%",
+          height: 180,
+          background: "#e5e7eb", // Default light gray color
+          position: "relative",
+        }}>
           {/* Edit Profile Button */}
           <button
             style={{
@@ -88,24 +74,19 @@ function Portfolio() {
         </div>
 
         {/* Profile Card */}
-        <div
-          style={{
-            width: "100%",
-            maxWidth: 1100,
-            margin: "0 auto",
-            marginTop: -60,
-            marginBottom: 32,
-            background: "#fff",
-            borderRadius: 10,
-            boxShadow: "0 4px 24px rgba(26,110,216,0.10)",
-            padding: "32px 16px 24px 16px", // Responsive padding
-            display: "flex",
-            alignItems: "center",
-            position: "relative",
-            boxSizing: "border-box",
-            overflow: "hidden",
-          }}
-        >
+        <div style={{
+          maxWidth: 1100,
+          margin: "0 auto",
+          marginTop: -60,
+          marginBottom: 32,
+          background: "#fff",
+          borderRadius: 10,
+          boxShadow: "0 4px 24px rgba(26,110,216,0.10)",
+          padding: "32px 32px 24px 32px",
+          display: "flex",
+          alignItems: "center",
+          position: "relative",
+        }}>
           <div style={{
             position: "relative",
             marginRight: 32,
@@ -165,40 +146,27 @@ function Portfolio() {
         </div>
 
         {/* Projects Section */}
-        <div
-          style={{
-            width: "100%",
-            maxWidth: 1100,
-            margin: "0 auto",
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 24,
-            alignItems: "flex-start",
-            marginBottom: 48,
-            boxSizing: "border-box",
-            overflow: "hidden",
-          }}
-        >
+        <div style={{
+          maxWidth: 1100,
+          margin: "0 auto",
+          display: "flex",
+          gap: 24,
+          alignItems: "flex-start",
+          marginBottom: 48,
+        }}>
           {/* Carousel */}
-          <div
-            style={{
-              flex: 2,
-              minWidth: 320,
-              background: "#fff",
-              borderRadius: 10,
-              boxShadow: "0 4px 24px rgba(26,110,216,0.10)",
-              padding: "32px 8px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              minHeight: 420,
-              position: "relative",
-              boxSizing: "border-box",
-              overflow: "hidden",
-              width: "100%",
-              maxWidth: 600,
-            }}
-          >
+          <div style={{
+            flex: 2,
+            background: "#fff",
+            borderRadius: 10,
+            boxShadow: "0 4px 24px rgba(26,110,216,0.10)",
+            padding: "32px 24px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            minHeight: 420,
+            position: "relative",
+          }}>
             <div style={{ fontWeight: 600, fontSize: "1.1rem", marginBottom: 18, alignSelf: "flex-start" }}>Projects</div>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
               <button
@@ -286,25 +254,18 @@ function Portfolio() {
             </div>
           </div>
           {/* Project Description */}
-          <div
-            style={{
-              flex: 1,
-              minWidth: 220,
-              background: "#ededed",
-              borderRadius: 10,
-              padding: 16,
-              minHeight: 420,
-              boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              justifyContent: "flex-start",
-              boxSizing: "border-box",
-              overflow: "hidden",
-              width: "100%",
-              maxWidth: 400,
-            }}
-          >
+          <div style={{
+            flex: 1,
+            background: "#ededed",
+            borderRadius: 10,
+            padding: 24,
+            minHeight: 420,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            justifyContent: "flex-start",
+          }}>
             <div style={{ fontWeight: 700, fontSize: "1.18rem", color: "#222", marginBottom: 10 }}>
               {projects[current].title}
             </div>
@@ -336,34 +297,23 @@ function Portfolio() {
         </div>
 
         {/* Footer */}
-        <footer
-          style={{
-            width: "100%",
-            background: "#f4f4f4",
-            padding: "32px 0 16px 0",
-            borderTop: "1px solid #e0e0e0",
-            marginTop: 32,
-            boxSizing: "border-box",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              width: "100%",
-              maxWidth: 1100,
-              margin: "0 auto",
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "space-between",
-              alignItems: "flex-start",
-              fontSize: 14,
-              color: "#444",
-              boxSizing: "border-box",
-              paddingLeft: 16,
-              paddingRight: 16,
-              overflow: "hidden",
-            }}
-          >
+        <footer style={{
+          width: "100%",
+          background: "#f4f4f4",
+          padding: "32px 0 16px 0",
+          borderTop: "1px solid #e0e0e0",
+          marginTop: 32,
+        }}>
+          <div style={{
+            maxWidth: 1100,
+            margin: "0 auto",
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            fontSize: 14,
+            color: "#444",
+          }}>
             <div style={{ flex: 2, minWidth: 200, marginBottom: 16 }}>
               <div style={{ fontWeight: 700, marginBottom: 8 }}>Navigation</div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 18 }}>
