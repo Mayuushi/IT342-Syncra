@@ -52,26 +52,6 @@ function Portfolio() {
           background: `url(${coverImg}) center center/cover no-repeat`,
           position: "relative",
         }}>
-          {/* Edit Profile Button */}
-          <button
-            style={{
-              position: "absolute",
-              top: 20,
-              right: 40,
-              background: "#fff",
-              color: "#222",
-              border: "1px solid #ddd",
-              borderRadius: 8,
-              padding: "8px 18px",
-              fontWeight: 600,
-              fontSize: "1rem",
-              cursor: "pointer",
-              boxShadow: "0 2px 8px rgba(26,110,216,0.10)",
-              zIndex: 2,
-            }}
-          >
-            EDIT PROFILE
-          </button>
         </div>
 
         {/* Profile Card */}
