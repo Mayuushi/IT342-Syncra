@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {NavBar} from "../NavBar"; // Add this import
+import { UserContext } from "../../contexts/UserContext";
 
 const initialProfile = {
   firstName: "",
@@ -20,6 +21,7 @@ function Profile() {
   const [backgroundImage, setBackgroundImage] = useState(
     "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=facearea&w=800&q=80"
   );
+  const { user } = useContext(UserContext);
 
   // Handle tab switching
   const handleTabClick = (tab) => setActiveTab(tab);

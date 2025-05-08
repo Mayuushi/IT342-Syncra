@@ -563,4 +563,16 @@ function Feed() {
   );
 }
 
+function Feed() {
+  const { user } = useContext(UserContext);
+
+  return (
+    <div>
+      {/* ... existing code ... */}
+      <span>{user.firstName} {user.lastName}</span>
+      {/* ... existing code ... */}
+    </div>
+  );
+}
+
 export default Feed;
