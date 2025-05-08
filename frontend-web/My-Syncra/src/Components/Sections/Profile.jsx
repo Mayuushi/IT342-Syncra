@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {NavBar} from "../NavBar"; // Add this import
+import NavBar from "../NavBar";
 
 const initialProfile = {
   firstName: "",
