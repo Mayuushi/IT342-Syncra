@@ -54,6 +54,14 @@ function App() {
               }
             />
             <Route
+              path="/companies/edit/:id"
+              element={
+                <PrivateRoute>
+                  <CompanyForm />
+                </PrivateRoute>
+              }
+            />
+            <Route
               path="/company/:id/edit"
               element={
                 <PrivateRoute>
@@ -71,6 +79,14 @@ function App() {
             />
             <Route
               path="/company/:id/post-job"
+              element={
+                <PrivateRoute>
+                  <JobForm />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/jobs/create"
               element={
                 <PrivateRoute>
                   <JobForm />
@@ -150,14 +166,6 @@ function App() {
               element={
                 <PrivateRoute>
                   <JobDetails />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/jobs/create"
-              element={
-                <PrivateRoute>
-                  <JobForm />
                 </PrivateRoute>
               }
             />

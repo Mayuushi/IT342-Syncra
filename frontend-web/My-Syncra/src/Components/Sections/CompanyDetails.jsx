@@ -63,7 +63,8 @@ function CompanyDetails() {
   }, [company, id]);
 
   const handleEditCompany = () => {
-    navigate(`/companies/edit/${id}`);
+    // Use the route that matches App.js
+    navigate(`/company/${id}/edit`);
   };
 
   const handleDeleteCompany = async () => {
@@ -83,7 +84,8 @@ function CompanyDetails() {
   };
 
   const handleAddJob = () => {
-    navigate(`/jobs/create?companyId=${id}`);
+    // Make sure this route matches what's in App.js
+    navigate(`/company/${id}/post-job`);
   };
 
   if (loading) {
