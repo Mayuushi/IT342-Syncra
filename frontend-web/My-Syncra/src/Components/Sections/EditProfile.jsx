@@ -1,27 +1,59 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
 
 function EditProfile() {
   const { user, setUser } = useContext(UserContext);
-  const [name, setName] = useState(user.name);
+  const [firstName, setFirstName] = useState(user.firstName || "");
+  const [lastName, setLastName] = useState(user.lastName || "");
+  const [email, setEmail] = useState(user.email || "");
+  const [confirmEmail, setConfirmEmail] = useState(user.email || "");
 
-  const handleSave = () => {
-    setUser(prev => ({ ...prev, name }));
-    // ...save to backend if needed...
+  const handleSave = (e) => {
+    e.preventDefault();
+    if (firstName.trim() && lastName.trim()) {
+      setUser({
+        ...user,
+        firstName,
+        lastName,
+        email, // Save email even if empty
+      });
+    }
+    // Optionally, show a message if first/last name is missing
   };
 
-  // Remove any state related to password and confirm password if present
-
   return (
-    <form>
+    <form onSubmit={handleSave}>
       <input
-        value={name}
-        onChange={e => setName(e.target.value)}
-        // ...other props...
+        type="text"
+        value={firstName}
+        onChange={e => setFirstName(e.target.value)}
+        placeholder="First Name"
+        required
       />
-      <button type="button" onClick={handleSave}>Save</button>
+      <input
+        type="text"
+        value={lastName}
+        onChange={e => setLastName(e.target.value)}
+        placeholder="Last Name"
+        required
+      />
+      <input
+        type="email"
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+        placeholder="Email Address"
+        // required removed
+      />
+      <input
+        type="email"
+        value={confirmEmail}
+        onChange={e => setConfirmEmail(e.target.value)}
+        placeholder="Confirm Email Address"
+        // required removed
+      />
+      <button type="submit">Save Info</button>
     </form>
   );
 }
 
-export { EditProfile }
+export default EditProfile;
