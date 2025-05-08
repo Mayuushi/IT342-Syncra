@@ -1,0 +1,416 @@
+/* Company page styling */
+.company-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .company-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .company-header h1 {
+    margin: 0;
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  .company-create-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .company-create-btn:hover {
+    background-color: #0069d9;
+  }
+  
+  .company-loading {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  .company-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .company-error button {
+    margin-top: 0.5rem;
+    background-color: #721c24;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .company-empty {
+    text-align: center;
+    padding: 3rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }
+  
+  .company-empty p {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  .company-empty button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .company-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+  
+  .company-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    padding: 1.5rem;
+  }
+  
+  .company-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .company-card-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    overflow: hidden;
+  }
+  
+  .company-card-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .company-card-logo-placeholder {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .company-card-verified {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+  
+  .verified-badge {
+    background-color: #28a745;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+  }
+  
+  .company-card-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+  
+  .company-card-industry,
+  .company-card-location,
+  .company-card-size {
+    color: #666;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+  
+  .company-card-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    gap: 0.5rem;
+  }
+  
+  .company-card-view,
+  .company-card-edit,
+  .company-card-delete {
+    flex: 1;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  
+  .company-card-view {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .company-card-edit {
+    background-color: #ffc107;
+    color: #212529;
+  }
+  
+  .company-card-delete {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .company-card-job-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .company-card-post-job,
+  .company-card-view-jobs {
+    flex: 1;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  
+  .company-card-post-job {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .company-card-view-jobs {
+    background-color: #6c757d;
+    color: white;
+  }
+  
+  /* Company form styling */
+  .company-form {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+  }
+  
+  .company-form-header {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  .company-form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .company-form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .company-form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .company-form-control:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  
+  .company-form-textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+  
+  .company-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  .company-form-cancel,
+  .company-form-submit {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .company-form-cancel {
+    background-color: #6c757d;
+    color: white;
+  }
+  
+  .company-form-submit {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  /* Company details styling */
+  .company-details {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+  }
+  
+  .company-details-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .company-details-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 2rem;
+    overflow: hidden;
+  }
+  
+  .company-details-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .company-details-logo-placeholder {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .company-details-title h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    color: #333;
+  }
+  
+  .company-details-title .verified-badge {
+    display: inline-block;
+    margin-left: 1rem;
+  }
+  
+  .company-details-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .company-details-info-item {
+    margin-bottom: 1rem;
+  }
+  
+  .company-details-info-label {
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 0.25rem;
+  }
+  
+  .company-details-description {
+    margin-bottom: 2rem;
+  }
+  
+  .company-details-description h2 {
+    margin-bottom: 1rem;
+  }
+  
+  .company-details-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  .company-details-edit,
+  .company-details-delete,
+  .company-details-post-job {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .company-details-edit {
+    background-color: #ffc107;
+    color: #212529;
+  }
+  
+  .company-details-delete {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .company-details-post-job {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  /* Company jobs styling */
+  .company-jobs-container {
+    margin-top: 2rem;
+  }
+  
+  .company-jobs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .company-jobs-header h2 {
+    margin: 0;
+  }
+  
+  .company-jobs-post {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }

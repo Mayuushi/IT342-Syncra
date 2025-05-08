@@ -27,4 +27,17 @@ public class User {
     @DBRef
     private List<Portfolio> portfolios;
 
+    // Job-related fields
+    @DBRef
+    private List<Job> savedJobs; // Jobs that the user has saved/bookmarked
+
+    @DBRef
+    private List<Job> appliedJobs; // Jobs that the user has applied to
+
+    // User profile data that might be relevant for job applications
+    private String resumeUrl;
+    private String jobTitle; // Current or desired job title
+    private List<String> skills;
+    private String experience; // Years of experience
+    private String education;
 }
