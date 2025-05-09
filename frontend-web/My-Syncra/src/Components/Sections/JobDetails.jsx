@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { NavBar } from "../NavBar";
 import jobService from "../../Service/jobService";
 import authService from "../../Service/authService";
-import "./Job.css";
+import "./JobDetails.css";
 
 function JobDetails() {
   const { jobId } = useParams();
