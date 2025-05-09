@@ -6,12 +6,7 @@ import authService from "../../Service/authService";
 import "./Job.css";
 
 function JobDetails() {
-  // Debugging: Log the raw params
-  const params = useParams();
-  console.log("Raw URL params:", params);
-  
-const { jobId } = useParams();
-// and use jobId throughout
+  const { jobId } = useParams();
   console.log("Extracted job ID:", jobId);
   
   const navigate = useNavigate();
@@ -144,6 +139,22 @@ const { jobId } = useParams();
     }
   };
 
+  // Format date if available
+  const formatDate = (dateString) => {
+    if (!dateString) return "Recently";
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric' 
+    });
+  };
+
+  // Get first letter of company name for logo placeholder
+  const getCompanyInitial = (companyName) => {
+    return companyName ? companyName.charAt(0).toUpperCase() : "J";
+  };
+
   return (
     <>
       <NavBar />
@@ -187,13 +198,15 @@ const { jobId } = useParams();
 
             <div className="job-details-main">
               <div className="job-details-company-section">
-                {/* Company Logo would go here */}
+                <div className="job-details-company-logo">
+                  {getCompanyInitial(job.company)}
+                </div>
                 <div className="job-details-company">
                   <h1 className="job-details-title">{job.title}</h1>
                   <h2 className="job-details-company-name">{job.company}</h2>
                   <div className="job-details-meta">
                     <span className="job-details-location">{job.location || "Remote"}</span>
-                    <span className="job-details-date">Posted: {job.date || "Recently"}</span>
+                    <span className="job-details-date">Posted: {formatDate(job.date)}</span>
                   </div>
                 </div>
               </div>
@@ -203,6 +216,12 @@ const { jobId } = useParams();
                   {job.tags && job.tags.map((tag, idx) => (
                     <span className="job-tag" key={idx}>{tag}</span>
                   ))}
+                  {(!job.tags || job.tags.length === 0) && (
+                    <>
+                      <span className="job-tag">Full-time</span>
+                      <span className="job-tag">{job.category || "General"}</span>
+                    </>
+                  )}
                 </div>
                 <div className="job-details-rate">
                   <strong>Rate:</strong> {job.rate || "Negotiable"}
@@ -220,20 +239,29 @@ const { jobId } = useParams();
                 </div>
               </div>
 
+              {job.requirements && (
+                <div className="job-details-description">
+                  <h3>Requirements</h3>
+                  <div className="job-details-description-content">
+                    <div dangerouslySetInnerHTML={{ __html: job.requirements }} />
+                  </div>
+                </div>
+              )}
+
               {job.applicationUrl && (
                 <div className="job-external-apply">
                   <h3>External Application</h3>
                   <p>
                     This job also accepts applications through their website:
-                    <a 
-                      href={job.applicationUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="job-external-link"
-                    >
-                      Apply on Company Website
-                    </a>
                   </p>
+                  <a 
+                    href={job.applicationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="job-external-link"
+                  >
+                    Apply on Company Website
+                  </a>
                 </div>
               )}
             </div>
