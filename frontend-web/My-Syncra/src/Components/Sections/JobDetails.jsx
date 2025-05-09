@@ -163,9 +163,8 @@ function JobDetails() {
               </button>
               <div className="job-details-actions">
                 <button 
-                  className={`job-details-apply ${isApplied ? 'applied' : ''}`}
-                  onClick={handleApplyJob}
-                  disabled={isApplied}
+
+                  onClick={() => navigate("/chat")}
                 >
                   {isApplied ? "Applied" : "Apply Now"}
                 </button>
