@@ -10,7 +10,7 @@ function JobDetails() {
   const params = useParams();
   console.log("Raw URL params:", params);
   
-  const { id } = params;
+  const { jobId: id } = useParams(); // ✅ Correctly maps jobId to id
   console.log("Extracted job ID:", id);
   
   const navigate = useNavigate();
