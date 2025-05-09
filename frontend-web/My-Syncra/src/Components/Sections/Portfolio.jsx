@@ -3,7 +3,7 @@ import { NavBar } from "../NavBar";
 import coverImg from "../../assets/cover.jpg";
 import "./Portfolio.css";
 import PortfolioService from "../../Service/portfolioService";
-import AuthService from "../../Service/authService"; // Assuming you have an auth service
+import authService from "../../Service/authService"; // Assuming you have an auth service
 
 function Portfolio() {
   const [projects, setProjects] = useState([]);
@@ -18,7 +18,7 @@ function Portfolio() {
   const [showAddForm, setShowAddForm] = useState(false);
 
   // Get current user
-  const currentUser = AuthService.getCurrentUser();
+  const currentUser = authService.getCurrentUser();
 
   useEffect(() => {
     fetchUserPortfolios();
