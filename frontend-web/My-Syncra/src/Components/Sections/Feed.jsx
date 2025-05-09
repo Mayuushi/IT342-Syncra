@@ -169,24 +169,6 @@ function Feed() {
 
   // Fallback portfolio projects in case API fails or returns empty
   const fallbackProjects = [
-    {
-      id: 1,
-      title: 'SpaceX',
-      description: 'Rocket Launch Platform',
-      image: spacexImg,
-    },
-    {
-      id: 2,
-      title: 'Tesla',
-      description: 'Electric Vehicles',
-      image: teslaImg,
-    },
-    {
-      id: 3,
-      title: 'X',
-      description: 'Social Platform',
-      image: xImg,
-    },
   ];
 
   // Determine which projects to display
