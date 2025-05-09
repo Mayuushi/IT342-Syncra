@@ -1,7 +1,7 @@
 // src/services/PortfolioService.js
 import axios from 'axios';
 
-const API_URL = 'https://your-backend-url.com/api/portfolio';
+const API_URL = 'https://it342-syncra.onrender.com/api/portfolio';
 
 class PortfolioService {
   // Create a new portfolio project
