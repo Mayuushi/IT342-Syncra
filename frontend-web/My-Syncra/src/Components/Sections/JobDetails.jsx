@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import jobService from '../services/jobService';
-import authService from '../services/authService';
+import jobService from '../Service/jobService';
+import authService from '../Service/authService';
 import { FiClock, FiBriefcase, FiMapPin, FiDollarSign, FiBookmark, FiCheck } from 'react-icons/fi';
 
 const JobDetails = () => {
