@@ -102,7 +102,7 @@ export const NavBar = () => {
             </div>
           </div>
           <div className="flex items-center">
-            <div className="flex-shrink-0 relative">
+            {/* <div className="flex-shrink-0 relative">
               <div className="flex items-center">
                 <img
                   className="h-8 w-8 rounded-full"
@@ -116,7 +116,7 @@ export const NavBar = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             
             <div className="ml-4 flex items-center">
               {/* Replaced "Others" with Logout button */}
