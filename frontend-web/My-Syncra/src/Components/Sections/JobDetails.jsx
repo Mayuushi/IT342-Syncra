@@ -44,17 +44,14 @@ function JobDetails() {
     }
   }, [id]);
 
-  // Check if job is saved/applied
-  useEffect(() => {
+useEffect(() => {
   const checkJobStatus = async () => {
     if (currentUser && currentUser.id && job) {
       try {
-        // ✅ Destructure response to access `savedJobs`
-        const { savedJobs } = await jobService.getSavedJobs(currentUser.id);
+        const savedJobs = await jobService.getSavedJobs(currentUser.id);
         setIsSaved(savedJobs.some(savedJob => savedJob.id === job.id));
 
-        // ✅ Destructure response to access `appliedJobs`
-        const { appliedJobs } = await jobService.getAppliedJobs(currentUser.id);
+        const appliedJobs = await jobService.getAppliedJobs(currentUser.id);
         setIsApplied(appliedJobs.some(appliedJob => appliedJob.id === job.id));
       } catch (err) {
         console.error("Error checking job status:", err);
@@ -64,6 +61,7 @@ function JobDetails() {
 
   checkJobStatus();
 }, [currentUser, job]);
+
 
 
   const handleSaveJob = async () => {
