@@ -6,7 +6,13 @@ import authService from "../../Service/authService";
 import "./Job.css";
 
 function JobDetails() {
-  const { id } = useParams();
+  // Debugging: Log the raw params
+  const params = useParams();
+  console.log("Raw URL params:", params);
+  
+  const { id } = params;
+  console.log("Extracted job ID:", id);
+  
   const navigate = useNavigate();
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -18,6 +24,7 @@ function JobDetails() {
   // Check if user is logged in
   useEffect(() => {
     const user = authService.getCurrentUser();
+    console.log("Current user:", user);
     if (user) {
       setCurrentUser(user);
     }
@@ -26,13 +33,27 @@ function JobDetails() {
   // Fetch job details
   useEffect(() => {
     const fetchJobDetails = async () => {
+      console.log("Attempting to fetch job details with ID:", id);
+      
+      // Make sure id is actually defined and not empty
+      if (!id || id === "undefined" || id === "null") {
+        console.error("Invalid job ID:", id);
+        setError("No valid job ID provided in the URL");
+        setLoading(false);
+        return;
+      }
+      
       try {
         setLoading(true);
-        // Check if id is defined and not empty
-        if (!id) {
-          throw new Error("Job ID is missing");
-        }
+        console.log("Calling jobService.getJobById with ID:", id);
         const jobData = await jobService.getJobById(id);
+        
+        console.log("Job data received:", jobData);
+        
+        if (!jobData) {
+          throw new Error("Job not found");
+        }
+        
         setJob(jobData);
         setError(null);
       } catch (err) {
@@ -49,18 +70,30 @@ function JobDetails() {
   // Check if job is saved/applied
   useEffect(() => {
     const checkJobStatus = async () => {
-      if (currentUser && currentUser.id && job && job.id) {
-        try {
-          // Check saved jobs
-          const savedJobs = await jobService.getSavedJobs(currentUser.id);
-          setIsSaved(savedJobs.some(savedJob => savedJob.id === job.id));
+      if (!currentUser || !currentUser.id) {
+        console.log("No current user, skipping job status check");
+        return;
+      }
+      
+      if (!job || !job.id) {
+        console.log("No job data, skipping job status check");
+        return;
+      }
+      
+      console.log("Checking job status for user:", currentUser.id, "and job:", job.id);
+      
+      try {
+        // Check saved jobs
+        const savedJobs = await jobService.getSavedJobs(currentUser.id);
+        console.log("Saved jobs:", savedJobs);
+        setIsSaved(savedJobs.some(savedJob => savedJob.id === job.id));
 
-          // Check applied jobs
-          const appliedJobs = await jobService.getAppliedJobs(currentUser.id);
-          setIsApplied(appliedJobs.some(appliedJob => appliedJob.id === job.id));
-        } catch (err) {
-          console.error("Error checking job status:", err);
-        }
+        // Check applied jobs
+        const appliedJobs = await jobService.getAppliedJobs(currentUser.id);
+        console.log("Applied jobs:", appliedJobs);
+        setIsApplied(appliedJobs.some(appliedJob => appliedJob.id === job.id));
+      } catch (err) {
+        console.error("Error checking job status:", err);
       }
     };
 
@@ -118,7 +151,9 @@ function JobDetails() {
 
         {error && (
           <div className="job-error">
-            Error: {error}
+            <h3>Error</h3>
+            <p>{error}</p>
+            <p>Debug Info: ID parameter = {id || "not provided"}</p>
             <button onClick={() => navigate("/jobs")}>Back to Jobs</button>
           </div>
         )}
