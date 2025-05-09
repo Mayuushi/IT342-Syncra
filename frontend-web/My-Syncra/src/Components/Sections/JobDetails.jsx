@@ -119,16 +119,6 @@ function JobDetails() {
   };
 
   const handleApplyJob = async () => {
-  if (!currentUser) {
-    navigate("/login");
-    return;
-  }
-  if (isApplied) {
-    alert("You've already applied for this job!");
-    return;
-  }
-    await jobService.applyForJob(currentUser.id, job.jobId);
-    setIsApplied(true);
     navigate("/chat"); // Navigate to chat after successful application
 };
   // Format date if available
