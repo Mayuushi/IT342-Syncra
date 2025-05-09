@@ -10,8 +10,9 @@ function JobDetails() {
   const params = useParams();
   console.log("Raw URL params:", params);
   
-  const { jobId: id } = useParams(); // ✅ Correctly maps jobId to id
-  console.log("Extracted job ID:", id);
+const { jobId } = useParams();
+// and use jobId throughout
+  console.log("Extracted job ID:", jobId);
   
   const navigate = useNavigate();
   const [job, setJob] = useState(null);
@@ -33,11 +34,11 @@ function JobDetails() {
   // Fetch job details
   useEffect(() => {
     const fetchJobDetails = async () => {
-      console.log("Attempting to fetch job details with ID:", id);
+      console.log("Attempting to fetch job details with ID:", jobId);
       
       // Make sure id is actually defined and not empty
-      if (!id || id === "undefined" || id === "null") {
-        console.error("Invalid job ID:", id);
+      if (!jobId || jobId === "undefined" || jobId === "null") {
+        console.error("Invalid job ID:", jobId);
         setError("No valid job ID provided in the URL");
         setLoading(false);
         return;
@@ -45,8 +46,8 @@ function JobDetails() {
       
       try {
         setLoading(true);
-        console.log("Calling jobService.getJobById with ID:", id);
-        const jobData = await jobService.getJobById(id);
+        console.log("Calling jobService.getJobById with ID:", jobId);
+        const jobData = await jobService.getJobById(jobId);
         
         console.log("Job data received:", jobData);
         
@@ -65,33 +66,33 @@ function JobDetails() {
     };
 
     fetchJobDetails();
-  }, [id]);
+  }, [jobId]);
 
   // Check if job is saved/applied
   useEffect(() => {
     const checkJobStatus = async () => {
-      if (!currentUser || !currentUser.id) {
+      if (!currentUser || !currentUser.jobId) {
         console.log("No current user, skipping job status check");
         return;
       }
       
-      if (!job || !job.id) {
+      if (!job || !job.jobId) {
         console.log("No job data, skipping job status check");
         return;
       }
       
-      console.log("Checking job status for user:", currentUser.id, "and job:", job.id);
+      console.log("Checking job status for user:", currentUser.jobId, "and job:", job.jobId);
       
       try {
         // Check saved jobs
-        const savedJobs = await jobService.getSavedJobs(currentUser.id);
+        const savedJobs = await jobService.getSavedJobs(currentUser.jobId);
         console.log("Saved jobs:", savedJobs);
-        setIsSaved(savedJobs.some(savedJob => savedJob.id === job.id));
+        setIsSaved(savedJobs.some(savedJob => savedJob.jobId === job.jobId));
 
         // Check applied jobs
-        const appliedJobs = await jobService.getAppliedJobs(currentUser.id);
+        const appliedJobs = await jobService.getAppliedJobs(currentUser.jobId);
         console.log("Applied jobs:", appliedJobs);
-        setIsApplied(appliedJobs.some(appliedJob => appliedJob.id === job.id));
+        setIsApplied(appliedJobs.some(appliedJob => appliedJob.jobId === job.jobId));
       } catch (err) {
         console.error("Error checking job status:", err);
       }
@@ -108,11 +109,11 @@ function JobDetails() {
 
     try {
       if (isSaved) {
-        await jobService.removeSavedJob(currentUser.id, job.id);
+        await jobService.removeSavedJob(currentUser.jobId, job.jobId);
         setIsSaved(false);
         alert("Job removed from saved jobs");
       } else {
-        await jobService.saveJob(currentUser.id, job.id);
+        await jobService.saveJob(currentUser.jobId, job.jobId);
         setIsSaved(true);
         alert("Job saved successfully!");
       }
@@ -134,7 +135,7 @@ function JobDetails() {
     }
 
     try {
-      await jobService.applyForJob(currentUser.id, job.id);
+      await jobService.applyForJob(currentUser.jobId, job.jobId);
       setIsApplied(true);
       alert("You've successfully applied for this job!");
     } catch (err) {
@@ -153,7 +154,7 @@ function JobDetails() {
           <div className="job-error">
             <h3>Error</h3>
             <p>{error}</p>
-            <p>Debug Info: ID parameter = {id || "not provided"}</p>
+            <p>Debug Info: ID parameter = {jobId || "not provided"}</p>
             <button onClick={() => navigate("/jobs")}>Back to Jobs</button>
           </div>
         )}
