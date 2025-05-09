@@ -326,7 +326,7 @@ function Feed() {
                         className="text-xs text-blue-500 hover:underline mt-1"
                         onClick={() => navigate('/portfolio/new')}
                       >
-                        Add your first project
+                        Empty
                       </button>
                     </div>
                   )}
