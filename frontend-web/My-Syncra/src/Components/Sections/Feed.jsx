@@ -10,6 +10,7 @@ import {
 } from 'react-icons/fi';
 import authService from '../../Service/authService';
 import newsFeedService from '../../Service/newsFeedService';
+import portfolioService from '../../Service/PortfolioService'; // Import the portfolio service
 import spacexImg from '../../assets/spacex.jpg';
 import teslaImg from '../../assets/Tesla.jpg';
 import xImg from '../../assets/x.png';
@@ -23,6 +24,8 @@ function Feed() {
   const [newPost, setNewPost] = useState('');
   const [sortBy, setSortBy] = useState('Popular');
   const [postError, setPostError] = useState(null);
+  const [portfolioProjects, setPortfolioProjects] = useState([]); // State for portfolio projects
+  const [portfolioLoading, setPortfolioLoading] = useState(true); // Loading state for portfolio
 
   // Check if user is logged in
   useEffect(() => {
@@ -53,6 +56,37 @@ function Feed() {
 
     if (currentUser) {
       fetchPosts();
+    }
+  }, [currentUser]);
+
+  // Fetch portfolio projects
+  useEffect(() => {
+    const fetchPortfolioProjects = async () => {
+      if (!currentUser || !currentUser.id) return;
+      
+      try {
+        setPortfolioLoading(true);
+        const response = await portfolioService.getUserPortfolios(currentUser.id);
+        console.log("Fetched portfolio projects:", response.data);
+        
+        // Set the portfolio projects
+        if (response.data && Array.isArray(response.data)) {
+          setPortfolioProjects(response.data);
+        } else {
+          // Handle case where response is not as expected
+          console.warn("Portfolio data is not in expected format:", response.data);
+          setPortfolioProjects([]);
+        }
+      } catch (err) {
+        console.error('Error fetching portfolio projects:', err);
+        // Don't set a visible error for portfolio - just log it
+      } finally {
+        setPortfolioLoading(false);
+      }
+    };
+
+    if (currentUser) {
+      fetchPortfolioProjects();
     }
   }, [currentUser]);
 
@@ -132,6 +166,48 @@ function Feed() {
       setPosts(formatBackendPosts(posts));
     }
   }, [posts]);
+
+  // Fallback portfolio projects in case API fails or returns empty
+  const fallbackProjects = [
+    {
+      id: 1,
+      title: 'SpaceX',
+      description: 'Rocket Launch Platform',
+      image: spacexImg,
+    },
+    {
+      id: 2,
+      title: 'Tesla',
+      description: 'Electric Vehicles',
+      image: teslaImg,
+    },
+    {
+      id: 3,
+      title: 'X',
+      description: 'Social Platform',
+      image: xImg,
+    },
+  ];
+
+  // Determine which projects to display
+  const projectsToDisplay = portfolioProjects.length > 0 
+    ? portfolioProjects.slice(0, 3) 
+    : fallbackProjects;
+
+  const getProjectImage = (project) => {
+    // If the project has an image URL, use it
+    if (project.imageUrl) {
+      return project.imageUrl;
+    }
+    
+    // If it's a fallback project, it already has an image property
+    if (project.image) {
+      return project.image;
+    }
+    
+    // Default placeholder image
+    return 'https://via.placeholder.com/100';
+  };
 
   const recommendedUsers = [
     {
@@ -236,29 +312,44 @@ function Feed() {
                   View Portfolio
                 </button>
               </div>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-2">
-                  <img src={spacexImg} alt="SpaceX Project" className="w-12 h-12 rounded object-cover" />
-                  <div>
-                    <div className="font-semibold text-xs text-gray-800">SpaceX</div>
-                    <div className="text-xs text-gray-500">Rocket Launch Platform</div>
-                  </div>
+              
+              {portfolioLoading ? (
+                <div className="text-center py-2">
+                  <p className="text-xs text-gray-500">Loading projects...</p>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <img src={teslaImg} alt="Tesla Project" className="w-12 h-12 rounded object-cover" />
-                  <div>
-                    <div className="font-semibold text-xs text-gray-800">Tesla</div>
-                    <div className="text-xs text-gray-500">Electric Vehicles</div>
-                  </div>
+              ) : (
+                <div className="space-y-3">
+                  {projectsToDisplay.map((project) => (
+                    <div key={project.id} className="flex items-center space-x-2">
+                      <img 
+                        src={getProjectImage(project)} 
+                        alt={project.title || project.name} 
+                        className="w-12 h-12 rounded object-cover" 
+                      />
+                      <div>
+                        <div className="font-semibold text-xs text-gray-800">
+                          {project.title || project.name}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          {project.description || project.summary || 'No description'}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  
+                  {projectsToDisplay.length === 0 && (
+                    <div className="text-center py-2">
+                      <p className="text-xs text-gray-500">No projects found</p>
+                      <button 
+                        className="text-xs text-blue-500 hover:underline mt-1"
+                        onClick={() => navigate('/portfolio/new')}
+                      >
+                        Add your first project
+                      </button>
+                    </div>
+                  )}
                 </div>
-                <div className="flex items-center space-x-2">
-                  <img src={xImg} alt="X Project" className="w-12 h-12 rounded object-cover" />
-                  <div>
-                    <div className="font-semibold text-xs text-gray-800">X</div>
-                    <div className="text-xs text-gray-500">Social Platform</div>
-                  </div>
-                </div>
-              </div>
+              )}
             </div>
             {/* End Overview Section */}
           </div>
