@@ -8,6 +8,7 @@ import {
   FiMessageSquare,
   FiUsers,
   FiLogOut,
+  FiGlobe,
 } from 'react-icons/fi';
 import logo from '../assets/logo.png'; // Import the logo image
 
@@ -69,7 +70,7 @@ export const NavBar = () => {
               to="/company"
               className="flex flex-col items-center justify-center px-2 text-gray-600 hover:text-blue-600"
             >
-              <FiMessageSquare className="h-5 w-5" />
+              <FiGlobe className="h-5 w-5" />
               <span className="text-xs mt-1">COMPANY</span>
             </Link>
 
