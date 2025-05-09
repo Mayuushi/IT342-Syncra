@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.edu.cit.Syncra.DataClass.NewsPostResponse
-import com.edu.cit.Syncra.network.RetrofitInstance
+import edu.cit.syncra.network.RetrofitInstance
 import edu.cit.syncra.adapter.NewsFeedAdapter
 import edu.cit.syncra.databinding.FragmentHomeBinding
 import kotlinx.coroutines.launch

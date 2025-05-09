@@ -43,7 +43,20 @@ android {
 
 dependencies {
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    // Lifecycle dependencies
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.0")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0")
+    // Kotlin extensions for LiveData
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.0")
+    implementation ("androidx.recyclerview:recyclerview:1.2.1")  // Or a more recent version
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
 
+
+
+    implementation ("androidx.constraintlayout:constraintlayout:2.1.4") // or the latest version
+    implementation ("androidx.recyclerview:recyclerview:1.2.1") // or the latest version
+    implementation ("androidx.core:core-ktx:1.8.0") // Make sure this is added as well
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("com.google.android.material:material:1.11.0") // or latest
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
@@ -57,6 +70,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.recyclerview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -11,7 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import com.edu.cit.Syncra.network.RetrofitInstance
+import edu.cit.syncra.network.RetrofitInstance
 import com.github.dhaval2404.imagepicker.ImagePicker
 import edu.cit.syncra.DataClass.NewsPost
 import edu.cit.syncra.R

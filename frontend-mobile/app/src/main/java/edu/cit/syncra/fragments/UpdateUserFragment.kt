@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.edu.cit.Syncra.network.RetrofitInstance
+import edu.cit.syncra.network.RetrofitInstance
 import edu.cit.syncra.DataClass.User
 import edu.cit.syncra.databinding.FragmentUpdateUserBinding
 import edu.cit.syncra.utils.SessionManager

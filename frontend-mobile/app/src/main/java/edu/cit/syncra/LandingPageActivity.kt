@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import edu.cit.syncra.fragments.CreateCompanyFragment
+import edu.cit.syncra.fragments.SavedJobsFragment
 import edu.cit.syncra.fragments.HomeFragment
 import edu.cit.syncra.fragments.NetworkFragment
 import edu.cit.syncra.fragments.PostFragment
@@ -26,14 +28,14 @@ class LandingPageActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_home -> loadFragment(HomeFragment())
                 R.id.nav_network -> loadFragment(NetworkFragment())
-                R.id.nav_post -> loadFragment(PostFragment())
+                R.id.nav_post -> loadFragment(CreateCompanyFragment())
                 R.id.nav_profile -> {
                     loadFragment(ProfileAndPostsFragment()) // if you’ve made a fragment for posts
                     // or use a sharedPref check like before and pass data via bundle
                     true
                 }
                 R.id.nav_jobs -> {
-                    loadFragment(NetworkFragment()) // if this is also network
+                    loadFragment(SavedJobsFragment()) // if this is also network
                     true
                 }
                 else -> false

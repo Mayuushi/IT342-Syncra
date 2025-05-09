@@ -7,7 +7,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.edu.cit.Syncra.network.RetrofitInstance
+import edu.cit.syncra.network.RetrofitInstance
 import edu.cit.syncra.utils.SessionManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

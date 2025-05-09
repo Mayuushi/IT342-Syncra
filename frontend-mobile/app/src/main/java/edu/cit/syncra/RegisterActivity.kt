@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.edu.cit.Syncra.network.RetrofitInstance
+import edu.cit.syncra.network.RetrofitInstance
 import edu.cit.syncra.DataClass.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

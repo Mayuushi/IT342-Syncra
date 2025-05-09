@@ -8,7 +8,7 @@ import android.util.Base64
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
-import com.edu.cit.Syncra.network.RetrofitInstance
+import edu.cit.syncra.network.RetrofitInstance
 import com.github.dhaval2404.imagepicker.ImagePicker
 import edu.cit.syncra.DataClass.Portfolio  // ✅ Use correct data class!
 import edu.cit.syncra.R

@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.edu.cit.Syncra.network.RetrofitInstance
+import edu.cit.syncra.network.RetrofitInstance
 import edu.cit.syncra.DataClass.Portfolio
 import edu.cit.syncra.R
 import edu.cit.syncra.adapter.PortfolioAdapter

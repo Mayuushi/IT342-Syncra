@@ -1,4 +1,4 @@
-package com.edu.cit.Syncra.network  // <-- Use the correct package name
+package edu.cit.syncra.network  // <-- Use the correct package name
 
 import edu.cit.syncra.Controller.ApiService
 import retrofit2.Retrofit
@@ -16,4 +16,6 @@ object RetrofitInstance {
     val api: ApiService by lazy {
         retrofit.create(ApiService::class.java)
     }
+
+
 }

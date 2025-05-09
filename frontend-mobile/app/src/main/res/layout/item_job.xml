@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:layout_marginBottom="8dp">
+
+    <TextView
+        android:id="@+id/jobTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Job Title"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/jobDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Job Description"
+        android:textSize="14sp"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/jobCompany"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Company Name"
+        android:textSize="14sp"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/jobLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Location"
+        android:textSize="12sp"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/jobType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Job Type"
+        android:textSize="12sp"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/jobPostedDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Posted Date"
+        android:textSize="12sp"
+        android:layout_marginTop="8dp" />
+
+    <!-- Cancel Application Button -->
+    <Button
+        android:id="@+id/cancelApplicationButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Withdraw Application"
+        android:visibility="gone"
+        android:layout_marginTop="8dp" />
+
+</LinearLayout>
