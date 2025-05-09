@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavBar } from "../NavBar";
 import coverImg from "../../assets/cover.jpg";
 import "./Portfolio.css";
-import PortfolioService from "../../Services/PortfolioService";
+import PortfolioService from "../../Service/portfolioService";
 import AuthService from "../../Service/authService"; // Assuming you have an auth service
 
 function Portfolio() {
