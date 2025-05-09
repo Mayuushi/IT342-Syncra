@@ -132,4 +132,9 @@ class CreateCompanyFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
+
+
+
 }

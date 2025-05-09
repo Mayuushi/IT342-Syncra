@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import edu.cit.syncra.R
@@ -33,39 +35,35 @@ class ViewCompanyFragment : Fragment() {
         sessionManager = SessionManager(requireContext())
         val userId = sessionManager.getUserId()
 
-        // Initialize layout container for company details
         companyListLayout = view.findViewById(R.id.companyListLayout)
 
         if (!userId.isNullOrEmpty()) {
-            // Launch coroutine to fetch company data
             fetchCompanyData(userId)
         }
     }
 
     private fun fetchCompanyData(userId: String) {
-        // Launch coroutine in the fragment's lifecycle scope
         lifecycleScope.launch {
             try {
-                // Call the suspend function to fetch a list of companies
                 val response: Response<List<Company>> = RetrofitInstance.api.getCompaniesByUserId(userId)
 
                 if (response.isSuccessful) {
                     val companies = response.body()
                     if (!companies.isNullOrEmpty()) {
-                        // Loop through the companies and display them
+                        companyListLayout.removeAllViews() // Clear existing views before adding new ones
                         companies.forEach { company ->
                             addCompanyToLayout(company)
                         }
                     }
                 }
             } catch (e: Exception) {
-                e.printStackTrace()  // Handle exceptions (e.g., network errors)
+                e.printStackTrace()
+                Toast.makeText(requireContext(), "Failed to fetch companies", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun addCompanyToLayout(company: Company) {
-        // Inflate company item layout and bind data
         val companyView = LayoutInflater.from(requireContext()).inflate(R.layout.item_company, companyListLayout, false)
 
         val tvCompanyName: TextView = companyView.findViewById(R.id.tvCompanyName)
@@ -77,8 +75,9 @@ class ViewCompanyFragment : Fragment() {
         val tvEmail: TextView = companyView.findViewById(R.id.tvEmail)
         val tvPhone: TextView = companyView.findViewById(R.id.tvPhone)
         val tvDescription: TextView = companyView.findViewById(R.id.tvDescription)
+        val btnDelete: Button = companyView.findViewById(R.id.btnDeleteCompany)
 
-        // Populate data for each company
+        // Populate company data
         tvCompanyName.text = company.name
         tvIndustry.text = "Industry: ${company.industry}"
         tvLocation.text = "Location: ${company.location}"
@@ -89,7 +88,36 @@ class ViewCompanyFragment : Fragment() {
         tvPhone.text = "Phone: ${company.phone}"
         tvDescription.text = "Description: ${company.description}"
 
-        // Add the inflated view to the layout container
+        // Set delete action
+        btnDelete.setOnClickListener {
+            deleteCompany(company.id.toString())
+        }
+
         companyListLayout.addView(companyView)
+    }
+
+    private fun deleteCompany(companyId: String) {
+        val userId = sessionManager.getUserId()
+
+        if (userId.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "User ID not found", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitInstance.api.deleteCompany(companyId, userId)
+
+                if (response.isSuccessful) {
+                    Toast.makeText(requireContext(), "Company deleted", Toast.LENGTH_SHORT).show()
+                    fetchCompanyData(userId)
+                } else {
+                    Toast.makeText(requireContext(), "Failed to delete company", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(requireContext(), "Error occurred", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

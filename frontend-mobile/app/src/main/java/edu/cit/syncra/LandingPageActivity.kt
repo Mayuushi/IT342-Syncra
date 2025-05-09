@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import edu.cit.syncra.fragments.AllJobsFragment
 import edu.cit.syncra.fragments.CreateCompanyFragment
-import edu.cit.syncra.fragments.SavedJobsFragment
 import edu.cit.syncra.fragments.HomeFragment
 import edu.cit.syncra.fragments.NetworkFragment
 import edu.cit.syncra.fragments.PostFragment
@@ -35,7 +35,7 @@ class LandingPageActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_jobs -> {
-                    loadFragment(SavedJobsFragment()) // if this is also network
+                    loadFragment(AllJobsFragment()) // if this is also network
                     true
                 }
                 else -> false

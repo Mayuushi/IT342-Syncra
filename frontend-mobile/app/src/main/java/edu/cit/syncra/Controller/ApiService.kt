@@ -1,6 +1,7 @@
 package edu.cit.syncra.Controller
 
 import edu.cit.syncra.DataClass.Company
+import edu.cit.syncra.DataClass.Job
 import edu.cit.syncra.DataClass.NewsFeedResponse
 import edu.cit.syncra.DataClass.NewsPost
 import edu.cit.syncra.DataClass.Portfolio
@@ -8,6 +9,7 @@ import edu.cit.syncra.DataClass.User
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -101,6 +103,20 @@ interface ApiService {
 
     @GET("api/companies/user/{userId}")
     suspend fun getCompaniesByUserId(@Path("userId") userId: String): Response<List<Company>>
+
+    @DELETE("/api/companies/{id}")
+    suspend fun deleteCompany(
+        @Path("id") id: String,
+        @Query("userId") userId: String
+    ): Response<Void>
+
+    @GET("/api/companies/{companyId}/jobs")
+    suspend fun getJobsByCompanyId(@Path("companyId") companyId: String): Response<List<Job>>
+
+    @GET("/api/jobs")
+    suspend fun getAllJobs(): Response<Map<String, Any>>
+
+
 
 
 

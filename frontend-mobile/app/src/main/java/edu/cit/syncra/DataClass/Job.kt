@@ -6,6 +6,8 @@ data class Job(
     val description: String,
     val company: String,
     val location: String,
-    val type: String,           // e.g., "Full-time", "Internship"
-    val postedDate: String      // ISO date format or timestamp
+    val type: String,
+    val postedDate: String,
+    val isApplied: Boolean = false // ← Add this line with a default value
 )
+
