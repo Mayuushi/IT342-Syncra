@@ -173,16 +173,16 @@ function Portfolio() {
             <div style={{ width: 110, height: 40 }}></div>
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ display: "flex", flexDirection: "column", marginBottom: 6 }}>
+            <div style={{ display: "align-left", flexDirection: "column", marginBottom: 6 }}>
               <span style={{ fontSize: "1.25rem", fontWeight: 700, marginRight: 10, marginBottom: 6 }}>
                 {currentUser ? currentUser.fullName || currentUser.name || currentUser.username : "Guest User"}
               </span>
-              <div style={{ display: "flex", alignItems: "center" }}>
+              {/* <div style={{ display: "flex", alignItems: "center" }}>
                 <svg width="16" height="16" fill="#1a6ed8" style={{ marginRight: 4, verticalAlign: "middle" }} viewBox="0 0 20 20"><path d="M10 2C6.13 2 3 5.13 3 9c0 5.25 7 9 7 9s7-3.75 7-9c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 10 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
                 <span style={{ color: "#1a6ed8", fontSize: "1rem" }}>
                   {currentUser ? currentUser.location || "City, country" : "City, country"}
                 </span>
-              </div>
+              </div> */}
             </div>
             <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
               <button style={{
