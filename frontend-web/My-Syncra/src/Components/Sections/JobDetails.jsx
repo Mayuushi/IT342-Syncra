@@ -28,26 +28,28 @@ function JobDetails() {
     const fetchJobDetails = async () => {
       try {
         setLoading(true);
+        // Check if id is defined and not empty
+        if (!id) {
+          throw new Error("Job ID is missing");
+        }
         const jobData = await jobService.getJobById(id);
         setJob(jobData);
         setError(null);
       } catch (err) {
         console.error("Error fetching job details:", err);
-        setError(err.message);
+        setError(err.message || "Failed to load job details");
       } finally {
         setLoading(false);
       }
     };
 
-    if (id) {
-      fetchJobDetails();
-    }
+    fetchJobDetails();
   }, [id]);
 
   // Check if job is saved/applied
   useEffect(() => {
     const checkJobStatus = async () => {
-      if (currentUser && currentUser.id && job) {
+      if (currentUser && currentUser.id && job && job.id) {
         try {
           // Check saved jobs
           const savedJobs = await jobService.getSavedJobs(currentUser.id);
