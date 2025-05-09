@@ -8,6 +8,7 @@ import {
   FiMessageSquare,
   FiUsers,
   FiLogOut,
+  FiGlobe,
 } from 'react-icons/fi';
 import logo from '../assets/logo.png'; // Import the logo image
 
@@ -41,13 +42,13 @@ export const NavBar = () => {
               <span className="text-xs mt-1">FEED</span>
             </Link>
 
-            <Link
+            {/* <Link
               to="/network"
               className="flex flex-col items-center justify-center px-2 text-gray-600 hover:text-blue-600"
             >
               <FiUsers className="h-5 w-5" />
               <span className="text-xs mt-1">NETWORK</span>
-            </Link>
+            </Link> */}
 
             <Link
               to="/jobs"
@@ -69,7 +70,7 @@ export const NavBar = () => {
               to="/company"
               className="flex flex-col items-center justify-center px-2 text-gray-600 hover:text-blue-600"
             >
-              <FiMessageSquare className="h-5 w-5" />
+              <FiGlobe className="h-5 w-5" />
               <span className="text-xs mt-1">COMPANY</span>
             </Link>
 
@@ -102,7 +103,7 @@ export const NavBar = () => {
             </div>
           </div>
           <div className="flex items-center">
-            <div className="flex-shrink-0 relative">
+            {/* <div className="flex-shrink-0 relative">
               <div className="flex items-center">
                 <img
                   className="h-8 w-8 rounded-full"
@@ -116,7 +117,7 @@ export const NavBar = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             
             <div className="ml-4 flex items-center">
               {/* Replaced "Others" with Logout button */}
