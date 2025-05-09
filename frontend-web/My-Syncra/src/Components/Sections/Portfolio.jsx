@@ -173,14 +173,16 @@ function Portfolio() {
             <div style={{ width: 110, height: 40 }}></div>
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ display: "flex", alignItems: "center", marginBottom: 6 }}>
-              <span style={{ fontSize: "1.25rem", fontWeight: 700, marginRight: 10 }}>
-                {currentUser ? currentUser.fullName || currentUser.username : "Guest User"}
+            <div style={{ display: "flex", flexDirection: "column", marginBottom: 6 }}>
+              <span style={{ fontSize: "1.25rem", fontWeight: 700, marginRight: 10, marginBottom: 6 }}>
+                {currentUser ? currentUser.fullName || currentUser.name || currentUser.username : "Guest User"}
               </span>
-              <svg width="16" height="16" fill="#1a6ed8" style={{ marginRight: 4, verticalAlign: "middle" }} viewBox="0 0 20 20"><path d="M10 2C6.13 2 3 5.13 3 9c0 5.25 7 9 7 9s7-3.75 7-9c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 10 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
-              <span style={{ color: "#1a6ed8", fontSize: "1rem" }}>
-                {currentUser ? currentUser.location || "City, country" : "City, country"}
-              </span>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <svg width="16" height="16" fill="#1a6ed8" style={{ marginRight: 4, verticalAlign: "middle" }} viewBox="0 0 20 20"><path d="M10 2C6.13 2 3 5.13 3 9c0 5.25 7 9 7 9s7-3.75 7-9c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 10 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+                <span style={{ color: "#1a6ed8", fontSize: "1rem" }}>
+                  {currentUser ? currentUser.location || "City, country" : "City, country"}
+                </span>
+              </div>
             </div>
             <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
               <button style={{
@@ -520,83 +522,6 @@ function Portfolio() {
             )}
           </div>
         </div>
-
-        {/* Footer */}
-        <footer style={{
-          width: "100%",
-          background: "#f4f4f4",
-          padding: "32px 0 16px 0",
-          borderTop: "1px solid #e0e0e0",
-          marginTop: 32,
-        }}>
-          <div style={{
-            maxWidth: 1100,
-            margin: "0 auto",
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            fontSize: 14,
-            color: "#444",
-          }}>
-            <div style={{ flex: 2, minWidth: 200, marginBottom: 16 }}>
-              <div style={{ fontWeight: 700, marginBottom: 8 }}>Navigation</div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 18 }}>
-                <span>About</span>
-                <span>Careers</span>
-                <span>Advertising</span>
-                <span>Small Business</span>
-                <span>Talent Solutions</span>
-                <span>Marketing Solutions</span>
-                <span>Sales Solutions</span>
-                <span>Safety Center</span>
-                <span>Community Guidelines</span>
-                <span>Privacy & Terms</span>
-                <span>Mobile App</span>
-              </div>
-            </div>
-            <div style={{ flex: 1, minWidth: 180, marginBottom: 16 }}>
-              <div style={{ fontWeight: 700, marginBottom: 8 }}>Fast access</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <button style={{
-                  background: "#1a6ed8",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: 6,
-                  padding: "6px 14px",
-                  fontWeight: 600,
-                  fontSize: "1rem",
-                  cursor: "pointer",
-                  marginBottom: 4,
-                }}>QUESTIONS?</button>
-                <button style={{
-                  background: "#fff",
-                  color: "#1a6ed8",
-                  border: "1.5px solid #1a6ed8",
-                  borderRadius: 6,
-                  padding: "6px 14px",
-                  fontWeight: 600,
-                  fontSize: "1rem",
-                  cursor: "pointer",
-                }}>SETTINGS</button>
-              </div>
-            </div>
-            <div style={{ flex: 1, minWidth: 120 }}>
-              <div style={{ fontWeight: 700, marginBottom: 8 }}>Language</div>
-              <select style={{
-                width: "100%",
-                padding: "6px 8px",
-                borderRadius: 6,
-                border: "1px solid #ccc",
-                fontSize: "1rem",
-              }}>
-                <option>ENGLISH</option>
-                <option>FILIPINO</option>
-                <option>日本語</option>
-              </select>
-            </div>
-          </div>
-        </footer>
       </div>
     </>
   );
