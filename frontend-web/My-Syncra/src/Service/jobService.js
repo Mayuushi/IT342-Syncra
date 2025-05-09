@@ -195,24 +195,32 @@ const getSavedJobs = async (userId) => {
     console.warn('User ID is required to get saved jobs');
     return [];
   }
-  
+
   try {
-    console.log(`Fetching saved jobs for user ${userId}`);
     const response = await axios.get(`${USER_API_URL}/${userId}/saved-jobs`);
-    console.log('Saved jobs response:', response.data);
-    
-    if (!response.data.savedJobs && Array.isArray(response.data)) {
-      // Some APIs may return the array directly
-      return response.data;
-    }
-    
     return response.data.savedJobs || [];
   } catch (error) {
-    // For saved jobs, fail gracefully by returning empty array
     console.error(`Error fetching saved jobs for user ${userId}:`, error);
     return [];
   }
 };
+
+// Get applied jobs for a user
+const getAppliedJobs = async (userId) => {
+  if (!userId) {
+    console.warn('User ID is required to get applied jobs');
+    return [];
+  }
+
+  try {
+    const response = await axios.get(`${USER_API_URL}/${userId}/applied-jobs`);
+    return response.data.appliedJobs || [];
+  } catch (error) {
+    console.error(`Error fetching applied jobs for user ${userId}:`, error);
+    return [];
+  }
+};
+
 
 // Apply for a job
 const applyForJob = async (userId, jobId) => {
@@ -227,31 +235,6 @@ const applyForJob = async (userId, jobId) => {
     return response.data;
   } catch (error) {
     return handleApiError(error, `Failed to apply for job ${jobId} for user ${userId}`);
-  }
-};
-
-// Get applied jobs for a user
-const getAppliedJobs = async (userId) => {
-  if (!userId) {
-    console.warn('User ID is required to get applied jobs');
-    return [];
-  }
-  
-  try {
-    console.log(`Fetching applied jobs for user ${userId}`);
-    const response = await axios.get(`${USER_API_URL}/${userId}/applied-jobs`);
-    console.log('Applied jobs response:', response.data);
-    
-    if (!response.data.appliedJobs && Array.isArray(response.data)) {
-      // Some APIs may return the array directly
-      return response.data;
-    }
-    
-    return response.data.appliedJobs || [];
-  } catch (error) {
-    // For applied jobs, fail gracefully by returning empty array
-    console.error(`Error fetching applied jobs for user ${userId}:`, error);
-    return [];
   }
 };
 
