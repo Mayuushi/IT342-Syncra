@@ -173,8 +173,8 @@ function Portfolio() {
             <div style={{ width: 110, height: 40 }}></div>
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ display: "align-left", flexDirection: "column", marginBottom: 6 }}>
-              <span style={{ fontSize: "1.25rem", fontWeight: 700, marginRight: 10, marginBottom: 6 }}>
+            <div style={{ display: "block", textAlign: "left", marginBottom: 6 }}>
+              <span style={{ fontSize: "1.25rem", fontWeight: 700, marginRight: 10, marginBottom: 6, display: "block" }}>
                 {currentUser ? currentUser.fullName || currentUser.name || currentUser.username : "Guest User"}
               </span>
               {/* <div style={{ display: "flex", alignItems: "center" }}>
