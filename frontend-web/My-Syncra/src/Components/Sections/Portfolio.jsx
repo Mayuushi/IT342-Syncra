@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { NavBar } from "../NavBar";
 import coverImg from "../../assets/cover.jpg";
 import "./Portfolio.css";
-import PortfolioService from "../../services/PortfolioService";
-import AuthService from "../../services/AuthService"; // Assuming you have an auth service
+import PortfolioService from "../../Services/PortfolioService";
+import AuthService from "../../Service/authService"; // Assuming you have an auth service
 
 function Portfolio() {
   const [projects, setProjects] = useState([]);
