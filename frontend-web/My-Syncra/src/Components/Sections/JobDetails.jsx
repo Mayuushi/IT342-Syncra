@@ -119,26 +119,18 @@ function JobDetails() {
   };
 
   const handleApplyJob = async () => {
-    if (!currentUser) {
-      navigate("/login");
-      return;
-    }
-
-    if (isApplied) {
-      alert("You've already applied for this job!");
-      return;
-    }
-
-    try {
-      await jobService.applyForJob(currentUser.id, job.jobId);
-      setIsApplied(true);
-      alert("You've successfully applied for this job!");
-    } catch (err) {
-      console.error("Error applying for job:", err);
-      alert("Failed to apply for job. Please try again.");
-    }
-  };
-
+  if (!currentUser) {
+    navigate("/login");
+    return;
+  }
+  if (isApplied) {
+    alert("You've already applied for this job!");
+    return;
+  }
+    await jobService.applyForJob(currentUser.id, job.jobId);
+    setIsApplied(true);
+    navigate("/chat"); // Navigate to chat after successful application
+};
   // Format date if available
   const formatDate = (dateString) => {
     if (!dateString) return "Recently";
