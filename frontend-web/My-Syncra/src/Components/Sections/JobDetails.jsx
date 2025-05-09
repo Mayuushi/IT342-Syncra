@@ -130,7 +130,7 @@ function JobDetails() {
     }
 
     try {
-      await jobService.applyForJob(currentUser.jobId, job.jobId);
+      await jobService.applyForJob(currentUser.id, job.jobId);
       setIsApplied(true);
       alert("You've successfully applied for this job!");
     } catch (err) {
@@ -180,12 +180,6 @@ function JobDetails() {
                 ← Back to Jobs
               </button>
               <div className="job-details-actions">
-                <button 
-                  className={`job-details-save ${isSaved ? 'saved' : ''}`}
-                  onClick={handleSaveJob}
-                >
-                  {isSaved ? "Saved" : "Save Job"}
-                </button>
                 <button 
                   className={`job-details-apply ${isApplied ? 'applied' : ''}`}
                   onClick={handleApplyJob}
