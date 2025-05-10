@@ -25,7 +25,6 @@
             android:layout_marginEnd="8dp" />
     </androidx.appcompat.widget.Toolbar>
 
-    <!-- SwipeRefreshLayout for pull-to-refresh -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="0dp"
@@ -35,7 +34,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- RecyclerView to display the news feed -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
@@ -43,5 +41,18 @@
             android:layout_marginTop="16dp"
             android:paddingTop="16dp" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!-- Create Post Button -->
+    <ImageButton
+        android:id="@+id/createPost"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/fab_background"
+        android:src="@drawable/ic_add"
+        android:contentDescription="Create Post"
+        android:tint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
