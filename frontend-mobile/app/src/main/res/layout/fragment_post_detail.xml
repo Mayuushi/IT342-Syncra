@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/linkedin_background"
     android:padding="16dp">
 
     <LinearLayout
@@ -9,29 +11,52 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/detailTextContent"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:text="Full post content here"
-            android:layout_marginBottom="12dp" />
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/linkedin_card_background"
+            android:layout_marginBottom="16dp">
 
-        <ImageView
-            android:id="@+id/detailImagePost"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:scaleType="centerCrop"
-            android:visibility="gone"
-            android:layout_marginBottom="12dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        <TextView
-            android:id="@+id/detailTextDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Posted on"
-            android:textSize="14sp"
-            android:textColor="#666" />
+                <TextView
+                    android:id="@+id/detailTextContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/linkedin_dark_text"
+                    android:text="Full post content here"
+                    android:layout_marginBottom="12dp" />
+
+                <ImageView
+                    android:id="@+id/detailImagePost"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone"
+                    android:layout_marginBottom="12dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/linkedin_divider"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:id="@+id/detailTextDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Posted on"
+                    android:textSize="14sp"
+                    android:textColor="@color/linkedin_medium_text" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 </ScrollView>

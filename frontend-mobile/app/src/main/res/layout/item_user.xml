@@ -41,15 +41,6 @@
                 android:textSize="16sp"
                 android:textColor="@color/text_dark" />
 
-            <TextView
-                android:id="@+id/textViewUserHeadline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Senior Software Engineer at Google"
-                android:textSize="14sp"
-                android:textColor="@color/text_secondary"
-                android:maxLines="2"
-                android:ellipsize="end" />
 
             <TextView
                 android:id="@+id/textViewUserEmail"
@@ -60,24 +51,9 @@
                 android:textColor="@color/text_light"
                 android:layout_marginTop="4dp" />
 
-            <TextView
-                android:id="@+id/textViewMutualConnections"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="12 mutual connections"
-                android:textSize="12sp"
-                android:textColor="@color/linkedin_blue"
-                android:layout_marginTop="4dp" />
+
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonConnect"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Connect"
-            android:textColor="@color/linkedin_blue"
-            app:strokeColor="@color/linkedin_blue"
-            android:layout_gravity="center_vertical" />
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>
