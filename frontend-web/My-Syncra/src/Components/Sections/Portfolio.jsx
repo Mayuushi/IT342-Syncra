@@ -77,7 +77,7 @@ function Portfolio() {
     };
 
     fetchData();
-  }, [userId, currentUser]);
+  }, [userId]);
 
   const handleAddProject = (e) => {
     e.preventDefault();
