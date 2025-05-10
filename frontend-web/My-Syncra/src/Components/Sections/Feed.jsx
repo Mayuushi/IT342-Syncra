@@ -244,16 +244,14 @@ function Feed() {
               <div className="pt-10 pb-2 px-3 text-center border-b border-gray-200">
                 <h2 className="text-lg font-bold">{currentUser?.name || 'LOADING...'}</h2>
                 <p className="text-gray-500 text-xs">
-                  Frontend Web Developer
                 </p>
               </div>
               <div className="px-3 py-2 border-b border-gray-200">
                 <div className="flex justify-between items-center">
-                  <span className="text-xs text-gray-500">Contacts</span>
-                  <span className="text-xs text-blue-500">fifty</span>
+                  <span className="text-xs text-gray-500"></span>
+                  <span className="text-xs text-blue-500"></span>
                 </div>
                 <p className="text-xs text-gray-500">
-                  090-1234-5678, 090-1234-5678
                 </p>
                 <div className="flex justify-between items-center mt-1">
                   <span className="text-xs text-gray-500">Profile views</span>
@@ -262,10 +260,8 @@ function Feed() {
               </div>
               <div className="px-3 py-2 border-b border-gray-200">
                 <p className="text-xs">
-                  Access to exclusive tools and statistics
                 </p>
                 <p className="text-xs font-medium text-amber-600">
-                  🔶 Try Premium for free
                 </p>
               </div>
               <div className="px-3 py-2">
@@ -522,86 +518,7 @@ function Feed() {
           </div>
 
           {/* RIGHT SIDEBAR */}
-          <div className="w-1/4 h-full overflow-y-auto mt-4">
-            <div className="bg-white rounded-lg shadow-sm">
-              <div className="p-3 border-b border-gray-200">
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-medium text-sm">Add to your feed</h3>
-                  <button className="text-gray-400">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                {recommendedUsers.map((user) => (
-                  <div key={user.id} className="mb-2">
-                    <div className="flex items-center">
-                      <img
-                        src={user.image}
-                        alt={user.name}
-                        className="w-8 h-8 rounded-full mr-2"
-                      />
-                      <div className="flex flex-col">
-                        <span className="font-medium text-xs text-gray-900">{user.name}</span>
-                        <span className="text-xs text-gray-500">{user.info}</span>
-                      </div>
-                    </div>
-                    <div className="ml-10">
-                      <button className="mt-1 border border-gray-300 rounded-full px-2 py-0.5 text-xs flex items-center">
-                        <span className="mr-1">+</span> track
-                      </button>
-                    </div>
-                  </div>
-                ))}
-                <button className="text-xs text-gray-500 flex items-center">
-                  See all recommendations
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-3 w-3 ml-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </button>
-              </div>
-
-              <div className="overflow-hidden border-b border-gray-200">
-                <a
-                  href="https://www.apple.com/macbook-air/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block hover:bg-gray-50 transition"
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80"
-                    alt="MacBook Air Advertisement"
-                    className="w-full h-auto"
-                  />
-                  <div className="p-2">
-                    <div className="font-bold text-sm text-gray-800">MacBook Air</div>
-                    <div className="text-xs text-gray-600">Light. Speed. Power. Discover the new MacBook Air at Apple.</div>
-                  </div>
-                </a>
-              </div>
-            </div>
+          
             {/* General Information */}
             <div className="bg-white rounded-lg shadow-sm mt-2 p-3">
               <p className="text-center text-xs text-gray-500 mb-1">
@@ -623,7 +540,6 @@ function Feed() {
             </div>
           </div>
         </div>
-      </div>
     </>
   );
 }
