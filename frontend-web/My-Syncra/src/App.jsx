@@ -144,7 +144,7 @@ function App() {
               }
             />
             <Route
-              path="/portfolio"
+              path="/portfolio/:id"
               element={
                 <PrivateRoute>
                   <Portfolio />
