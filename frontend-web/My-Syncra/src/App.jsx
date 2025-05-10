@@ -143,8 +143,16 @@ function App() {
                 </PrivateRoute>
               }
             />
-            <Route
-  path="/portfolio/:userId?"
+<Route
+  path="/portfolio"
+  element={
+    <PrivateRoute>
+      <Portfolio />
+    </PrivateRoute>
+  }
+/>
+<Route
+  path="/portfolio/:userId"
   element={
     <PrivateRoute>
       <Portfolio />
