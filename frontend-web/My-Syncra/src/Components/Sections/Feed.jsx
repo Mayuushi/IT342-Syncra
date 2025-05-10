@@ -518,26 +518,8 @@ function Feed() {
           </div>
 
           {/* RIGHT SIDEBAR */}
-          
+        
             {/* General Information */}
-            <div className="bg-white rounded-lg shadow-sm mt-2 p-3">
-              <p className="text-center text-xs text-gray-500 mb-1">
-                General information
-              </p>
-              <div className="flex flex-wrap text-xs text-gray-500 justify-center">
-                <span className="mx-1 my-0.5 text-[10px]">Special abilities</span>
-                <span className="mx-1 my-0.5 text-[10px]">Advertising</span>
-                <span className="mx-1 my-0.5 text-[10px]">Business</span>
-                <span className="mx-1 my-0.5 text-[10px]">Marketing</span>
-                <span className="mx-1 my-0.5 text-[10px]">Web</span>
-                <span className="mx-1 my-0.5 text-[10px]">Development</span>
-                <span className="mx-1 my-0.5 text-[10px]">Design</span>
-                <span className="mx-1 my-0.5 text-[10px]">More</span>
-              </div>
-              <div className="text-center text-gray-400 text-[10px] mt-2">
-                © 2024 MySyncra
-              </div>
-            </div>
           </div>
         </div>
     </>
