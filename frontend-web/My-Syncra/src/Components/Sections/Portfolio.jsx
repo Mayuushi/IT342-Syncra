@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { NavBar } from "../NavBar";
 import coverImg from "../../assets/cover.jpg";
 import "./Portfolio.css";
 import PortfolioService from "../../Service/PortfolioService";
-import authService from "../../Service/authService"; // Assuming you have an auth service
+import authService from "../../Service/authService";
 
 function Portfolio() {
+  const { userId } = useParams(); // Get the userId from URL params
+  const navigate = useNavigate();
+  
   const [projects, setProjects] = useState([]);
   const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [viewedUser, setViewedUser] = useState(null);
+  const [loadingUser, setLoadingUser] = useState(true);
   const [newProject, setNewProject] = useState({
     projectTitle: "",
     description: "",
@@ -17,40 +23,61 @@ function Portfolio() {
   });
   const [showAddForm, setShowAddForm] = useState(false);
 
-  // Get current user
+  // Get current user (logged in user)
   const currentUser = authService.getCurrentUser();
 
-  useEffect(() => {
-    fetchUserPortfolios();
-  }, []);
+  // Check if viewing own profile or someone else's
+  const isOwnProfile = currentUser && userId ? currentUser.id === parseInt(userId) : true;
 
-  const fetchUserPortfolios = () => {
-    setLoading(true);
-    if (currentUser && currentUser.id) {
-      PortfolioService.getUserPortfolios(currentUser.id)
-        .then(response => {
-          setProjects(response.data);
-          setLoading(false);
-        })
-        .catch(err => {
-          console.error("Error fetching portfolios:", err);
-          setError("Failed to load projects");
-          setLoading(false);
-        });
-    } else {
-      // If no user is logged in, fetch all portfolios
-      PortfolioService.getAllPortfolios()
-        .then(response => {
-          setProjects(response.data);
-          setLoading(false);
-        })
-        .catch(err => {
-          console.error("Error fetching portfolios:", err);
-          setError("Failed to load projects");
-          setLoading(false);
-        });
-    }
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setLoadingUser(true);
+      
+      try {
+        // If we have a userId from params, fetch that specific user
+        if (userId) {
+          try {
+            // You'll need to add a getUser function to your authService
+            const response = await fetch(`https://it342-syncra.onrender.com/api/users/${userId}`);
+            if (!response.ok) throw new Error("Failed to fetch user");
+            const data = await response.json();
+            setViewedUser(data.user);
+          } catch (err) {
+            console.error("Error fetching user:", err);
+            setError("User not found");
+          } finally {
+            setLoadingUser(false);
+          }
+          
+          // Fetch portfolios for the specific user
+          const portfolioResponse = await PortfolioService.getUserPortfolios(userId);
+          setProjects(portfolioResponse.data);
+        } else if (currentUser && currentUser.id) {
+          // If no userId in URL but we're logged in, show own portfolio
+          setViewedUser(currentUser);
+          setLoadingUser(false);
+          
+          const portfolioResponse = await PortfolioService.getUserPortfolios(currentUser.id);
+          setProjects(portfolioResponse.data);
+        } else {
+          // If neither userId nor current user, show all portfolios
+          const portfolioResponse = await PortfolioService.getAllPortfolios();
+          setProjects(portfolioResponse.data);
+          setLoadingUser(false);
+        }
+        
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching portfolio data:", err);
+        setError("Failed to load projects");
+        setLoading(false);
+        setLoadingUser(false);
+      }
+    };
+
+    fetchData();
+  }, [userId]);
 
   const handleAddProject = (e) => {
     e.preventDefault();
@@ -121,10 +148,39 @@ function Portfolio() {
     setCurrent((prev) => (prev === projects.length - 1 ? 0 : prev + 1));
   };
 
+  const goBack = () => {
+    navigate('/network');
+  };
+
   return (
     <>
       <NavBar />
       <div style={{ background: "#f7f9fb", minHeight: "100vh", width: "100%", paddingTop: 64 }}>
+        {/* Back button */}
+        {userId && (
+          <button 
+            onClick={goBack}
+            style={{
+              position: "absolute",
+              top: 74,
+              left: 20,
+              background: "rgba(255,255,255,0.8)",
+              border: "none",
+              borderRadius: "50%",
+              width: 40,
+              height: 40,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              zIndex: 10,
+              boxShadow: "0 2px 10px rgba(0,0,0,0.1)"
+            }}
+          >
+            <span style={{ fontSize: 24 }}>←</span>
+          </button>
+        )}
+        
         {/* Cover Banner */}
         <div style={{
           width: "100%",
@@ -153,36 +209,75 @@ function Portfolio() {
             marginRight: 32,
             marginLeft: 12,
           }}>
-            <img
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              alt="Profile"
-              style={{
+            {loadingUser ? (
+              <div style={{
                 width: 110,
                 height: 110,
                 borderRadius: "50%",
                 border: "4px solid #fff",
-                objectFit: "cover",
                 background: "#e3e9f7",
                 boxShadow: "0 2px 12px rgba(26,110,216,0.10)",
                 position: "absolute",
                 top: -70,
                 left: 0,
                 zIndex: 2,
-              }}
-            />
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+              }}>
+                <div style={{ 
+                  width: 30, 
+                  height: 30, 
+                  border: "3px solid #1a6ed8",
+                  borderTopColor: "transparent",
+                  borderRadius: "50%",
+                  animation: "spin 1s linear infinite"
+                }}></div>
+              </div>
+            ) : (
+              <img
+                src={viewedUser?.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(viewedUser?.fullName || viewedUser?.name || viewedUser?.username || '')}&background=random`}
+                alt="Profile"
+                style={{
+                  width: 110,
+                  height: 110,
+                  borderRadius: "50%",
+                  border: "4px solid #fff",
+                  objectFit: "cover",
+                  background: "#e3e9f7",
+                  boxShadow: "0 2px 12px rgba(26,110,216,0.10)",
+                  position: "absolute",
+                  top: -70,
+                  left: 0,
+                  zIndex: 2,
+                }}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(viewedUser?.fullName || viewedUser?.name || viewedUser?.username || '')}&background=random`;
+                }}
+              />
+            )}
             <div style={{ width: 110, height: 40 }}></div>
           </div>
           <div style={{ flex: 1 }}>
             <div style={{ display: "block", textAlign: "left", marginBottom: 6 }}>
               <span style={{ fontSize: "1.25rem", fontWeight: 700, marginRight: 10, marginBottom: 6, display: "block" }}>
-                {currentUser ? currentUser.fullName || currentUser.name || currentUser.username : "Guest User"}
+                {loadingUser 
+                  ? "Loading..." 
+                  : viewedUser 
+                    ? viewedUser.fullName || viewedUser.name || viewedUser.username 
+                    : "Guest User"}
               </span>
-              {/* <div style={{ display: "flex", alignItems: "center" }}>
-                <svg width="16" height="16" fill="#1a6ed8" style={{ marginRight: 4, verticalAlign: "middle" }} viewBox="0 0 20 20"><path d="M10 2C6.13 2 3 5.13 3 9c0 5.25 7 9 7 9s7-3.75 7-9c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 10 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
-                <span style={{ color: "#1a6ed8", fontSize: "1rem" }}>
-                  {currentUser ? currentUser.location || "City, country" : "City, country"}
-                </span>
-              </div> */}
+              {viewedUser?.location && (
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <svg width="16" height="16" fill="#1a6ed8" style={{ marginRight: 4, verticalAlign: "middle" }} viewBox="0 0 20 20">
+                    <path d="M10 2C6.13 2 3 5.13 3 9c0 5.25 7 9 7 9s7-3.75 7-9c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 10 6a2.5 2.5 0 0 1 0 5.5z"/>
+                  </svg>
+                  <span style={{ color: "#1a6ed8", fontSize: "1rem" }}>
+                    {viewedUser.location}
+                  </span>
+                </div>
+              )}
             </div>
             <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
               <button style={{
@@ -196,7 +291,7 @@ function Portfolio() {
                 cursor: "pointer",
               }}>CONTACT INFO</button>
               
-              {currentUser && (
+              {isOwnProfile && (
                 <button 
                   style={{
                     background: "#28a745",
@@ -341,11 +436,22 @@ function Portfolio() {
             
             {loading ? (
               <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: 320 }}>
-                <div>Loading projects...</div>
+                <div style={{ 
+                  width: 50, 
+                  height: 50, 
+                  border: "4px solid #f3f3f3",
+                  borderTop: "4px solid #1a6ed8",
+                  borderRadius: "50%",
+                  animation: "spin 1s linear infinite"
+                }}></div>
               </div>
             ) : projects.length === 0 ? (
               <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: 320 }}>
-                <div>No projects available. {currentUser ? "Click 'ADD PROJECT' to create one." : "Log in to add projects."}</div>
+                <div>
+                  {isOwnProfile 
+                    ? "No projects available. Click 'ADD PROJECT' to create one." 
+                    : "This user hasn't added any projects yet."}
+                </div>
               </div>
             ) : (
               <>
@@ -473,7 +579,7 @@ function Portfolio() {
                 
                 <div style={{ marginTop: "auto", display: "flex", gap: 12 }}>
                   {/* Delete button - only shown to the project owner */}
-                  {currentUser && projects[current]?.user?.id === currentUser.id && (
+                  {isOwnProfile && (
                     <button
                       onClick={() => handleDeleteProject(projects[current].id)}
                       style={{
@@ -523,6 +629,14 @@ function Portfolio() {
           </div>
         </div>
       </div>
+      <style>
+        {`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}
+      </style>
     </>
   );
 }

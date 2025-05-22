@@ -42,13 +42,13 @@ export const NavBar = () => {
               <span className="text-xs mt-1">FEED</span>
             </Link>
 
-            {/* <Link
+            <Link
               to="/network"
               className="flex flex-col items-center justify-center px-2 text-gray-600 hover:text-blue-600"
             >
               <FiUsers className="h-5 w-5" />
               <span className="text-xs mt-1">NETWORK</span>
-            </Link> */}
+            </Link>
 
             <Link
               to="/jobs"
